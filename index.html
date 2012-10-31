@@ -35,6 +35,8 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
   <div class="wrapper-page">
     <div role="main">
 
+      <div id="messages"></div>
+
       <a name="intro"></a><h3>What is it?</h3>
 
       <p>Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just plain 'ol javascript. <i class="light">(see &uarr; there?)</i></p>
@@ -160,6 +162,8 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
       <p>This setup requires an <b>accessToken</b>. Normally, using tokens like this in javascript would be <i>very bad</i>. However, since Instagram provides <a href="http://instagram.com/developer/authentication/">scoping</a> in their API, you can limit the risk of user impersonation.</p>
 
       <p>Just always make sure your token is set to <b>basic authorization</b>, which doesn't allow any PUT requests. If you aren't sure what scope your token has, check under your <a href="https://instagram.com/accounts/manage_access">account page</a>.</p>
+
+      <p><small><b>Don't know your user id or token?</b> <a href="https://instagram.com/oauth/authorize/?client_id=467ede5a6b9b48ae8e03f4e2582aeeb3&redirect_uri=http://instafeedjs.com&response_type=token">Click here</a> to get one.</small></p>
       <br />
 
       <a name="log"></a><h3>Change Log</h3>
@@ -181,12 +185,37 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
   <script type="text/javascript" src="js/instafeed.min.js"></script>
   <script type="text/javascript">
     (function () {
-      var demoFeed = new Instafeed({
+      var demoFeed, hash, hashParts, token, tokenParts, user, message;
+
+      // run instafeed
+      demoFeed = new Instafeed({
         limit: 36,
         get: 'tagged',
         tagName: 'workspace',
         clientId: '467ede5a6b9b48ae8e03f4e2582aeeb3'
       }).run();
+
+      // show the user their token and hash
+      if(window.location.hash) {
+        // get the hash
+        hash = window.location.hash;
+
+        // get the access token
+        hashParts = hash.split('=');
+        token = hashParts[1];
+
+        // get the user
+        tokenParts = token.split('.');
+        user = tokenParts[0];
+
+        // show the message
+        if(typeof(user) === 'string' && typeof(token) === 'string') {
+          message = document.createElement('p');
+          message.className = 'flash good';
+          message.innerHTML = '<small>Success! Use the userId and token listed below to get your images:<br /><b>userId:</b> ' + user + '<br /><b>accessToken:</b> '  + token + '</small>';
+          document.getElementById('messages').appendChild(message);
+        }
+      }
     })();
   </script>
 

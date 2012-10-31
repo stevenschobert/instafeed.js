@@ -1,0 +1,16 @@
+// Flash message styles
+.flash {
+  padding: 15px;
+  @include border-radius(3px);
+
+  &.good {
+    $color:#8DDB86;
+
+    background:$color;
+    color: darken($color, 38%);
+    border:1px solid darken($color, 15%);
+    @include box-shadow(lighten($color, 15%) 0 0 2px inset);
+
+    b { color: darken($color, 38%); };
+  }
+}
