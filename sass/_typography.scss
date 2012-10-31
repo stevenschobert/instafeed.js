@@ -1,0 +1,59 @@
+// Page type styles
+@import "base";
+
+// Main content typography
+*[role="main"] {
+  font-family: $font-stack;
+  font-weight: $font-weight;
+  font-size: $font-size;
+  color: $font-color;
+  -webkit-font-smoothing: antialiased;
+
+  // Headings
+  h1, h2, h3 {
+    font-weight: $font-weight + 200;
+    border-bottom: 1px solid #d1d1d1;
+    padding-bottom: $font-size / 3;
+    margin-bottom: ($font-size / 3) * 2;
+  }
+  h1 { font-size: $font-size + ($font-size * 0.35); }
+  h2 { font-size: $font-size + ($font-size * 0.25); }
+  h3 { font-size: $font-size + ($font-size * 0.125); }
+
+  // Spacings
+  p { margin-bottom: $font-size; }
+
+  // Hyperlinks
+  a {
+    color: $link-color;
+    text-decoration:none;
+    border-bottom: 1px solid $link-color;
+  }
+
+  // Type styles
+  b {
+    font-weight: bold;
+    font-family: $font-stack-bold;
+    color: lighten($font-color, 5%);
+  }
+  i {
+    font-style: italic;
+  }
+  small {
+    font-size: 85%;
+  }
+  .light {
+    color: lighten($font-color, 30%);
+    a { color: inherit; border-bottom-color: inherit; }
+  }
+
+  // lists
+  ul {
+    padding-left: $font-size;
+    li { list-style: square; }
+
+    ul li {
+      list-style: circle;
+    }
+  }
+}

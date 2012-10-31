@@ -1,0 +1,26 @@
+// Base Compass Setup
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/typography";
+
+// Layout Settings
+$header-height: 200px;
+$base-padding: 25px;
+$page-padding: 15px;
+$max-width: 660px;
+
+// Colors
+$page-background-color: #eeeeee;
+
+// Fonts
+$font-stack: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-stack-bold: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-weight: 300;
+$font-color: #3a3a3a;
+$font-size: 1.25em;
+$link-color: #ae3ccb;
+
+// Vertical Rhythem
+$base-font-size: 14px;
+$base-line-height: 28px;
+@include establish-baseline;

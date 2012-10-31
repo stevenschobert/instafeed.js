@@ -1,0 +1,21 @@
+// Button styles
+@import "base";
+
+.button, a.button {
+  padding:7px 10px 7px 10px;
+  color:white;
+  text-decoration: none;
+  border:1px solid darken(#ae3ccb, 8%);
+  @include text-shadow(rgba(0,0,0,0.4) 0 -1px);
+  @include box-shadow(rgba(0,0,0,0.1) 0 1px, rgba(255,255,255,0.4) 0 0 2px inset);
+  @include border-radius(3px);
+  @include background(linear-gradient(#c565de, #ae3ccb));
+}
+
+a.button:hover {
+  @include background(linear-gradient(lighten(#c565de, 7%), lighten(#ae3ccb, 3%)));
+}
+
+a.button:active {
+  @include background(linear-gradient(#ae3ccb, #ae3ccb));
+}

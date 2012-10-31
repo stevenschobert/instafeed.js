@@ -1,0 +1,19 @@
+// Page layout styles
+@import "base";
+
+// Horizontal center main containers
+body {
+  text-align: center;
+  background: $page-background-color;
+}
+.wrapper-page {
+  width: 100%;
+  max-width: $max-width;
+  margin: auto auto auto auto;
+  text-align:left;
+
+  // main container
+  *[role="main"], footer {
+    margin:0 $page-padding 0 $page-padding;
+  }
+}

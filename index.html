@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <title>Instafeed.js - a simple Instagram javascript plugin</title>
+  <meta name="description" content="Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.">
+
+  <link rel="author" href="https://plus.google.com/u/0/107263002592733526184">
+
+  <meta name="viewport" content="width=device-width">
+
+  <!-- Stylsheets -->
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <!-- Mixpanel -->
+  <script type="text/javascript">(function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.1.min.js';d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?
+g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.identify people.set people.increment".split(" ");for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.1})(document,window.mixpanel||[]);
+mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
+</head>
+<body>
+  <div class="wrapper-header">
+    <div id="instafeed"></div>
+    <div class="shadow"></div>
+    <div class="wrapper-content">
+      <header>
+        Instafeed.js
+      </header>
+    </div>
+  </div>
+
+  <div class="wrapper-page">
+    <div role="main">
+
+      <a name="intro"></a><h3>What is it?</h3>
+
+      <p>Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just plain 'ol javascript. <i class="light">(see &uarr; there?)</i></p>
+      <p style="text-align:center;"><a href="#" onclick="mixpanel.track('Download')" class="button">download</a><a style="margin-left:20px;" href="https://github.com/stevenschobert/instafeed.js" class="button">check out the code</a></p>
+      <br />
+
+      <a name="setup"></a><h3>Installation</h3>
+
+      <p>Setting up Instafeed is pretty straight-forward. Just download the script and include it in your HTML:</p>
+
+      <pre><code class="language-markup">
+&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/instafeed.min.js&quot;&gt;&lt;/script&gt;
+      </code></pre>
+
+      <br />
+
+      <a name="usage"></a><h3>Basic Usage</h3>
+
+      <p>Here's how easy it is to get all images tagged with <b>#awesome</b>:</p>
+
+      <pre><code class="language-markup">
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var feed = new Instafeed({
+        get: 'tagged',
+        tagName: 'awesome',
+        clientId: 'YOUR_CLIENT_ID'
+    });
+    feed.run();
+&lt;/script&gt;
+      </code></pre>
+
+      <p>Instafeed with automatically look for a <code class="language-markup">&lt;div id=&quot;instafeed&quot;&gt;&lt;/div&gt;</code> and fill it with linked thumbnails. Of course, you can easily change this behavior using the <a href="#advanced">advanced options</a>.</p>
+
+      <br />
+
+      <a name="requirements"></a><h3>Requirements</h3>
+
+      <p>The only thing you'll need to get going is a valid <b>client id</b> from Instagram's API. You can easily register for one on <a href="http://instagram.com/developer/register/" target="_blank">Instagram's website</a>.</p>
+
+      <p class="light"><i>If you want to get images from a specific user, you will need a valid oAuth token. Using an oAuth token has security risks. <a href="#user">Read more here</a>.</i></p>
+      <br />
+
+      <a name="advanced"></a><h3>Full List of Options</h3>
+      <p>
+        <ul>
+          <li>
+            <code class="language-javascript">clientId</code>
+            <small><span class="light">(string)</span> -
+              Your API client id from Instagram. <b>Required</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">accessToken</code>
+            <small><span class="light">(string)</span> -
+              A valid oAuth token. Required to use <b>get: 'user'</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">get</code>
+            <small><span class="light">(string)</span> -
+              Customize what Instafeed fetches. Use <b>popular</b>, <b>tagged</b>, <b>location</b>, or <b>user</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">tagName</code>
+            <small><span class="light">(string)</span> -
+              Name of the tag to get. Use with <b>get: 'tagged'</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">locationId</code>
+            <small><span class="light">(string)</span> -
+              Unique id of a location to get. Use with <b>get: 'location'</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">userId</code>
+            <small><span class="light">(string)</span> -
+              Unique id of a user to get. Use with <b>get: 'user'</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">target</code>
+            <small><span class="light">(string)</span> - The ID of a DOM element you want to add the images to.</small>
+          </li>
+          <li>
+            <code class="language-javascript">links</code>
+            <small><span class="light">(true/false)</span> -
+              Wrap the images with a link to the photo on Instagram.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">limit</code>
+            <small><span class="light">(number)</span> -
+              Maximum number of Images to add. <b>Max of 60</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">resolution</code>
+            <small><span class="light">(string)</span> -
+              Size of the images to get. Use <b>low_resolution</b>, <b>thumbnail</b>, or <b>standard_resolution</b>.
+            </small>
+          </li>
+        </ul>
+      </p>
+      <br />
+
+      <a name="user"></a><h3>Getting images from your User Account</h3>
+
+      <p>With Instafeed, it is possible to get images from a specific user id:</p>
+
+      <pre><code class="language-markup">
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var userFeed = new Instafeed({
+        get: 'user',
+        userId: 'YOUR_USER_ID',
+        accessToken: 'YOUR_ACCESS_TOKEN'
+    });
+    userFeed.run();
+&lt;/script&gt;
+      </code></pre>
+
+      <p>This setup requires an <b>accessToken</b>. Normally, using tokens like this in javascript would be <i>very bad</i>. However, since Instagram provides <a href="http://instagram.com/developer/authentication/">scoping</a> in their API, you can limit the risk of user impersonation.</p>
+
+      <p>Just always make sure your token is set to <b>basic authorization</b>, which doesn't allow any PUT requests. If you aren't sure what scope your token has, check under your <a href="https://instagram.com/accounts/manage_access">account page</a>.</p>
+      <br />
+
+      <a name="log"></a><h3>Change Log</h3>
+
+      <p><ul>
+        <li><small><span class="light">(v0.1.0)</span> - Initial release</small></li>
+      </ul></p>
+    </div>
+  </div>
+
+  <div class="wrapper-page">
+    <footer>
+      an <a href="https://github.com/stevenschobert/instafeed.js">open source</a> project by <a href="http://stevenschobert.com">steven schobert</a>
+    </footer>
+  </div>
+
+  <!-- JavaScript includes -->
+  <script type="text/javascript" src="js/prism.js"></script>
+  <script type="text/javascript" src="js/instafeed.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      var demoFeed = new Instafeed({
+        limit: 36,
+        get: 'tagged',
+        tagName: 'workspace',
+        clientId: '467ede5a6b9b48ae8e03f4e2582aeeb3'
+      }).run();
+    })();
+  </script>
+
+  <!-- Gaug.es -->
+  <script type="text/javascript">
+    var _gauges = _gauges || [];
+    (function() {
+      var t   = document.createElement('script');
+      t.type  = 'text/javascript';
+      t.async = true;
+      t.id    = 'gauges-tracker';
+      t.setAttribute('data-site-id', '50903eb1613f5d0a8a000097');
+      t.src = '//secure.gaug.es/track.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(t, s);
+    })();
+  </script>
+</body>
+</html>
