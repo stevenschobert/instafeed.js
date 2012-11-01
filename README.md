@@ -38,7 +38,7 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `accessToken` (string) - A valid oAuth token. Required to use __get: 'user'__.
 - `get` (string) - Customize what Instafeed fetches. Use __popular__, __tagged__, __location__, or __user__.
 - `tagName` (string) - Name of the tag to get. Use with __get: 'tagged'__.
-- `locationId` (string) - Unique id of a location to get. Use with __get: 'location'__.
+- `locationId` (number) - Unique id of a location to get. Use with __get: 'location'__.
 - `userId` (number) - Unique id of a user to get. Use with __get: 'user'__.
 - `target` (string) - The ID of a DOM element you want to add the images to.
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
