@@ -53,7 +53,7 @@ With Instafeed, it is possible to get images from a specific user id:
 <script type="text/javascript">
     var userFeed = new Instafeed({
         get: 'user',
-        userId: 'YOUR_USER_ID',
+        userId: YOUR_USER_ID,
         accessToken: 'YOUR_ACCESS_TOKEN'
     });
     userFeed.run();
