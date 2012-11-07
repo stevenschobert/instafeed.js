@@ -11,7 +11,9 @@
         get: 'popular',
         resolution: 'thumbnail',
         links: true,
-        limit: 15
+        limit: 15,
+		success: function() {},
+		error: function() {}
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -52,6 +54,10 @@
       }
       if (response.data.length === 0) {
         throw new Error("No images were returned from Instagram");
+		this.options.error.call(this);
+      }
+	  if (typeof response == 'object') {
+		this.options.success.call(this);
       }
       fragment = document.createDocumentFragment();
       images = response.data;
