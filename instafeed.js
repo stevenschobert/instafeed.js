@@ -12,8 +12,10 @@
         resolution: 'thumbnail',
         links: true,
         limit: 15,
-		success: function() {},
-		error: function() {}
+        before: function(){},
+        success: function(){},
+        error: function(){},
+        complete: function(){}
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -25,6 +27,7 @@
 
     Instafeed.prototype.run = function() {
       var header, script;
+      this.options.before.call(this);
       if (typeof this.options.clientId !== 'string') {
         if (typeof this.options.accessToken !== 'string') {
           throw new Error("Missing clientId or accessToken.");
@@ -54,10 +57,10 @@
       }
       if (response.data.length === 0) {
         throw new Error("No images were returned from Instagram");
-		this.options.error.call(this);
+        this.options.error.call(this);
       }
 	  if (typeof response == 'object') {
-		this.options.success.call(this);
+        this.options.success.call(this);
       }
       fragment = document.createDocumentFragment();
       images = response.data;
@@ -78,6 +81,7 @@
         }
       }
       document.getElementById(this.options.target).appendChild(fragment);
+      this.options.complete.call(this);
       header = document.getElementsByTagName('head')[0];
       header.removeChild(document.getElementById('instafeed-fetcher'));
       delete window.instafeedCache;
