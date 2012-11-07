@@ -44,6 +44,10 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
 - `resolution` (string) - Size of the images to get. Use __low_resolution__, __thumbnail__, or __standard_resolution__.
+- `before` (callback) - Used before calling JSON.
+- `success` (callback) - Fired when JSON cames with objects.
+- `error` (callback) - Used if JSON is empty (no photos).
+- `complete` (callback) - Used when objects are inserted into DOM.
 
 ## Security Considerations
 
