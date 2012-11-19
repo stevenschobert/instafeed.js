@@ -82,4 +82,4 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
-- __(v0.1.0)__ - Initial release
+- __(v1.0.0)__ - Initial release
