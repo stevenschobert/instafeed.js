@@ -82,4 +82,10 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
-- __(v1.0.0)__ - Initial release
+__1.1.0__
+
+- Added ability to fetch several feeds at the same time (create separate instances).
+
+__1.0.0__
+
+- Initial release
