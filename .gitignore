@@ -1,6 +1,9 @@
 # Node JS Files
 node_modules/
 
+# Test HTML Files
+examples/
+
 # Mac OS Files
 .DS_Store
 
