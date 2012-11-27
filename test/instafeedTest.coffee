@@ -22,6 +22,10 @@ describe 'Instafeed instace', ->
     feed.options.clientId.should.equal 'mysecretid'
     feed.options.resolution.should.equal 'thumbnail'
 
+  it 'should have a unique timestamp when instantiated', ->
+    feed = new Instafeed
+    feed.unique.should.exist
+
   it 'should refuse to run without a client id or access token', ->
     feed = new Instafeed
     (-> feed.run()).should.throw "Missing clientId or accessToken."
@@ -46,13 +50,13 @@ describe 'Instafeed instace', ->
   it 'should assemble a url using the client id', ->
     feed = new Instafeed
       clientId: 'test'
-    feed._buildUrl().should.equal 'https://api.instagram.com/v1/media/popular?client_id=test&count=15&callback=instafeedCache.parse'
+    feed._buildUrl().should.equal "https://api.instagram.com/v1/media/popular?client_id=test&count=15&callback=instafeedCache#{feed.unique}.parse"
 
   it 'should use the access token for authentication, when available', ->
     feed = new Instafeed
       clientId: 'test'
       accessToken: 'mytoken'
-    feed._buildUrl().should.equal 'https://api.instagram.com/v1/media/popular?access_token=mytoken&count=15&callback=instafeedCache.parse'
+    feed._buildUrl().should.equal "https://api.instagram.com/v1/media/popular?access_token=mytoken&count=15&callback=instafeedCache#{feed.unique}.parse"
 
   it 'should refuse to build a url with invalid "get" option', ->
     feed = new Instafeed
@@ -85,3 +89,4 @@ describe 'Instafeed instace', ->
       get: 'user'
       userId: 1
     (-> feed._buildUrl()).should.throw "No access token. Use the 'accessToken' option."
+

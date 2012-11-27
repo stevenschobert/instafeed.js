@@ -19,10 +19,11 @@
           this.options[option] = value;
         }
       }
+      this.unique = this._genKey();
     }
 
     Instafeed.prototype.run = function() {
-      var header, script;
+      var header, instanceName, script;
       if (typeof this.options.clientId !== 'string') {
         if (typeof this.options.accessToken !== 'string') {
           throw new Error("Missing clientId or accessToken.");
@@ -38,12 +39,14 @@
       script.src = this._buildUrl();
       header = document.getElementsByTagName('head');
       header[0].appendChild(script);
-      window.instafeedCache = new Instafeed(this.options);
+      instanceName = "instafeedCache" + this.unique;
+      window[instanceName] = new Instafeed(this.options);
+      window[instanceName].unique = this.unique;
       return true;
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, image, images, img, _i, _len;
+      var anchor, fragment, header, image, images, img, instanceName, _i, _len;
       if (typeof response !== 'object') {
         throw new Error('Invalid JSON response');
       }
@@ -74,7 +77,8 @@
       document.getElementById(this.options.target).appendChild(fragment);
       header = document.getElementsByTagName('head')[0];
       header.removeChild(document.getElementById('instafeed-fetcher'));
-      delete window.instafeedCache;
+      instanceName = "instafeedCache" + this.unique;
+      delete window[instanceName];
       return true;
     };
 
@@ -116,8 +120,16 @@
         final += "?client_id=" + this.options.clientId;
       }
       final += "&count=" + this.options.limit;
-      final += "&callback=instafeedCache.parse";
+      final += "&callback=instafeedCache" + this.unique + ".parse";
       return final;
+    };
+
+    Instafeed.prototype._genKey = function() {
+      var S4;
+      S4 = function() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+      };
+      return "" + (S4()) + (S4()) + (S4()) + (S4());
     };
 
     return Instafeed;

@@ -12,6 +12,9 @@ class Instafeed
     if typeof params is 'object'
       @options[option] = value for option, value of params
 
+    # generate a unique key for the instance
+    @unique = @_genKey()
+
   # MAKE IT GO!
   run: ->
     # make sure either a client id or access token is set
@@ -36,7 +39,9 @@ class Instafeed
     header[0].appendChild script
 
     # create a global object to cache the options
-    window.instafeedCache = new Instafeed @options
+    instanceName = "instafeedCache#{@unique}"
+    window[instanceName] = new Instafeed @options
+    window[instanceName].unique = @unique
 
     # return true if everything ran
     true
@@ -91,7 +96,8 @@ class Instafeed
     header.removeChild document.getElementById 'instafeed-fetcher'
 
     # delete the cached instance of the class
-    delete window.instafeedCache
+    instanceName = "instafeedCache#{@unique}"
+    delete window[instanceName]
 
     # return true if everything ran
     true
@@ -148,10 +154,16 @@ class Instafeed
     final += "&count=#{@options.limit}"
 
     # add the jsonp callback
-    final += "&callback=instafeedCache.parse"
+    final += "&callback=instafeedCache#{@unique}.parse"
 
     # return the final url
     final
+
+  # helper function to generate a unique key
+  _genKey: ->
+    S4 = ->
+      (((1+Math.random())*0x10000)|0).toString(16).substring(1)
+    "#{S4()}#{S4()}#{S4()}#{S4()}"
 
 # set up exports
 root = exports ? window
