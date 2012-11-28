@@ -39,7 +39,7 @@ describe 'Instafeed instace', ->
       meta:
         code: 400
         error_message: 'badbad'
-    )).should.throw 'Problem parsing response: badbad'
+    )).should.throw 'Error from Instagram: badbad'
 
   it 'should detect when no images are returned from the API', ->
     (-> feed.parse(
@@ -118,3 +118,27 @@ describe 'Instafeed instace', ->
       data: [1,2,3]
 
     numImages.should.equal 3
+
+  it 'should run the error callback if problem with json data', ->
+    message = ''
+    callback = (problem) ->
+      message = problem
+    feed = new Instafeed
+      clientId: 'test'
+      error: callback
+
+    feed.parse 3
+    message.should.equal 'Invalid JSON data'
+
+    feed.parse
+      meta:
+        code: 200
+      data: []
+    message.should.equal 'No images were returned from Instagram'
+
+    feed.parse
+      meta:
+        code: 400
+        error_message: 'bad data'
+      data: [2]
+    message.should.equal 'bad data'

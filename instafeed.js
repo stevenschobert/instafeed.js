@@ -56,13 +56,28 @@
     Instafeed.prototype.parse = function(response) {
       var anchor, fragment, header, image, images, img, instanceName, _i, _len;
       if (typeof response !== 'object') {
-        throw new Error('Invalid JSON response');
+        if ((this.options.error != null) && typeof this.options.error === 'function') {
+          this.options.error.call(this, 'Invalid JSON data');
+          return false;
+        } else {
+          throw new Error('Invalid JSON response');
+        }
       }
       if (response.meta.code !== 200) {
-        throw new Error("Problem parsing response: " + response.meta.error_message);
+        if ((this.options.error != null) && typeof this.options.error === 'function') {
+          this.options.error.call(this, response.meta.error_message);
+          return false;
+        } else {
+          throw new Error("Error from Instagram: " + response.meta.error_message);
+        }
       }
       if (response.data.length === 0) {
-        throw new Error("No images were returned from Instagram");
+        if ((this.options.error != null) && typeof this.options.error === 'function') {
+          this.options.error.call(this, 'No images were returned from Instagram');
+          return false;
+        } else {
+          throw new Error('No images were returned from Instagram');
+        }
       }
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);

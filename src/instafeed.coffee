@@ -61,15 +61,30 @@ class Instafeed
   parse: (response) ->
     # throw an error if not an object
     if typeof response isnt 'object'
-      throw new Error 'Invalid JSON response'
+      # either throw an error or call the error callback
+      if @options.error? and typeof @options.error is 'function'
+        @options.error.call(this, 'Invalid JSON data')
+        return false
+      else
+        throw new Error 'Invalid JSON response'
 
     # check if the api returned an error code
     if response.meta.code isnt 200
-      throw new Error "Problem parsing response: #{response.meta.error_message}"
+      # either throw an error or call the error callback
+      if @options.error? and typeof @options.error is 'function'
+        @options.error.call(this, response.meta.error_message)
+        return false
+      else
+        throw new Error "Error from Instagram: #{response.meta.error_message}"
 
     # check if the returned data is empty
     if response.data.length is 0
-      throw new Error "No images were returned from Instagram"
+      # either throw an error or call the error callback
+      if @options.error? and typeof @options.error is 'function'
+        @options.error.call(this, 'No images were returned from Instagram')
+        return false
+      else
+        throw new Error 'No images were returned from Instagram'
 
     # call the success callback if no errors in response
     if @options.success? and typeof @options.success is 'function'
