@@ -64,29 +64,34 @@
       if (response.data.length === 0) {
         throw new Error("No images were returned from Instagram");
       }
-      fragment = document.createDocumentFragment();
-      images = response.data;
-      if (images.length > this.options.limit) {
-        images = images.slice(0, this.options.limit + 1 || 9e9);
+      if ((this.options.success != null) && typeof this.options.success === 'function') {
+        this.options.success.call(this, response);
       }
-      for (_i = 0, _len = images.length; _i < _len; _i++) {
-        image = images[_i];
-        img = document.createElement('img');
-        img.src = image.images[this.options.resolution].url;
-        if (this.options.links === true) {
-          anchor = document.createElement('a');
-          anchor.href = image.link;
-          anchor.appendChild(img);
-          fragment.appendChild(anchor);
-        } else {
-          fragment.appendChild(img);
+      if (typeof document !== "undefined" && document !== null) {
+        fragment = document.createDocumentFragment();
+        images = response.data;
+        if (images.length > this.options.limit) {
+          images = images.slice(0, this.options.limit + 1 || 9e9);
         }
+        for (_i = 0, _len = images.length; _i < _len; _i++) {
+          image = images[_i];
+          img = document.createElement('img');
+          img.src = image.images[this.options.resolution].url;
+          if (this.options.links === true) {
+            anchor = document.createElement('a');
+            anchor.href = image.link;
+            anchor.appendChild(img);
+            fragment.appendChild(anchor);
+          } else {
+            fragment.appendChild(img);
+          }
+        }
+        document.getElementById(this.options.target).appendChild(fragment);
+        header = document.getElementsByTagName('head')[0];
+        header.removeChild(document.getElementById('instafeed-fetcher'));
+        instanceName = "instafeedCache" + this.unique;
+        delete window[instanceName];
       }
-      document.getElementById(this.options.target).appendChild(fragment);
-      header = document.getElementsByTagName('head')[0];
-      header.removeChild(document.getElementById('instafeed-fetcher'));
-      instanceName = "instafeedCache" + this.unique;
-      delete window[instanceName];
       return true;
     };
 

@@ -27,7 +27,7 @@ class Instafeed
 
     # run the before() callback, if one is set
     if @options.before? and typeof @options.before is 'function'
-      @options.before.call this
+      @options.before.call(this)
 
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist
@@ -52,7 +52,7 @@ class Instafeed
 
     # run after callback function, if one is set
     if @options.after? and typeof @options.after is 'function'
-      @options.after.call this
+      @options.after.call(this)
 
     # return true if everything ran
     true
@@ -71,44 +71,52 @@ class Instafeed
     if response.data.length is 0
       throw new Error "No images were returned from Instagram"
 
-    # create a new html fragment
-    fragment = document.createDocumentFragment()
+    # call the success callback if no errors in response
+    if @options.success? and typeof @options.success is 'function'
+      @options.success.call(this, response)
 
-    # limit the number of images if needed
-    images = response.data
-    images = images[0..@options.limit] if images.length > @options.limit
+    # to make it easier to test various parts of the class,
+    # any DOM manipulation first checks for the DOM to exist
+    if document?
+      # create a new html fragment
+      fragment = document.createDocumentFragment()
 
-    # loop through the images
-    for image in images
-      # create the image using the @options's resolution
-      img = document.createElement 'img'
-      img.src = image.images[@options.resolution].url
+      # limit the number of images if needed
+      images = response.data
+      images = images[0..@options.limit] if images.length > @options.limit
 
-      # wrap the image in an anchor tag, unless turned off
-      if @options.links is true
-        # create an anchor link
-        anchor = document.createElement 'a'
-        anchor.href = image.link
+      # loop through the images
+      for image in images
+        # create the image using the @options's resolution
+        img = document.createElement 'img'
+        img.src = image.images[@options.resolution].url
 
-        # add the image to it
-        anchor.appendChild img
+        # wrap the image in an anchor tag, unless turned off
+        if @options.links is true
+          # create an anchor link
+          anchor = document.createElement 'a'
+          anchor.href = image.link
 
-        # add the anchor to the fragment
-        fragment.appendChild anchor
-      else
-        # add the image (without link) to the fragment
-        fragment.appendChild img
+          # add the image to it
+          anchor.appendChild img
 
-    # Add the fragment to the DOM
-    document.getElementById(@options.target).appendChild fragment
+          # add the anchor to the fragment
+          fragment.appendChild anchor
+        else
+          # add the image (without link) to the fragment
+          fragment.appendChild img
 
-    # remove the injected script tag
-    header = document.getElementsByTagName('head')[0]
-    header.removeChild document.getElementById 'instafeed-fetcher'
+      # Add the fragment to the DOM
+      document.getElementById(@options.target).appendChild fragment
 
-    # delete the cached instance of the class
-    instanceName = "instafeedCache#{@unique}"
-    delete window[instanceName]
+      # remove the injected script tag
+      header = document.getElementsByTagName('head')[0]
+      header.removeChild document.getElementById 'instafeed-fetcher'
+
+      # delete the cached instance of the class
+      instanceName = "instafeedCache#{@unique}"
+      delete window[instanceName]
+    # END if document?
 
     # return true if everything ran
     true

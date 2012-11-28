@@ -103,3 +103,18 @@ describe 'Instafeed instace', ->
     feed.run()
 
     timesRan.should.equal 2
+
+  it 'should run a success callback with json data', ->
+    numImages = 0
+    callback = (json) ->
+      numImages = json.data.length
+
+    feed = new Instafeed
+      clientId: 'test'
+      success: callback
+    feed.parse
+      meta:
+        code: 200
+      data: [1,2,3]
+
+    numImages.should.equal 3
