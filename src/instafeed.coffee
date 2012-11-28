@@ -25,23 +25,30 @@ class Instafeed
       unless typeof @options.clientId is 'string'
         throw new Error "Missing clientId or accessToken."
 
-    # make a new script element
-    script = document.createElement 'script'
+    # run the before() callback, if one is set
+    if @options.before? and typeof @options.before is 'function'
+      @options.before()
 
-    # give the script an id so it can removed later
-    script.id = 'instafeed-fetcher'
+    # to make it easier to test various parts of the class,
+    # any DOM manipulation first checks for the DOM to exist
+    if document?
+      # make a new script element
+      script = document.createElement 'script'
 
-    # assign the script src using _buildUrl()
-    script.src = @_buildUrl()
+      # give the script an id so it can removed later
+      script.id = 'instafeed-fetcher'
 
-    # add the new script object to the header
-    header = document.getElementsByTagName 'head'
-    header[0].appendChild script
+      # assign the script src using _buildUrl()
+      script.src = @_buildUrl()
 
-    # create a global object to cache the options
-    instanceName = "instafeedCache#{@unique}"
-    window[instanceName] = new Instafeed @options
-    window[instanceName].unique = @unique
+      # add the new script object to the header
+      header = document.getElementsByTagName 'head'
+      header[0].appendChild script
+
+      # create a global object to cache the options
+      instanceName = "instafeedCache#{@unique}"
+      window[instanceName] = new Instafeed @options
+      window[instanceName].unique = @unique
 
     # return true if everything ran
     true

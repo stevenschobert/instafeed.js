@@ -34,14 +34,19 @@
           throw new Error("Missing clientId or accessToken.");
         }
       }
-      script = document.createElement('script');
-      script.id = 'instafeed-fetcher';
-      script.src = this._buildUrl();
-      header = document.getElementsByTagName('head');
-      header[0].appendChild(script);
-      instanceName = "instafeedCache" + this.unique;
-      window[instanceName] = new Instafeed(this.options);
-      window[instanceName].unique = this.unique;
+      if ((this.options.before != null) && typeof this.options.before === 'function') {
+        this.options.before();
+      }
+      if (typeof document !== "undefined" && document !== null) {
+        script = document.createElement('script');
+        script.id = 'instafeed-fetcher';
+        script.src = this._buildUrl();
+        header = document.getElementsByTagName('head');
+        header[0].appendChild(script);
+        instanceName = "instafeedCache" + this.unique;
+        window[instanceName] = new Instafeed(this.options);
+        window[instanceName].unique = this.unique;
+      }
       return true;
     };
 

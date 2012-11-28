@@ -8,6 +8,7 @@ chai.should()
 # Define our tests
 describe 'Instafeed instace', ->
   feed = null
+  document = 'test'
 
   it 'should inherit defaults if nothing is passed', ->
     feed = new Instafeed
@@ -80,7 +81,7 @@ describe 'Instafeed instace', ->
     feed = new Instafeed
       clientId: 'test'
       get: 'user'
-      token: 'mytoken'
+      accessToken: 'mytoken'
     (-> feed._buildUrl()).should.throw "No user specified. Use the 'userId' option."
 
   it 'should refuse to build a url if get=user and there is no accessToken', ->
@@ -90,3 +91,14 @@ describe 'Instafeed instace', ->
       userId: 1
     (-> feed._buildUrl()).should.throw "No access token. Use the 'accessToken' option."
 
+  it 'should run a before callback', ->
+    timesRan = 0
+    callback = ->
+      timesRan++
+
+    feed = new Instafeed
+      clientId: 'test'
+      before: callback
+    feed.run()
+
+    timesRan.should.equal 1
