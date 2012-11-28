@@ -91,7 +91,7 @@ describe 'Instafeed instace', ->
       userId: 1
     (-> feed._buildUrl()).should.throw "No access token. Use the 'accessToken' option."
 
-  it 'should run a before callback', ->
+  it 'should run a before callback function', ->
     timesRan = 0
     callback = ->
       timesRan++

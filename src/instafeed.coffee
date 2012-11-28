@@ -27,7 +27,7 @@ class Instafeed
 
     # run the before() callback, if one is set
     if @options.before? and typeof @options.before is 'function'
-      @options.before()
+      @options.before.call this
 
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist

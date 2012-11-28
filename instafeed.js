@@ -35,7 +35,7 @@
         }
       }
       if ((this.options.before != null) && typeof this.options.before === 'function') {
-        this.options.before();
+        this.options.before.call(this);
       }
       if (typeof document !== "undefined" && document !== null) {
         script = document.createElement('script');
