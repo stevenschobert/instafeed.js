@@ -91,7 +91,7 @@ describe 'Instafeed instace', ->
       userId: 1
     (-> feed._buildUrl()).should.throw "No access token. Use the 'accessToken' option."
 
-  it 'should run a before callback function', ->
+  it 'should run a before & after callback functions', ->
     timesRan = 0
     callback = ->
       timesRan++
@@ -99,6 +99,7 @@ describe 'Instafeed instace', ->
     feed = new Instafeed
       clientId: 'test'
       before: callback
+      after: callback
     feed.run()
 
-    timesRan.should.equal 1
+    timesRan.should.equal 2

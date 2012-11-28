@@ -47,6 +47,9 @@
         window[instanceName] = new Instafeed(this.options);
         window[instanceName].unique = this.unique;
       }
+      if ((this.options.after != null) && typeof this.options.after === 'function') {
+        this.options.after.call(this);
+      }
       return true;
     };
 
