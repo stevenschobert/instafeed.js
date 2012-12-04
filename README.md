@@ -48,6 +48,7 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `after` (function) - A callback function called when images have been added to the page.
 - `success` (function) - A callback function called when Instagram returns valid data. (argument -> json object)
 - `error` (function) - A callback function called when there is an error fetching images. (argument -> string message)
+- `mock` (bool) - Set to true fetch data without inserting images into DOM. Use with __success__ callback.
 - `template` (string) - A custom template to use when parsing images _(overrides the links option)_. Available keywords are:
     - `{{link}}` - the link url to view the image on Instagram
     - `{{image}}` - the permanent url the the image source
@@ -95,6 +96,7 @@ __1.1.0__
 - Added option to use a custom html template with the __template__ option.
 - Added ability to fetch several feeds at the same time (create separate instances).
 - Added __before__, __success__, __after__, and __error__ callback options.
+- Added __mock__ option to only fetch data. Use with __success__ option for custom DOM manipulation.
 
 __1.0.0__
 
