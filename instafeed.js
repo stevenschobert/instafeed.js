@@ -80,6 +80,7 @@
         this.options.success.call(this, response);
       }
       if (typeof document !== "undefined" && document !== null) {
+        document.getElementById(this.options.target).innerHTML = '';
         images = response.data;
         if (images.length > this.options.limit) {
           images = images.slice(0, this.options.limit + 1 || 9e9);

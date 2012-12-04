@@ -89,6 +89,9 @@ class Instafeed
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist
     if document?
+      # clear the current dom node
+      document.getElementById(@options.target).innerHTML = ''
+
       # limit the number of images if needed
       images = response.data
       images = images[0..@options.limit] if images.length > @options.limit
