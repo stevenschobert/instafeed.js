@@ -54,7 +54,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, image, images, img, instanceName, _i, _len;
+      var anchor, fragment, header, htmlString, image, imageString, images, img, instanceName, _i, _j, _len, _len1;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -83,25 +83,39 @@
         this.options.success.call(this, response);
       }
       if (typeof document !== "undefined" && document !== null) {
-        fragment = document.createDocumentFragment();
         images = response.data;
         if (images.length > this.options.limit) {
           images = images.slice(0, this.options.limit + 1 || 9e9);
         }
-        for (_i = 0, _len = images.length; _i < _len; _i++) {
-          image = images[_i];
-          img = document.createElement('img');
-          img.src = image.images[this.options.resolution].url;
-          if (this.options.links === true) {
-            anchor = document.createElement('a');
-            anchor.href = image.link;
-            anchor.appendChild(img);
-            fragment.appendChild(anchor);
-          } else {
-            fragment.appendChild(img);
+        if ((this.options.template != null) && typeof this.options.template === 'string') {
+          htmlString = '';
+          imageString = '';
+          for (_i = 0, _len = images.length; _i < _len; _i++) {
+            image = images[_i];
+            imageString = this._makeTemplate(this.options.template, {
+              link: image.link,
+              image: image.images[this.options.resolution].url
+            });
+            htmlString += imageString;
           }
+          document.getElementById(this.options.target).innerHTML = htmlString;
+        } else {
+          fragment = document.createDocumentFragment();
+          for (_j = 0, _len1 = images.length; _j < _len1; _j++) {
+            image = images[_j];
+            img = document.createElement('img');
+            img.src = image.images[this.options.resolution].url;
+            if (this.options.links === true) {
+              anchor = document.createElement('a');
+              anchor.href = image.link;
+              anchor.appendChild(img);
+              fragment.appendChild(anchor);
+            } else {
+              fragment.appendChild(img);
+            }
+          }
+          document.getElementById(this.options.target).appendChild(fragment);
         }
-        document.getElementById(this.options.target).appendChild(fragment);
         header = document.getElementsByTagName('head')[0];
         header.removeChild(document.getElementById('instafeed-fetcher'));
         instanceName = "instafeedCache" + this.unique;
@@ -158,6 +172,17 @@
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
       };
       return "" + (S4()) + (S4()) + (S4()) + (S4());
+    };
+
+    Instafeed.prototype._makeTemplate = function(template, data) {
+      var output, pattern, varName;
+      pattern = /(?:\{{2})(\w+)(?:\}{2})/;
+      output = template;
+      while (pattern.test(output)) {
+        varName = output.match(pattern)[1];
+        output = output.replace(pattern, "" + data[varName]);
+      }
+      return output;
     };
 
     return Instafeed;

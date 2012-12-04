@@ -93,36 +93,55 @@ class Instafeed
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist
     if document?
-      # create a new html fragment
-      fragment = document.createDocumentFragment()
-
       # limit the number of images if needed
       images = response.data
       images = images[0..@options.limit] if images.length > @options.limit
 
-      # loop through the images
-      for image in images
-        # create the image using the @options's resolution
-        img = document.createElement 'img'
-        img.src = image.images[@options.resolution].url
+      # determine whether to parse a template, or use html fragments
+      if @options.template? and typeof @options.template is 'string'
+        # create an html string
+        htmlString = ''
+        imageString = ''
 
-        # wrap the image in an anchor tag, unless turned off
-        if @options.links is true
-          # create an anchor link
-          anchor = document.createElement 'a'
-          anchor.href = image.link
+        # loop through the images
+        for image in images
+          # parse the template
+          imageString = @_makeTemplate @options.template,
+            link: image.link
+            image: image.images[@options.resolution].url
 
-          # add the image to it
-          anchor.appendChild img
+          # add the image partial to the html string
+          htmlString += imageString
 
-          # add the anchor to the fragment
-          fragment.appendChild anchor
-        else
-          # add the image (without link) to the fragment
-          fragment.appendChild img
+        # add the final html to the target DOM node
+        document.getElementById(@options.target).innerHTML = htmlString
+      else
+        # create a document fragment
+        fragment = document.createDocumentFragment()
 
-      # Add the fragment to the DOM
-      document.getElementById(@options.target).appendChild fragment
+        # loop through the images
+        for image in images
+          # create the image using the @options's resolution
+          img = document.createElement 'img'
+          img.src = image.images[@options.resolution].url
+
+          # wrap the image in an anchor tag, unless turned off
+          if @options.links is true
+            # create an anchor link
+            anchor = document.createElement 'a'
+            anchor.href = image.link
+
+            # add the image to it
+            anchor.appendChild img
+
+            # add the anchor to the fragment
+            fragment.appendChild anchor
+          else
+            # add the image (without link) to the fragment
+            fragment.appendChild img
+
+        # Add the fragment to the DOM
+        document.getElementById(@options.target).appendChild fragment
 
       # remove the injected script tag
       header = document.getElementsByTagName('head')[0]
