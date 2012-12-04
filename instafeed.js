@@ -11,7 +11,8 @@
         get: 'popular',
         resolution: 'thumbnail',
         links: true,
-        limit: 15
+        limit: 15,
+        mock: false
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -79,7 +80,7 @@
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);
       }
-      if (typeof document !== "undefined" && document !== null) {
+      if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
         document.getElementById(this.options.target).innerHTML = '';
         images = response.data;
         if (images.length > this.options.limit) {

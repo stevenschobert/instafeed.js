@@ -7,6 +7,7 @@ class Instafeed
       resolution: 'thumbnail'
       links: true
       limit: 15
+      mock: false
 
     # if an object is passed in, override the default options
     if typeof params is 'object'
@@ -88,7 +89,7 @@ class Instafeed
 
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist
-    if document?
+    if document? and @options.mock is false
       # clear the current dom node
       document.getElementById(@options.target).innerHTML = ''
 
