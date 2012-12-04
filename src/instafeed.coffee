@@ -50,10 +50,6 @@ class Instafeed
       window[instanceName] = new Instafeed @options
       window[instanceName].unique = @unique
 
-    # run after callback function, if one is set
-    if @options.after? and typeof @options.after is 'function'
-      @options.after.call(this)
-
     # return true if everything ran
     true
 
@@ -151,6 +147,10 @@ class Instafeed
       instanceName = "instafeedCache#{@unique}"
       delete window[instanceName]
     # END if document?
+
+    # run after callback function, if one is set
+    if @options.after? and typeof @options.after is 'function'
+      @options.after.call(this)
 
     # return true if everything ran
     true

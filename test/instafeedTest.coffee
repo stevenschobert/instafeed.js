@@ -101,7 +101,12 @@ describe 'Instafeed instace', ->
       before: callback
       after: callback
     feed.run()
+    timesRan.should.equal 1
 
+    feed.parse
+      meta:
+        code: 200
+      data: [1,2,3]
     timesRan.should.equal 2
 
   it 'should run a success callback with json data', ->
