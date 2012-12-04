@@ -92,6 +92,7 @@ This will install all the necessary test tools for testing. There is also a Make
 
 __1.1.0__
 
+- Added option to use a custom html template with the __template__ option.
 - Added ability to fetch several feeds at the same time (create separate instances).
 - Added _before_, _success_, _after_, and _error_ callback functions.
 
