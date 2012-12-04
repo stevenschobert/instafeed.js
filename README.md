@@ -48,6 +48,10 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `success` (function(json)) - Callback function called when the Instagram API returns valid data, and before any images have been added to the DOM. (json data is the argument)
 - `after` (function) - Callback function called when images have been added to the page.
 - `error` (function(message)) - Callback function called when there is a problem fetching images from Instagram. (message string is the argument)
+- `template` (string) - A custom template to use when parsing images (overrides the `links` option). Available options are:
+    - `{{link}}` - the link url to view the image on Instagram
+    - `{{image}}` - the permanent url the the image source
+    - Ex: `<a class="animation" href="{{link}}"><img src="{{image}}" /></a>`
 
 ## Security Considerations
 
