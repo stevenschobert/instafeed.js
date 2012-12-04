@@ -44,11 +44,11 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
 - `resolution` (string) - Size of the images to get. Use __low_resolution__, __thumbnail__, or __standard_resolution__.
-- `before` (function) - Callback function called before fetching images from Instagram.
-- `success` (function(json)) - Callback function called when the Instagram API returns valid data, and before any images have been added to the DOM. (json data is the argument)
-- `after` (function) - Callback function called when images have been added to the page.
-- `error` (function(message)) - Callback function called when there is a problem fetching images from Instagram. (message string is the argument)
-- `template` (string) - A custom template to use when parsing images (overrides the `links` option). Available options are:
+- `before` (function) - A callback function called before fetching images from Instagram.
+- `after` (function) - A callback function called when images have been added to the page.
+- `success` (function) - A callback function called when Instagram returns valid data. (argument -> json object)
+- `error` (function) - A callback function called when there is an error fetching images. (argument -> string message)
+- `template` (string) - A custom template to use when parsing images _(overrides the links option)_. Available keywords are:
     - `{{link}}` - the link url to view the image on Instagram
     - `{{image}}` - the permanent url the the image source
     - Ex: `<a class="animation" href="{{link}}"><img src="{{image}}" /></a>`
@@ -94,7 +94,7 @@ __1.1.0__
 
 - Added option to use a custom html template with the __template__ option.
 - Added ability to fetch several feeds at the same time (create separate instances).
-- Added _before_, _success_, _after_, and _error_ callback functions.
+- Added __before__, __success__, __after__, and __error__ callback options.
 
 __1.0.0__
 
