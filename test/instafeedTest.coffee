@@ -142,3 +142,10 @@ describe 'Instafeed instace', ->
         error_message: 'bad data'
       data: [2]
     message.should.equal 'bad data'
+
+  it 'should parse an html template', ->
+    feed = new Instafeed
+    template = '<div>{{custom}}</div>'
+    data = {custom: 'test data'}
+
+    feed._makeTemplate(template, data).should.equal '<div>test data</div>'

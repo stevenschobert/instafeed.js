@@ -199,6 +199,26 @@ class Instafeed
       (((1+Math.random())*0x10000)|0).toString(16).substring(1)
     "#{S4()}#{S4()}#{S4()}#{S4()}"
 
+  # helper function to parse a template
+  _makeTemplate: (template, data) ->
+    # regex pattern
+    pattern = ///
+      (?:\{{2}) # opening braces
+      (\w+)     # variable name
+      (?:\}{2}) # closing braces
+    ///
+
+    # copy the template
+    output = template
+
+    # process the template
+    while (pattern.test(output))
+      varName = output.match(pattern)[1]
+      output = output.replace(pattern, "#{data[varName]}")
+
+    # send back the new string
+    return output
+
 # set up exports
 root = exports ? window
 root.Instafeed = Instafeed
