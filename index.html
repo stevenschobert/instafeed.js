@@ -139,6 +139,52 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
               Size of the images to get. Use <b>low_resolution</b>, <b>thumbnail</b>, or <b>standard_resolution</b>.
             </small>
           </li>
+          <li>
+            <code class="language-javascript">before</code>
+            <small><span class="light">(function)</span> -
+              A callback function called before fetching images from Instagram.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">after</code>
+            <small><span class="light">(function)</span> -
+              A callback function called when images have been added to the page.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">success</code>
+            <small><span class="light">(function)</span> -
+              A callback function called when Instagram returns valid data. Takes the json data as an <b>object argument</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">error</code>
+            <small><span class="light">(function)</span> -
+              A callback function called when there is an error fetching images.Takes an error message as a <b>string argument</b>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">mock</code>
+            <small><span class="light">(true/false)</span> -
+              Fetch data without inserting images into DOM. Use with <b>success</b> callback.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">template</code>
+            <small><span class="light">(string)</span> -
+              A custom template to use when parsing images. Available keywords are:
+              <ul>
+                <li><code class="language-javascript">{{link}}</code> -
+                  the link url to view the image on Instagram
+                </li>
+                <li><code class="language-javascript">{{image}}</code> -
+                  the permanent url the the image source.
+                </li>
+                <li>Ex: <code class="language-javascript">template: '&lt;a class=&quot;animation&quot; href=&quot;{{link}}&quot;&gt;&lt;img src=&quot;{{image}}&quot; /&gt;&lt;/a&gt;'</code>
+                </li>
+              </ul>
+            </small>
+          </li>
         </ul>
       </p>
       <br />
@@ -167,9 +213,23 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
 
       <a name="log"></a><h3>Change Log</h3>
 
-      <p><ul>
-        <li><small><span class="light">(v1.0.0)</span> - Initial release</small></li>
-      </ul></p>
+      <p>
+        <ul>
+          <li><small><b>(v1.1.0)</b>
+            <ul>
+              <li>Added option to use a custom html template with the <b>template</b> option.</li>
+              <li>Added ability to fetch several feeds at the same time (create separate instances).</li>
+              <li>Added <b>before</b>, <b>success</b>, <b>after</b>, and <b>error</b> callback options.</li>
+              <li>Added <b>mock</b> option. Use with <b>success</b> option for custom DOM manipulation.</li>
+            </ul>
+          </small></li>
+          <li><small><b>(v1.0.0)</b>
+            <ul>
+              <li>Initial release</li>
+            </ul>
+          </small></li>
+        </ul>
+      </p>
     </div>
   </div>
 
