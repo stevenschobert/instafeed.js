@@ -91,6 +91,10 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
+__1.2.0__
+
+- Coming soon.
+
 __1.1.0__
 
 - Added option to use a custom html template with the __template__ option.
