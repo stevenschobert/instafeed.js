@@ -148,12 +148,16 @@ describe 'Instafeed instace', ->
       data: [2]
     message.should.equal 'bad data'
 
-  it 'should parse an html template', ->
+  it 'should parse an html template (including nested properties)', ->
     feed = new Instafeed
-    template = '<div>{{custom}}</div>'
-    data = {custom: 'test data'}
+    template = '<div>{{custom}} - {{nested[0].target}} {hard code}</div>'
+    data =
+      custom: 'test data'
+      nested: [
+        {target: 4}
+      ]
 
-    feed._makeTemplate(template, data).should.equal '<div>test data</div>'
+    feed._makeTemplate(template, data).should.equal '<div>test data - 4 {hard code}</div>'
 
   it 'should be able to access a nested object property by a string', ->
     feed = new Instafeed

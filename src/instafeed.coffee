@@ -226,9 +226,9 @@ class Instafeed
   _makeTemplate: (template, data) ->
     # regex pattern
     pattern = ///
-      (?:\{{2}) # opening braces
-      (\w+)     # variable name
-      (?:\}{2}) # closing braces
+      (?:\{{2})       # opening braces
+      ([\w\[\]\.]+)   # variable name
+      (?:\}{2})       # closing braces
     ///
 
     # copy the template
@@ -237,7 +237,7 @@ class Instafeed
     # process the template
     while (pattern.test(output))
       varName = output.match(pattern)[1]
-      output = output.replace(pattern, "#{data[varName]}")
+      output = output.replace(pattern, "#{@_getObjectProperty data, varName}")
 
     # send back the new string
     return output
