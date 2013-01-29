@@ -154,3 +154,14 @@ describe 'Instafeed instace', ->
     data = {custom: 'test data'}
 
     feed._makeTemplate(template, data).should.equal '<div>test data</div>'
+
+  it 'should be able to access a nested object property by a string', ->
+    feed = new Instafeed
+    test =
+      toplevel:
+        first: 2
+        lowerlevel:
+          property: 'test'
+
+    feed._getObjectProperty(test, 'toplevel[first]').should.equal 2
+    feed._getObjectProperty(test, 'toplevel.lowerlevel.property').should.equal 'test'

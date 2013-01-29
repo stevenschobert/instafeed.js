@@ -242,6 +242,26 @@ class Instafeed
     # send back the new string
     return output
 
+  # helper function to access an object property by string
+  _getObjectProperty: (object, property) ->
+    # convert [] to dot-syntax
+    property = property.replace /\[(\w+)\]/g, '.$1'
+
+    # split the object into arrays
+    pieces = property.split '.'
+
+    # run through the array to find the
+    # nested property
+    while pieces.length
+      piece = pieces.shift()
+      if piece of object
+        object = object[piece]
+      else
+        return
+
+    # send back the final object
+    return object
+
 # set up exports
 root = exports ? window
 root.Instafeed = Instafeed
