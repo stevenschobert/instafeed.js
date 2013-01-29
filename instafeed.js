@@ -178,13 +178,28 @@
 
     Instafeed.prototype._makeTemplate = function(template, data) {
       var output, pattern, varName;
-      pattern = /(?:\{{2})(\w+)(?:\}{2})/;
+      pattern = /(?:\{{2})([\w\[\]\.]+)(?:\}{2})/;
       output = template;
       while (pattern.test(output)) {
         varName = output.match(pattern)[1];
-        output = output.replace(pattern, "" + data[varName]);
+        output = output.replace(pattern, "" + (this._getObjectProperty(data, varName)));
       }
       return output;
+    };
+
+    Instafeed.prototype._getObjectProperty = function(object, property) {
+      var piece, pieces;
+      property = property.replace(/\[(\w+)\]/g, '.$1');
+      pieces = property.split('.');
+      while (pieces.length) {
+        piece = pieces.shift();
+        if (piece in object) {
+          object = object[piece];
+        } else {
+          return;
+        }
+      }
+      return object;
     };
 
     return Instafeed;
