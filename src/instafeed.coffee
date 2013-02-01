@@ -262,6 +262,25 @@ class Instafeed
     # send back the final object
     return object
 
+  # helper function to sort an array objects by an
+  # object property (sorts highest to lowest)
+  _sortBy: (data, property, reverse) ->
+    # comparator function
+    sorter = (a, b) ->
+      valueA = @_getObjectProperty a, property
+      valueB = @_getObjectProperty b, property
+      # sort lowest-to-highest if reverse is true
+      if reverse
+        return valueA > valueB ? 1 : -1
+
+      # otherwise sort highest to lowest
+      return valueA < valueB ? 1 : -1
+
+    # sort the data
+    data.sort(sorter.bind(this))
+
+    return data
+
 # set up exports
 root = exports ? window
 root.Instafeed = Instafeed
