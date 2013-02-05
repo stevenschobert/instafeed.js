@@ -293,10 +293,10 @@ class Instafeed
       valueB = @_getObjectProperty b, property
       # sort lowest-to-highest if reverse is true
       if reverse
-        return valueA > valueB ? 1 : -1
+        if valueA > valueB then return 1 else return -1
 
       # otherwise sort highest to lowest
-      return valueA < valueB ? 1 : -1
+      if valueA < valueB then return 1 else return -1
 
     # sort the data
     data.sort(sorter.bind(this))

@@ -223,17 +223,21 @@
     Instafeed.prototype._sortBy = function(data, property, reverse) {
       var sorter;
       sorter = function(a, b) {
-        var valueA, valueB, _ref, _ref1;
+        var valueA, valueB;
         valueA = this._getObjectProperty(a, property);
         valueB = this._getObjectProperty(b, property);
         if (reverse) {
-          return (_ref = valueA > valueB) != null ? _ref : {
-            1: -1
-          };
+          if (valueA > valueB) {
+            return 1;
+          } else {
+            return -1;
+          }
         }
-        return (_ref1 = valueA < valueB) != null ? _ref1 : {
-          1: -1
-        };
+        if (valueA < valueB) {
+          return 1;
+        } else {
+          return -1;
+        }
       };
       data.sort(sorter.bind(this));
       return data;
