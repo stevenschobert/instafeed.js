@@ -5,6 +5,7 @@ class Instafeed
       target: 'instafeed'
       get: 'popular'
       resolution: 'thumbnail'
+      sortBy: 'most-recent'
       links: true
       limit: 15
       mock: false
@@ -86,6 +87,27 @@ class Instafeed
     # call the success callback if no errors in response
     if @options.success? and typeof @options.success is 'function'
       @options.success.call(this, response)
+
+    # before images are inserted into the DOM, check for sorting
+    if @options.sortBy isnt 'most-recent'
+      # get the sort settings from @options
+      sortSettings = @options.sortBy.split('-')
+
+      # determine if the order should be inverse
+      reverse = if sortSettings[0] is 'least' then true else false
+
+      # handle the case for sorting
+      switch sortSettings[1]
+        when 'recent'
+          response.data = @_sortBy(response.data, 'created_time', reverse)
+
+        when 'liked'
+          response.data = @_sortBy(response.data, 'likes.count', reverse)
+
+        when 'commented'
+          response.data = @_sortBy(response.data, 'comments.count', reverse)
+
+        else throw new Error "Invalid option for sortBy: '#{@options.sortBy}'."
 
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist

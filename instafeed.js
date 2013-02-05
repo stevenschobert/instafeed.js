@@ -10,6 +10,7 @@
         target: 'instafeed',
         get: 'popular',
         resolution: 'thumbnail',
+        sortBy: 'most-recent',
         links: true,
         limit: 15,
         mock: false
@@ -52,7 +53,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, htmlString, image, imageString, images, img, instanceName, _i, _j, _len, _len1;
+      var anchor, fragment, header, htmlString, image, imageString, images, img, instanceName, reverse, sortSettings, _i, _j, _len, _len1;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -79,6 +80,23 @@
       }
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);
+      }
+      if (this.options.sortBy !== 'most-recent') {
+        sortSettings = this.options.sortBy.split('-');
+        reverse = sortSettings[0] === 'least' ? true : false;
+        switch (sortSettings[1]) {
+          case 'recent':
+            response.data = this._sortBy(response.data, 'created_time', reverse);
+            break;
+          case 'liked':
+            response.data = this._sortBy(response.data, 'likes.count', reverse);
+            break;
+          case 'commented':
+            response.data = this._sortBy(response.data, 'comments.count', reverse);
+            break;
+          default:
+            throw new Error("Invalid option for sortBy: '" + this.options.sortBy + "'.");
+        }
       }
       if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
         document.getElementById(this.options.target).innerHTML = '';
