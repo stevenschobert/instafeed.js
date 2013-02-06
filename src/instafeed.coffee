@@ -137,8 +137,14 @@ class Instafeed
         for image in images
           # parse the template
           imageString = @_makeTemplate @options.template,
+            model: image
+            id: image.id
             link: image.link
             image: image.images[@options.resolution].url
+            caption: @_getObjectProperty(image, 'caption.text')
+            likes: image.likes.count
+            comments: image.comments.count
+            location: @_getObjectProperty(image, 'location.name')
 
           # add the image partial to the html string
           htmlString += imageString

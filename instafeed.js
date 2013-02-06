@@ -119,8 +119,14 @@
           for (_i = 0, _len = images.length; _i < _len; _i++) {
             image = images[_i];
             imageString = this._makeTemplate(this.options.template, {
+              model: image,
+              id: image.id,
               link: image.link,
-              image: image.images[this.options.resolution].url
+              image: image.images[this.options.resolution].url,
+              caption: this._getObjectProperty(image, 'caption.text'),
+              likes: image.likes.count,
+              comments: image.comments.count,
+              location: this._getObjectProperty(image, 'location.name')
             });
             htmlString += imageString;
           }
