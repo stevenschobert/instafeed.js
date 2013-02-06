@@ -204,12 +204,12 @@
     };
 
     Instafeed.prototype._makeTemplate = function(template, data) {
-      var output, pattern, varName, varValue;
+      var output, pattern, varName, varValue, _ref;
       pattern = /(?:\{{2})([\w\[\]\.]+)(?:\}{2})/;
       output = template;
       while (pattern.test(output)) {
         varName = output.match(pattern)[1];
-        varValue = this._getObjectProperty(data, varName) || '';
+        varValue = (_ref = this._getObjectProperty(data, varName)) != null ? _ref : '';
         output = output.replace(pattern, "" + varValue);
       }
       return output;

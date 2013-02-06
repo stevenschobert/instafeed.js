@@ -267,7 +267,7 @@ class Instafeed
     # process the template (null defaults to empty strings)
     while (pattern.test(output))
       varName = output.match(pattern)[1]
-      varValue = @_getObjectProperty(data, varName) or ''
+      varValue = @_getObjectProperty(data, varName) ? ''
       output = output.replace(pattern, "#{varValue}")
 
     # send back the new string
