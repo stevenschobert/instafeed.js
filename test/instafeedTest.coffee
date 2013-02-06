@@ -169,6 +169,7 @@ describe 'Instafeed instace', ->
           property: 'test'
 
     should.equal(feed._getObjectProperty(test, 'toplevel.doesntexist.somekey'), null)
+    should.equal(feed._getObjectProperty(null, 'anything.someothing'), null)
     feed._getObjectProperty(test, 'toplevel[first]').should.equal 2
     feed._getObjectProperty(test, 'toplevel.lowerlevel.property').should.equal 'test'
 

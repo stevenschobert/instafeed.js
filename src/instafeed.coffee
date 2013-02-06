@@ -274,6 +274,10 @@ class Instafeed
 
   # helper function to access an object property by string
   _getObjectProperty: (object, property) ->
+    # check for null objects being passed in params
+    if not object?
+      return null
+
     # convert [] to dot-syntax
     property = property.replace /\[(\w+)\]/g, '.$1'
 

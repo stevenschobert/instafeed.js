@@ -216,6 +216,9 @@
 
     Instafeed.prototype._getObjectProperty = function(object, property) {
       var piece, pieces;
+      if (!(object != null)) {
+        return null;
+      }
       property = property.replace(/\[(\w+)\]/g, '.$1');
       pieces = property.split('.');
       while (pieces.length) {
