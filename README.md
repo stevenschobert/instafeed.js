@@ -39,10 +39,10 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `target` (string) - The ID of a DOM element you want to add the images to.
 - `template` (string) - Custom HTML template to use for images. See [templating](#templating).
 - `get` (string) - Customize what Instafeed fetches. Available options are:
-    - `'popular'` (default) - Images from the popular page
-    - `'tagged'` - Images with a specific tag. Use `tagName` to specify the tag.
-    - `'location'` - Images from a location. Use `locationId` to specify the location
-    - `'user'` - Images from a user. Use `userId` to specify the user.
+    - `popular` (default) - Images from the popular page
+    - `tagged` - Images with a specific tag. Use `tagName` to specify the tag.
+    - `location` - Images from a location. Use `locationId` to specify the location
+    - `user` - Images from a user. Use `userId` to specify the user.
 - `tagName` (string) - Name of the tag to get. Use with `get: 'tagged'`.
 - `locationId` (number) - Unique id of a location to get. Use with `get: 'location'`.
 - `userId` (number) - Unique id of a user to get. Use with `get: 'user'`.
