@@ -1,6 +1,7 @@
 # Set up Chai (http://chaijs.com)
 chai = require 'chai'
 chai.should()
+should = chai.should()
 
 # Bring in our Instafeed class
 {Instafeed} = require '../src/instafeed'
@@ -167,6 +168,7 @@ describe 'Instafeed instace', ->
         lowerlevel:
           property: 'test'
 
+    should.equal(feed._getObjectProperty(test, 'toplevel.doesntexist.somekey'), null)
     feed._getObjectProperty(test, 'toplevel[first]').should.equal 2
     feed._getObjectProperty(test, 'toplevel.lowerlevel.property').should.equal 'test'
 

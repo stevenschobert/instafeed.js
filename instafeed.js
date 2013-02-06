@@ -223,7 +223,7 @@
         if (piece in object) {
           object = object[piece];
         } else {
-          return;
+          return null;
         }
       }
       return object;

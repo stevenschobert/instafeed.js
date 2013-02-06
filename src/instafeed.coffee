@@ -284,10 +284,13 @@ class Instafeed
     # nested property
     while pieces.length
       piece = pieces.shift()
+
+      # if they key exists, copy the value
+      # into 'object', otherwise return null
       if piece of object
         object = object[piece]
       else
-        return
+        return null
 
     # send back the final object
     return object
