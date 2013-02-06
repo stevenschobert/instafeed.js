@@ -275,8 +275,8 @@ class Instafeed
   # helper function to access an object property by string
   _getObjectProperty: (object, property) ->
     # check for null objects being passed in params
-    if not object?
-      return null
+    #if not object?
+      #return null
 
     # convert [] to dot-syntax
     property = property.replace /\[(\w+)\]/g, '.$1'
@@ -287,11 +287,12 @@ class Instafeed
     # run through the array to find the
     # nested property
     while pieces.length
+      # move down the property chain
       piece = pieces.shift()
 
       # if they key exists, copy the value
       # into 'object', otherwise return null
-      if piece of object
+      if object? and piece of object
         object = object[piece]
       else
         return null
