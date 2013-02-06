@@ -90,14 +90,22 @@ class Instafeed
 
     # before images are inserted into the DOM, check for sorting
     if @options.sortBy isnt 'most-recent'
-      # get the sort settings from @options
-      sortSettings = @options.sortBy.split('-')
+      # if sort is set to random, don't check for polarity
+      if @options.sortBy is 'random'
+        sortSettings = ['', 'random']
+      else
+        # get the sort settings from @options
+        sortSettings = @options.sortBy.split('-')
 
       # determine if the order should be inverse
       reverse = if sortSettings[0] is 'least' then true else false
 
       # handle the case for sorting
       switch sortSettings[1]
+        when 'random'
+          response.data.sort () ->
+            return 0.5 - Math.random()
+
         when 'recent'
           response.data = @_sortBy(response.data, 'created_time', reverse)
 

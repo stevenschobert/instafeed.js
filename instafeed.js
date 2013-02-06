@@ -82,9 +82,18 @@
         this.options.success.call(this, response);
       }
       if (this.options.sortBy !== 'most-recent') {
-        sortSettings = this.options.sortBy.split('-');
+        if (this.options.sortBy === 'random') {
+          sortSettings = ['', 'random'];
+        } else {
+          sortSettings = this.options.sortBy.split('-');
+        }
         reverse = sortSettings[0] === 'least' ? true : false;
         switch (sortSettings[1]) {
+          case 'random':
+            response.data.sort(function() {
+              return 0.5 - Math.random();
+            });
+            break;
           case 'recent':
             response.data = this._sortBy(response.data, 'created_time', reverse);
             break;
