@@ -24,7 +24,7 @@ Here's how easy it is to get all images tagged with __#awesome__:
 </script>
 ```
 
-Instafeed with automatically look for a `<div id="instafeed"></div>` and fill it with linked thumbnails. Of course, you can easily change this behavior using the __advanced options__.
+Instafeed with automatically look for a `<div id="instafeed"></div>` and fill it with linked thumbnails. Of course, you can easily change this behavior using [standard options](#standard-options). Also check out the [advanced options](#advanced-options) for some advanced ways of customizing __Instafeed.js__.
 
 ## Requirements
 
@@ -32,27 +32,72 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 
 > If you want to get images from a specific user, you will need a valid oAuth token. Using an oAuth token has security risks. See the section on __"Security Considerations"__
 
-## Advanced Options
+## Standard Options
 
 - `clientId` (string) - Your API client id from Instagram. __Required__.
 - `accessToken` (string) - A valid oAuth token. Required to use __get: 'user'__.
-- `get` (string) - Customize what Instafeed fetches. Use __popular__, __tagged__, __location__, or __user__.
-- `tagName` (string) - Name of the tag to get. Use with __get: 'tagged'__.
-- `locationId` (number) - Unique id of a location to get. Use with __get: 'location'__.
-- `userId` (number) - Unique id of a user to get. Use with __get: 'user'__.
 - `target` (string) - The ID of a DOM element you want to add the images to.
+- `get` (string) - Customize what Instafeed fetches. Available options are:
+    - `'popular'` (default) - Images from the popular page
+    - `'tagged'` - Images with a specific tag. Use `tagName` to specify the tag.
+    - `'location'` - Images from a location. Use `locationId` to specify the location
+    - `'user'` - Images from a user. Use `userId` to specify the user.
+
+- `tagName` (string) - Name of the tag to get. Use with `get: 'tagged'`.
+- `locationId` (number) - Unique id of a location to get. Use with `get: 'location'`.
+- `userId` (number) - Unique id of a user to get. Use with `get: 'user'`.
+- `sortBy` (string) - Sort the images in a set order. Available options are:
+    - `'most-recent'` (default) - Newest to oldest.
+    - `'least-recent'` - Oldest to newest.
+    - `'most-liked'` - Highest # of likes to lowest.
+    - `'least-liked` - Lowest # likes to highest.
+    - `'most-commented'` - Highest # of comments to lowest.
+    - `'least-commented'` - Lowest # of comments to hightest.
+    - `'random'` - Random order.
+
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
-- `resolution` (string) - Size of the images to get. Use __low_resolution__, __thumbnail__, or __standard_resolution__.
+- `resolution` (string) - Size of the images to get. Available options are:
+    - `'thumbnail'` (default) - 150x150
+    - `'low_resolution'` - 306x306
+    - `'standard_resolution'` - 612x612
+
+## Advanced Options
+
 - `before` (function) - A callback function called before fetching images from Instagram.
 - `after` (function) - A callback function called when images have been added to the page.
 - `success` (function) - A callback function called when Instagram returns valid data. (argument -> json object)
 - `error` (function) - A callback function called when there is an error fetching images. (argument -> string message)
 - `mock` (bool) - Set to true fetch data without inserting images into DOM. Use with __success__ callback.
-- `template` (string) - A custom template to use when parsing images _(overrides the links option)_. Available keywords are:
-    - `{{link}}` - the link url to view the image on Instagram
-    - `{{image}}` - the permanent url the the image source
-    - Ex: `<a class="animation" href="{{link}}"><img src="{{image}}" /></a>`
+
+## Templating
+
+The easiest way to control the way Instafeed.js looks on your website is to use the __template__ option. You can write your own HTML markup and it will be used for every image that Instafeed.js fetches.
+
+Here's a quick example:
+
+```html
+<script type="text/javascript">
+    var feed = new Instafeed({
+        get: 'popular',
+        tagName: 'awesome',
+        clientId: 'YOUR_CLIENT_ID',
+        template: '<a class="animation" href="{{link}}"><img src="{{image}}" /></a>'
+    });
+    feed.run();
+</script>
+```
+
+Notice the `{{link}}` and `{{image}}`? The templating option provides several tags for you to use to control where variables are inserted into your HTML markup. Available keywors are:
+
+- `{{link}}` - URL to view the image on Instagram's website.
+- `{{image}}` - URL of the image source. The size is inherited from the `'resolution'` option.
+- `{{id}}` - Unique ID of the image. Useful if you want to use [iPhone hooks](http://instagram.com/developer/iphone-hooks/) to open the images directly in the Instagram app.
+- `{{caption}}` - Image's caption text. Defaults to empty string if there isn't one.
+- `{{likes}}` - Number of likes the image has.
+- `{{comments}}` - Number of comments the image has.
+- `{{location}}` - Name of the location associated with the image. Defaults to empty string if there isn't one.
+- `{{model}}` - Full JSON object of the image. If you want to get a property of the image that isn't listed above you access it using dot-notation. (ex: `{{model.filter}}` would get the filter used.)
 
 ## Security Considerations
 
@@ -93,7 +138,8 @@ This will install all the necessary test tools for testing. There is also a Make
 
 __1.2.0__
 
-- Coming soon.
+- Add the ability to sort images! Use the __sortBy__ option.
+- Added __{{likes}}__, __{{comments}}__, __{{id}}__, __{{caption}}__, and __{{model}}__, tags to the __template__ option.
 
 __1.1.0__
 
