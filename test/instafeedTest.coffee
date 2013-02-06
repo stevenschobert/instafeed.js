@@ -158,6 +158,7 @@ describe 'Instafeed instace', ->
         {target: 4}
       ]
 
+    feed._makeTemplate('{{doesntexist}}', {}).should.equal ""
     feed._makeTemplate(template, data).should.equal '<div>test data - 4 {hard code}</div>'
 
   it 'should be able to access a nested object property by a string', ->
