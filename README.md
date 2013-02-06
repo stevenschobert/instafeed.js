@@ -37,30 +37,29 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `clientId` (string) - Your API client id from Instagram. __Required__.
 - `accessToken` (string) - A valid oAuth token. Required to use __get: 'user'__.
 - `target` (string) - The ID of a DOM element you want to add the images to.
+- `template` (string) - Custom HTML template to use for images. See [templating](#templating).
 - `get` (string) - Customize what Instafeed fetches. Available options are:
     - `'popular'` (default) - Images from the popular page
     - `'tagged'` - Images with a specific tag. Use `tagName` to specify the tag.
     - `'location'` - Images from a location. Use `locationId` to specify the location
     - `'user'` - Images from a user. Use `userId` to specify the user.
-
 - `tagName` (string) - Name of the tag to get. Use with `get: 'tagged'`.
 - `locationId` (number) - Unique id of a location to get. Use with `get: 'location'`.
 - `userId` (number) - Unique id of a user to get. Use with `get: 'user'`.
 - `sortBy` (string) - Sort the images in a set order. Available options are:
-    - `'most-recent'` (default) - Newest to oldest.
-    - `'least-recent'` - Oldest to newest.
-    - `'most-liked'` - Highest # of likes to lowest.
-    - `'least-liked` - Lowest # likes to highest.
-    - `'most-commented'` - Highest # of comments to lowest.
-    - `'least-commented'` - Lowest # of comments to hightest.
-    - `'random'` - Random order.
-
+    - `most-recent` (default) - Newest to oldest.
+    - `least-recent` - Oldest to newest.
+    - `most-liked` - Highest # of likes to lowest.
+    - `least-liked` - Lowest # likes to highest.
+    - `most-commented` - Highest # of comments to lowest.
+    - `least-commented` - Lowest # of comments to hightest.
+    - `random` - Random order.
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
 - `resolution` (string) - Size of the images to get. Available options are:
-    - `'thumbnail'` (default) - 150x150
-    - `'low_resolution'` - 306x306
-    - `'standard_resolution'` - 612x612
+    - `thumbnail` (default) - 150x150
+    - `low_resolution` - 306x306
+    - `standard_resolution` - 612x612
 
 ## Advanced Options
 
