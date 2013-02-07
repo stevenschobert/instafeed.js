@@ -1,6 +1,9 @@
 # Sass/Compass Files
 .sass-cache/
 
+# Example Files
+examples/
+
 # Mac OS Files
 .DS_Store
 
