@@ -90,7 +90,7 @@ Here's a quick example:
 Notice the `{{link}}` and `{{image}}`? The templating option provides several tags for you to use to control where variables are inserted into your HTML markup. Available keywors are:
 
 - `{{link}}` - URL to view the image on Instagram's website.
-- `{{image}}` - URL of the image source. The size is inherited from the `'resolution'` option.
+- `{{image}}` - URL of the image source. The size is inherited from the `resolution` option.
 - `{{id}}` - Unique ID of the image. Useful if you want to use [iPhone hooks](http://instagram.com/developer/iphone-hooks/) to open the images directly in the Instagram app.
 - `{{caption}}` - Image's caption text. Defaults to empty string if there isn't one.
 - `{{likes}}` - Number of likes the image has.
@@ -138,7 +138,7 @@ This will install all the necessary test tools for testing. There is also a Make
 __1.2.0__
 
 - Add the ability to sort images! Use the __sortBy__ option.
-- Added __{{likes}}__, __{{comments}}__, __{{id}}__, __{{caption}}__, and __{{model}}__, tags to the __template__ option.
+- Added __{{likes}}__, __{{comments}}__, __{{id}}__, __{{caption}}__, __{{location}}__, and __{{model}}__, tags to the __template__ option.
 
 __1.1.0__
 
