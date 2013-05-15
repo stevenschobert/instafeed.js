@@ -3,6 +3,14 @@ instafeed.js
 
 Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
+__Examples:__
+
+- [Beardstagram](http://luke.so/beardstagram/) by [Luke Beard](http://twitter.com/lukesbeard)
+- [Manik Rathee is a mobile photographer](http://www.manikrathee.com/is/a/mobile-photographer/) by [Manik Rathee](http://twitter.com/manikrathee)
+- [Instafeed.js + Animate.css](http://codepen.io/stevenschobert/full/vJloI) on CodePen
+
+_Used Instafeed.js on a project recently? Tweet them to [@stevenschobert](http://twitter.com/stevenschobert)._
+
 ## Installation
 Setting up Instafeed is pretty straight-forward. Just download the script and include it in your HTML:
 
