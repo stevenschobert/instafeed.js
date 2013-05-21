@@ -7,7 +7,6 @@ __Examples:__
 
 - [Beardstagram](http://luke.so/beardstagram/) by [Luke Beard](http://twitter.com/lukesbeard)
 - [Manik Rathee is a mobile photographer](http://www.manikrathee.com/is/a/mobile-photographer/) by [Manik Rathee](http://twitter.com/manikrathee)
-- [Instafeed.js + Animate.css](http://codepen.io/stevenschobert/full/vJloI) on CodePen
 - [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
 
 _Used Instafeed.js on a project recently? Tweet them to [@stevenschobert](http://twitter.com/stevenschobert)._
