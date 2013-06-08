@@ -13,7 +13,8 @@
         sortBy: 'most-recent',
         links: true,
         limit: 15,
-        mock: false
+        mock: false,
+        pages: 1
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -22,9 +23,11 @@
         }
       }
       this.unique = this._genKey();
+      this.multiple_pages = this.options.pages > 1;
+      this.current_page = 0;
     }
 
-    Instafeed.prototype.run = function() {
+    Instafeed.prototype.run = function(url) {
       var header, instanceName, script;
       if (typeof this.options.clientId !== 'string') {
         if (typeof this.options.accessToken !== 'string') {
@@ -42,7 +45,7 @@
       if (typeof document !== "undefined" && document !== null) {
         script = document.createElement('script');
         script.id = 'instafeed-fetcher';
-        script.src = this._buildUrl();
+        script.src = url || this._buildUrl();
         header = document.getElementsByTagName('head');
         header[0].appendChild(script);
         instanceName = "instafeedCache" + this.unique;
@@ -53,7 +56,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, htmlString, image, imageString, images, img, instanceName, reverse, sortSettings, _i, _j, _len, _len1;
+      var anchor, el, fragment, header, htmlString, image, imageString, images, img, next_page, reverse, sortSettings, _i, _j, _len, _len1;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -77,6 +80,14 @@
         } else {
           throw new Error('No images were returned from Instagram');
         }
+      }
+      next_page = response.pagination && response.pagination.next_url;
+      if (this.multiple_pages && (!next_page || this.current_page === this.options.pages - 1)) {
+        delete window["instafeedCache" + this.unique];
+      }
+      if (this.multiple_pages && next_page && this.current_page < this.options.pages - 1) {
+        this.run(response.pagination.next_url);
+        this.current_page++;
       }
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);
@@ -108,11 +119,12 @@
         }
       }
       if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
-        document.getElementById(this.options.target).innerHTML = '';
+        this.multiple_pages || (document.getElementById(this.options.target).innerHTML = '');
         images = response.data;
         if (images.length > this.options.limit) {
           images = images.slice(0, this.options.limit + 1 || 9e9);
         }
+        el = document.getElementById(this.options.target);
         if ((this.options.template != null) && typeof this.options.template === 'string') {
           htmlString = '';
           imageString = '';
@@ -130,7 +142,7 @@
             });
             htmlString += imageString;
           }
-          document.getElementById(this.options.target).innerHTML = htmlString;
+          el.innerHTML += htmlString;
         } else {
           fragment = document.createDocumentFragment();
           for (_j = 0, _len1 = images.length; _j < _len1; _j++) {
@@ -146,12 +158,13 @@
               fragment.appendChild(img);
             }
           }
-          document.getElementById(this.options.target).appendChild(fragment);
+          el.appendChild(fragment);
         }
         header = document.getElementsByTagName('head')[0];
         header.removeChild(document.getElementById('instafeed-fetcher'));
-        instanceName = "instafeedCache" + this.unique;
-        delete window[instanceName];
+        if (!this.multiple_pages) {
+          delete window["instafeedCache" + this.unique];
+        }
       }
       if ((this.options.after != null) && typeof this.options.after === 'function') {
         this.options.after.call(this);
