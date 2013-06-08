@@ -49,8 +49,7 @@ class Instafeed
 
       # create a global object to cache the options
       instanceName = "instafeedCache#{@unique}"
-      window[instanceName] = new Instafeed @options
-      window[instanceName].unique = @unique
+      window[instanceName] = @
 
     # return true if everything ran
     true
