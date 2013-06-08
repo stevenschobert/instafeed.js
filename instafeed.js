@@ -46,8 +46,7 @@
         header = document.getElementsByTagName('head');
         header[0].appendChild(script);
         instanceName = "instafeedCache" + this.unique;
-        window[instanceName] = new Instafeed(this.options);
-        window[instanceName].unique = this.unique;
+        window[instanceName] = this;
       }
       return true;
     };
