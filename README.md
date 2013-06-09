@@ -51,6 +51,7 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
     - `tagged` - Images with a specific tag. Use `tagName` to specify the tag.
     - `location` - Images from a location. Use `locationId` to specify the location
     - `user` - Images from a user. Use `userId` to specify the user.
+    - `feed` - Images from a user's feed.
 - `tagName` (string) - Name of the tag to get. Use with `get: 'tagged'`.
 - `locationId` (number) - Unique id of a location to get. Use with `get: 'location'`.
 - `userId` (number) - Unique id of a user to get. Use with `get: 'user'`.
