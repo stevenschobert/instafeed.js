@@ -166,6 +166,9 @@
         case "popular":
           endpoint = "media/popular";
           break;
+        case "feed":
+          endpoint = "users/self/feed";
+          break;
         case "tagged":
           if (typeof this.options.tagName !== 'string') {
             throw new Error("No tag name specified. Use the 'tagName' option.");

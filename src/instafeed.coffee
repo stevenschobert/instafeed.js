@@ -204,6 +204,7 @@ class Instafeed
     # get the endpoint based on @options.get
     switch @options.get
       when "popular" then endpoint = "media/popular"
+      when "feed" then endpoint = "users/self/feed"
       when "tagged"
         # make sure a tag is defined
         if typeof @options.tagName isnt 'string'
