@@ -122,6 +122,7 @@
               model: image,
               id: image.id,
               link: image.link,
+              date: moment.unix(image.created_time).format('MMMM Do YYYY'),
               image: image.images[this.options.resolution].url,
               caption: this._getObjectProperty(image, 'caption.text'),
               likes: image.likes.count,
