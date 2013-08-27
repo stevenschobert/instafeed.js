@@ -5,7 +5,7 @@ Instafeed is a dead-simple way to add Instagram photos to your website. No jQuer
 
 __Examples:__
 
-- [Beardstagram](http://luke.so/beardstagram/) by [Luke Beard](http://twitter.com/lukesbeard)
+- [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
 - [Manik Rathee is a mobile photographer](http://www.manikrathee.com/is/a/mobile-photographer/) by [Manik Rathee](http://twitter.com/manikrathee)
 - [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
 
