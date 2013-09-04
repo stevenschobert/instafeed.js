@@ -9,6 +9,7 @@ class Instafeed
       links: true
       limit: 15
       mock: false
+      pages: 1
 
     # if an object is passed in, override the default options
     if typeof params is 'object'
@@ -16,9 +17,11 @@ class Instafeed
 
     # generate a unique key for the instance
     @unique = @_genKey()
+    @multiple_pages = @options.pages > 1
+    @current_page = 0
 
   # MAKE IT GO!
-  run: ->
+  run: (url) ->
     # make sure either a client id or access token is set
     if typeof @options.clientId isnt 'string'
       unless typeof @options.accessToken is 'string'
@@ -41,7 +44,7 @@ class Instafeed
       script.id = 'instafeed-fetcher'
 
       # assign the script src using _buildUrl()
-      script.src = @_buildUrl()
+      script.src = url or @_buildUrl()
 
       # add the new script object to the header
       header = document.getElementsByTagName 'head'
@@ -84,6 +87,16 @@ class Instafeed
       else
         throw new Error 'No images were returned from Instagram'
 
+    next_page = response.pagination and response.pagination.next_url
+
+    if @multiple_pages and (!next_page or @current_page == @options.pages - 1)
+      delete window["instafeedCache#{@unique}"]
+
+    # load next page if corresponds
+    if @multiple_pages && next_page && @current_page < @options.pages - 1
+      @run(response.pagination.next_url)
+      @current_page++
+
     # call the success callback if no errors in response
     if @options.success? and typeof @options.success is 'function'
       @options.success.call(this, response)
@@ -120,13 +133,13 @@ class Instafeed
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist
     if document? and @options.mock is false
-      # clear the current dom node
-      document.getElementById(@options.target).innerHTML = ''
+      # clear the current dom node if we not request multiple pages
+      @multiple_pages or document.getElementById(@options.target).innerHTML = ''
 
       # limit the number of images if needed
       images = response.data
       images = images[0..@options.limit] if images.length > @options.limit
-
+      el = document.getElementById(@options.target)
       # determine whether to parse a template, or use html fragments
       if @options.template? and typeof @options.template is 'string'
         # create an html string
@@ -150,7 +163,7 @@ class Instafeed
           htmlString += imageString
 
         # add the final html to the target DOM node
-        document.getElementById(@options.target).innerHTML = htmlString
+        el.innerHTML += htmlString
       else
         # create a document fragment
         fragment = document.createDocumentFragment()
@@ -177,15 +190,15 @@ class Instafeed
             fragment.appendChild img
 
         # Add the fragment to the DOM
-        document.getElementById(@options.target).appendChild fragment
+        el.appendChild fragment
 
       # remove the injected script tag
       header = document.getElementsByTagName('head')[0]
       header.removeChild document.getElementById 'instafeed-fetcher'
 
       # delete the cached instance of the class
-      instanceName = "instafeedCache#{@unique}"
-      delete window[instanceName]
+      unless @multiple_pages
+        delete window["instafeedCache#{@unique}"]
     # END if document?
 
     # run after callback function, if one is set
