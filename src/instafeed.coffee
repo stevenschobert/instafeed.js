@@ -5,7 +5,7 @@ class Instafeed
       target: 'instafeed'
       get: 'popular'
       resolution: 'thumbnail'
-      sortBy: 'most-recent'
+      sortBy: 'none'
       links: true
       limit: 15
       mock: false
@@ -89,7 +89,7 @@ class Instafeed
       @options.success.call(this, response)
 
     # before images are inserted into the DOM, check for sorting
-    if @options.sortBy isnt 'most-recent'
+    if @options.sortBy isnt 'none'
       # if sort is set to random, don't check for polarity
       if @options.sortBy is 'random'
         sortSettings = ['', 'random']

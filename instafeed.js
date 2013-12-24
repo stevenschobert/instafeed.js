@@ -10,7 +10,7 @@
         target: 'instafeed',
         get: 'popular',
         resolution: 'thumbnail',
-        sortBy: 'most-recent',
+        sortBy: 'none',
         links: true,
         limit: 15,
         mock: false
@@ -81,7 +81,7 @@
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);
       }
-      if (this.options.sortBy !== 'most-recent') {
+      if (this.options.sortBy !== 'none') {
         if (this.options.sortBy === 'random') {
           sortSettings = ['', 'random'];
         } else {

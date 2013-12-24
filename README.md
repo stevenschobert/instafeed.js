@@ -55,12 +55,13 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `locationId` (number) - Unique id of a location to get. Use with `get: 'location'`.
 - `userId` (number) - Unique id of a user to get. Use with `get: 'user'`.
 - `sortBy` (string) - Sort the images in a set order. Available options are:
-    - `most-recent` (default) - Newest to oldest.
+    - `none` (default) - As they come from Instagram.
+    - `most-recent` - Newest to oldest.
     - `least-recent` - Oldest to newest.
     - `most-liked` - Highest # of likes to lowest.
     - `least-liked` - Lowest # likes to highest.
     - `most-commented` - Highest # of comments to lowest.
-    - `least-commented` - Lowest # of comments to hightest.
+    - `least-commented` - Lowest # of comments to highest.
     - `random` - Random order.
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
