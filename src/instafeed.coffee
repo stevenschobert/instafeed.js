@@ -185,10 +185,10 @@ class Instafeed
 
       # delete the cached instance of the class
       instanceName = "instafeedCache#{@unique}"
+      window[instanceName] = undefined
       try
         delete window[instanceName]
       catch e
-        window[instanceName] = undefined
     # END if document?
 
     # run after callback function, if one is set
