@@ -9,6 +9,7 @@ class Instafeed
       links: true
       limit: 15
       mock: false
+      useHttp: false
 
     # if an object is passed in, override the default options
     if typeof params is 'object'
@@ -132,15 +133,20 @@ class Instafeed
         # create an html string
         htmlString = ''
         imageString = ''
+        imgUrl = ''
 
         # loop through the images
         for image in images
+          # use protocol relative image url
+          imageUrl = image.images[@options.resolution].url
+          imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
+
           # parse the template
           imageString = @_makeTemplate @options.template,
             model: image
             id: image.id
             link: image.link
-            image: image.images[@options.resolution].url
+            image: imageUrl
             caption: @_getObjectProperty(image, 'caption.text')
             likes: image.likes.count
             comments: image.comments.count
