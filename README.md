@@ -10,7 +10,9 @@ __Examples:__
 - [Manik Rathee is a mobile photographer](http://www.manikrathee.com/is/a/mobile-photographer/) by [Manik Rathee](http://twitter.com/manikrathee)
 - [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
 
-_Used Instafeed.js on a project recently? Tweet them to [@stevenschobert](http://twitter.com/stevenschobert)._
+__Buy me a coffee:__
+
+If you enjoy using Instafeed.js and want to say thanks, you can leave me a small tip using [Gittip](https://www.gittip.com/stevenschobert).
 
 ## Installation
 Setting up Instafeed is pretty straight-forward. Just download the script and include it in your HTML:
