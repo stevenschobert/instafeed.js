@@ -65,6 +65,8 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
     - `random` - Random order.
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
+- `useHttp` (bool) - By default, image urls are protocol-relative (uses `//` prefix). Set to `true`
+  to use plain old `http://`.
 - `resolution` (string) - Size of the images to get. Available options are:
     - `thumbnail` (default) - 150x150
     - `low_resolution` - 306x306
@@ -143,6 +145,10 @@ This will install all the necessary test tools for testing. There is also a Make
 - `make` will run both the previous steps and compile everything
 
 ## Change Log
+
+__1.3.0__
+
+- Image URLs are now protocol-relative by default. Use the new `useHttp` option to disable.
 
 __1.2.1__
 
