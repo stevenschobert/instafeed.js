@@ -24,6 +24,18 @@ describe 'Instafeed instace', ->
     feed.options.clientId.should.equal 'mysecretid'
     feed.options.resolution.should.equal 'thumbnail'
 
+  it 'should accept context as a parameter', ->
+    context = {}
+    feed = new Instafeed({}, context)
+    feed.context.should.equal context
+
+  it 'should know if there are next results to load', ->
+    feed = new Instafeed
+    (feed.hasNext()).should.be.false
+
+    feed.nextUrl = "teststring"
+    (feed.hasNext()).should.be.true
+
   it 'should have a unique timestamp when instantiated', ->
     feed = new Instafeed
     feed.unique.should.exist

@@ -1,5 +1,5 @@
 class Instafeed
-  constructor: (params) ->
+  constructor: (params, context) ->
     # default options
     @options =
       target: 'instafeed'
@@ -15,11 +15,30 @@ class Instafeed
     if typeof params is 'object'
       @options[option] = value for option, value of params
 
+    # save a reference to context, which defaults to curr scope
+    # this will be used to cache data from parsing to the real
+    # instance the user interacts with (for pagination)
+    @context = if context? then context else this
+
     # generate a unique key for the instance
     @unique = @_genKey()
 
+  # method to check if there are more results to load
+  hasNext: ->
+    return typeof @context.nextUrl is 'string' and @context.nextUrl.length > 0
+
+  # method to display next results using the pagination
+  # data from API. Manually passing a url to .run() will
+  # bypass the URL creation from options.
+  next: ->
+    # check for a valid next url first
+    return false if not @hasNext()
+
+    # call run with the next results
+    return @run(@context.nextUrl)
+
   # MAKE IT GO!
-  run: ->
+  run: (url) ->
     # make sure either a client id or access token is set
     if typeof @options.clientId isnt 'string'
       unless typeof @options.accessToken is 'string'
@@ -41,8 +60,9 @@ class Instafeed
       # give the script an id so it can removed later
       script.id = 'instafeed-fetcher'
 
-      # assign the script src using _buildUrl()
-      script.src = @_buildUrl()
+      # assign the script src using _buildUrl(), or by
+      # using the argument passed to the function
+      script.src = url || @_buildUrl()
 
       # add the new script object to the header
       header = document.getElementsByTagName 'head'
@@ -50,7 +70,7 @@ class Instafeed
 
       # create a global object to cache the options
       instanceName = "instafeedCache#{@unique}"
-      window[instanceName] = new Instafeed @options
+      window[instanceName] = new Instafeed @options, this
       window[instanceName].unique = @unique
 
     # return true if everything ran
@@ -89,6 +109,13 @@ class Instafeed
     if @options.success? and typeof @options.success is 'function'
       @options.success.call(this, response)
 
+    # cache the pagination data, if it exists. Apply the value
+    # to the "context" object, which will be a true reference
+    # if this instance was created just for parsing
+    @context.nextUrl = ''
+    if response.pagination?
+      @context.nextUrl = response.pagination.next_url
+
     # before images are inserted into the DOM, check for sorting
     if @options.sortBy isnt 'most-recent'
       # if sort is set to random, don't check for polarity
@@ -121,12 +148,12 @@ class Instafeed
     # to make it easier to test various parts of the class,
     # any DOM manipulation first checks for the DOM to exist
     if document? and @options.mock is false
-      # clear the current dom node
-      document.getElementById(@options.target).innerHTML = ''
-
       # limit the number of images if needed
       images = response.data
       images = images[0..@options.limit] if images.length > @options.limit
+
+      # create the document fragment
+      fragment = document.createDocumentFragment()
 
       # filter the results
       if @options.filter? and typeof @options.filter is 'function'
@@ -138,6 +165,9 @@ class Instafeed
         htmlString = ''
         imageString = ''
         imgUrl = ''
+
+        # create a temp dom node that will hold the html
+        tmpEl = document.createElement('div')
 
         # loop through the images
         for image in images
@@ -159,12 +189,14 @@ class Instafeed
           # add the image partial to the html string
           htmlString += imageString
 
-        # add the final html to the target DOM node
-        document.getElementById(@options.target).innerHTML = htmlString
-      else
-        # create a document fragment
-        fragment = document.createDocumentFragment()
+        # add the final html string to the temp node
+        tmpEl.innerHTML = htmlString
 
+        # loop through the contents of the temp node
+        # and append them to the fragment
+        for node in [].slice.call(tmpEl.childNodes)
+          fragment.appendChild(node)
+      else
         # loop through the images
         for image in images
           # create the image using the @options's resolution
@@ -186,8 +218,8 @@ class Instafeed
             # add the image (without link) to the fragment
             fragment.appendChild img
 
-        # Add the fragment to the DOM
-        document.getElementById(@options.target).appendChild fragment
+      # Add the fragment to the DOM
+      document.getElementById(@options.target).appendChild fragment
 
       # remove the injected script tag
       header = document.getElementsByTagName('head')[0]
