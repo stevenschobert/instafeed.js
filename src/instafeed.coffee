@@ -128,6 +128,10 @@ class Instafeed
       images = response.data
       images = images[0..@options.limit] if images.length > @options.limit
 
+      # filter the results
+      if @options.filter? and typeof @options.filter is 'function'
+        images = @_filter(images, @options.filter)
+
       # determine whether to parse a template, or use html fragments
       if @options.template? and typeof @options.template is 'string'
         # create an html string
@@ -330,6 +334,15 @@ class Instafeed
     data.sort(sorter.bind(this))
 
     return data
+
+  # helper method to filter out images
+  _filter: (images, filter) ->
+    filteredImages = []
+    for image in images
+      do (image) ->
+        filteredImages.push(image) if filter(image)
+    return filteredImages
+
 
 # set up exports
 root = exports ? window

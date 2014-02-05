@@ -202,8 +202,21 @@ describe 'Instafeed instace', ->
     feed._sortBy(testdata, 'meta.likes.count', true).should.deep.equal [image2, image1, image3]
     feed._sortBy(testdata, 'meta.comments', false).should.deep.equal [image2, image1, image3]
 
+  it 'should be able to filter data with a callback', ->
+    feed = new Instafeed
 
+    filterFunc = (image) ->
+      return image.name is "image1"
 
+    image1 =
+      name: "image1"
+    image2 =
+      name: "image2"
+    image3 =
+      name: "image3"
+    testdata = [image1, image2, image3]
+
+    feed._filter(testdata, filterFunc).should.deep.equal [image1]
 
 
 
