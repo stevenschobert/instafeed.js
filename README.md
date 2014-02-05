@@ -81,6 +81,23 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `success` (function) - A callback function called when Instagram returns valid data. (argument -> json object)
 - `error` (function) - A callback function called when there is an error fetching images. (argument -> string message)
 - `mock` (bool) - Set to true fetch data without inserting images into DOM. Use with __success__ callback.
+- `filter` (function) - A function used to exclude images from your results. The function will be
+  given the image data as an argument, and expects the function to return a boolean. See the example
+  below for more information.
+
+__Example Filter:__
+
+```js
+var feed = new Instafeed({
+  filter: function(image) {
+    // only display images with at least 10 likes
+    return image.likes.count >= 10;
+  }
+});
+feed.run();
+```
+
+To see a full list of properties that `image` has, see [issue #21](https://github.com/stevenschobert/instafeed.js/issues/21).
 
 ## Templating
 
@@ -151,6 +168,7 @@ This will install all the necessary test tools for testing. There is also a Make
 __1.3.0__
 
 - Image URLs are now protocol-relative by default. Use the new `useHttp` option to disable.
+- Add the ability to filter out images using the `filter` option.
 
 __1.2.1__
 
