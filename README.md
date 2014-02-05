@@ -8,7 +8,9 @@ __Examples:__
 
 - [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
 - [Manik Rathee is a mobile photographer](http://www.manikrathee.com/is/a/mobile-photographer/) by [Manik Rathee](http://twitter.com/manikrathee)
+- [VinThomas.com](http://vinthomas.com/) by [Vin Thomas](https://twitter.com/vinthomas)
 - [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
+
 
 __Buy me a coffee:__
 
@@ -67,8 +69,8 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
     - `random` - Random order.
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
-- `useHttp` (bool) - By default, image urls are protocol-relative (uses `//` prefix). Set to `true`
-  to use plain old `http://`.
+- `useHttp` (bool) - By default, image urls are protocol-relative. Set to `true`
+  to use the standard `http://`.
 - `resolution` (string) - Size of the images to get. Available options are:
     - `thumbnail` (default) - 150x150
     - `low_resolution` - 306x306
@@ -128,6 +130,42 @@ Notice the `{{link}}` and `{{image}}`? The templating option provides several ta
 - `{{location}}` - Name of the location associated with the image. Defaults to empty string if there isn't one.
 - `{{model}}` - Full JSON object of the image. If you want to get a property of the image that isn't listed above you access it using dot-notation. (ex: `{{model.filter}}` would get the filter used.)
 
+## Pagination
+
+As of __v1.3__, Instafeed.js has a `.next()` method you can call to load more images from Instagram.
+Under the hood, this uses the _pagination_ data from the API. Additionall, there is a helper
+`.hasNext()` method that you can use to check if there is pagination data.
+
+Together these options can be used to create a "Load More" button:
+
+```js
+function checkLoadMore() {
+  // if there are no more results, disable the load more button
+  if (!this.hasNext()) {
+    loadButton.setAttribute('disabled', 'disabled');
+  }
+};
+
+function handleLoadClick() {
+  // load more!
+  feed.next();
+};
+
+// create our Instafeed instance
+var feed = new Instafeed({
+  success: checkLoadMore
+});
+
+// grab out load more button
+var loadButton = document.getElementById('#load-more');
+
+// bind out click event
+loadButton.addEventListener('click', handleLoadClick);
+
+// run our feed!
+feed.run();
+```
+
 ## Security Considerations
 
 With Instafeed, it is possible to get images from a specific user id:
@@ -168,7 +206,8 @@ This will install all the necessary test tools for testing. There is also a Make
 __1.3.0__
 
 - Image URLs are now protocol-relative by default. Use the new `useHttp` option to disable.
-- Add the ability to filter out images using the `filter` option.
+- Added the ability to filter out images using the `filter` option.
+- Added pagination support using `.next()` and `.hasNext()` methods.
 
 __1.2.1__
 
