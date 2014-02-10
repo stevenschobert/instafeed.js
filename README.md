@@ -134,7 +134,7 @@ Notice the `{{link}}` and `{{image}}`? The templating option provides several ta
 
 As of __v1.3__, Instafeed.js has a `.next()` method you can call to load more images from Instagram.
 Under the hood, this uses the _pagination_ data from the API. Additionall, there is a helper
-`.hasNext()` method that you can use to check if there is pagination data.
+`.hasNext()` method that you can use to check if pagination data is available.
 
 Together these options can be used to create a "Load More" button:
 
@@ -157,7 +157,7 @@ var feed = new Instafeed({
 });
 
 // grab out load more button
-var loadButton = document.getElementById('#load-more');
+var loadButton = document.getElementById('load-more');
 
 // bind out click event
 loadButton.addEventListener('click', handleLoadClick);
