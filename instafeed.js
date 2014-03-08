@@ -151,7 +151,12 @@
         header = document.getElementsByTagName('head')[0];
         header.removeChild(document.getElementById('instafeed-fetcher'));
         instanceName = "instafeedCache" + this.unique;
-        delete window[instanceName];
+        window[instanceName] = void 0;
+        try {
+          delete window[instanceName];
+        } catch (e) {
+
+        }
       }
       if ((this.options.after != null) && typeof this.options.after === 'function') {
         this.options.after.call(this);

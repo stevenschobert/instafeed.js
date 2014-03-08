@@ -1,5 +1,6 @@
 instafeed.js
 ============
+[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.png?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js)
 
 Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
@@ -144,9 +145,13 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
+__1.2.1__
+
+- Fixed IE8 error "Object doesn't support this action".
+
 __1.2.0__
 
-- Add the ability to sort images! Use the __sortBy__ option.
+- Added the ability to sort images! Use the __sortBy__ option.
 - Added __{{likes}}__, __{{comments}}__, __{{id}}__, __{{caption}}__, __{{location}}__, and __{{model}}__, tags to the __template__ option.
 
 __1.1.0__
