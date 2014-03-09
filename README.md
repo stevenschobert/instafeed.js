@@ -87,13 +87,14 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
   given the image data as an argument, and expects the function to return a boolean. See the example
   below for more information.
 
-__Example Filter:__
+__Example Filter (get username + tagged):__
 
 ```js
 var feed = new Instafeed({
+  get: 'user',
+  userId: USER_ID,
   filter: function(image) {
-    // only display images with at least 10 likes
-    return image.likes.count >= 10;
+    return image.tags.indexOf('TAG_NAME') >= 0;
   }
 });
 feed.run();
@@ -139,28 +140,23 @@ Under the hood, this uses the _pagination_ data from the API. Additionall, there
 Together these options can be used to create a "Load More" button:
 
 ```js
-function checkLoadMore() {
-  // if there are no more results, disable the load more button
-  if (!this.hasNext()) {
-    loadButton.setAttribute('disabled', 'disabled');
-  }
-};
-
-function handleLoadClick() {
-  // load more!
-  feed.next();
-};
-
-// create our Instafeed instance
-var feed = new Instafeed({
-  success: checkLoadMore
-});
-
 // grab out load more button
-var loadButton = document.getElementById('load-more');
+var loadButton = document.getElementById('load-more'),
 
-// bind out click event
-loadButton.addEventListener('click', handleLoadClick);
+    feed = new Instafeed({
+      // every time we load more, run this function
+      after: function() {
+        // disable button if no more results to load
+        if (!this.hasNext()) {
+          loadButton.setAttribute('disabled', 'disabled');
+        }
+      },
+    });
+
+// bind the load more button
+loadButton.addEventListener('click', function() {
+  feed.next();
+});
 
 // run our feed!
 feed.run();
