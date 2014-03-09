@@ -7,7 +7,6 @@ class Instafeed
       resolution: 'thumbnail'
       sortBy: 'most-recent'
       links: true
-      limit: 15
       mock: false
       useHttp: false
 
@@ -150,7 +149,8 @@ class Instafeed
     if document? and @options.mock is false
       # limit the number of images if needed
       images = response.data
-      images = images[0..@options.limit] if images.length > @options.limit
+      if @options.limit?
+        images = images[0..@options.limit] if images.length > @options.limit
 
       # create the document fragment
       fragment = document.createDocumentFragment()
@@ -289,7 +289,8 @@ class Instafeed
       final += "?client_id=#{@options.clientId}"
 
     # add the count limit
-    final += "&count=#{@options.limit}"
+    if @options.limit?
+      final += "&count=#{@options.limit}"
 
     # add the jsonp callback
     final += "&callback=instafeedCache#{@unique}.parse"
