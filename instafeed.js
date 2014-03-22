@@ -12,7 +12,6 @@
         resolution: 'thumbnail',
         sortBy: 'most-recent',
         links: true,
-        limit: 15,
         mock: false,
         useHttp: false
       };
@@ -126,8 +125,10 @@
       }
       if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
         images = response.data;
-        if (images.length > this.options.limit) {
-          images = images.slice(0, this.options.limit + 1 || 9e9);
+        if (this.options.limit != null) {
+          if (images.length > this.options.limit) {
+            images = images.slice(0, this.options.limit + 1 || 9e9);
+          }
         }
         fragment = document.createDocumentFragment();
         if ((this.options.filter != null) && typeof this.options.filter === 'function') {
@@ -231,7 +232,9 @@
       } else {
         final += "?client_id=" + this.options.clientId;
       }
-      final += "&count=" + this.options.limit;
+      if (this.options.limit != null) {
+        final += "&count=" + this.options.limit;
+      }
       final += "&callback=instafeedCache" + this.unique + ".parse";
       return final;
     };
