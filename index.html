@@ -43,7 +43,8 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
       <ul>
         <li><a href="http://hemeon.com/">Hemeon.com</a> by <a href="http://twitter.com/hemeon">Marc Hemeon</a></li>
         <li><a href="http://manikrathee.com/is/a/mobile-photographer">Manik Rathee is a mobile photographer</a> by <a href="http://twitter.com/manikrathee">Manik Rathee</a></li>
-        <li><a href="http://www.kozikcocoon.com">The Kozik Cocoon</a> by <a href="http://twitter.com/dannyprose">Danny Palmer</a></li>
+        <li><a href="http://vinthomas.com/">VinThomas.com</a> by <a href="https://twitter.com/vinthomas">Vin Thomas</a></li>
+        <li><a href="http://www.kozikcocoon.com/">The Kozik Cocoon</a> by <a href="http://twitter.com/dannyprose">Danny Palmer</a></li>
       </ul>
       <br />
 
@@ -239,8 +240,28 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
               Fetch data without inserting images into DOM. Use with <b>success</b> callback.
             </small>
           </li>
+          <li>
+            <code class="language-javascript">filter</code>
+            <small><span class="light">(function)</span> -
+              A function used to exclude images from your results. The function will be given the image data as an argument, and expects the function to return a boolean. See the example below for more information.
+            </small>
+          </li>
         </ul>
       </p>
+      <p><small><b>Example Filter (get username + tagged):</b></small></p>
+      <pre><code class="language-markup">
+&lt;script type=&quot;text/javascript&quot;&gt;
+var feed = new Instafeed({
+  get: 'user',
+  userId: USER_ID,
+  filter: function(image) {
+    return image.tags.indexOf('TAG_NAME') &gt;= 0;
+  }
+});
+feed.run();
+&lt;/script&gt;
+      </code></pre>
+      <p><small>To see a full list of properties that <code class="language-javascript">image</code> has, see <a href="https://github.com/stevenschobert/instafeed.js/issues/21">this thread</a> on GitHub.</small></p>
       <br />
 
       <a name="templating"></a><h3>Templating</h3>
@@ -315,6 +336,39 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
       </p>
       <br />
 
+      <a name="pagination"></a><h3>Pagination</h3>
+      <p>
+        As of <b>v1.3</b>, Instafeed.js has a <code class="language-javascript">.next()</code> method you can call to load more images from Instagram.
+        Under the hood, this uses the <i>pagination</i> data from the API. Additionall, there is a helper
+        <code class="language-javascript">.hasNext()</code> method that you can use to check if pagination data is available.
+      </p>
+      <p>
+        Together these options can be used to create a &quot;Load More&quot; button:
+      </p>
+      <pre><code class="language-markup">
+&lt;script type=&quot;text/javascript&quot;&gt;
+var loadButton = document.getElementById('load-more');
+var feed = new Instafeed({
+  // every time we load more, run this function
+  after: function() {
+    // disable button if no more results to load
+    if (!this.hasNext()) {
+      loadButton.setAttribute('disabled', 'disabled');
+    }
+  },
+});
+
+// bind the load more button
+loadButton.addEventListener('click', function() {
+  feed.next();
+});
+
+// run our feed!
+feed.run();
+&lt;/script&gt;
+      </code></pre>
+      <br />
+
       <a name="user"></a><h3>Getting images from your User Account</h3>
 
       <p>With Instafeed, it is possible to get images from a specific user id:</p>
@@ -341,6 +395,14 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
 
       <p>
         <ul>
+          <li><small><b>(v1.3.0)</b>
+            <ul>
+              <li>Image URLs are now protocol-relative by default. Use the new <code class="language-javascript">useHttp</code> option to disable.</li>
+              <li>Added the ability to filter out images using the <code class="language-javascript">filter</code> option.</li>
+              <li>Added pagination support using <code class="language-javascript">.next()</code> and <code class="language-javascrit">.hasNext()</code> methods.</li>
+              <li>Removed the default <code class="language-javascript">limit</code> of 15 images. The limit option is still supported, but by default no limit is sent to the API.</li>
+            </ul>
+          </small></li>
           <li><small><b>(v1.2.1)</b>
             <ul>
               <li>Fixed IE8 error "Object doesn't support this action".</li>
