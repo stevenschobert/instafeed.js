@@ -204,6 +204,8 @@ __1.3.0__
 - Image URLs are now protocol-relative by default. Use the new `useHttp` option to disable.
 - Added the ability to filter out images using the `filter` option.
 - Added pagination support using `.next()` and `.hasNext()` methods.
+- Removed the default `limit` of 15 images. The option is still supported, but by default no limit
+  is sent to the API.
 
 __1.2.1__
 
