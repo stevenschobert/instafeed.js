@@ -5,7 +5,7 @@ class Instafeed
       target: 'instafeed'
       get: 'popular'
       resolution: 'thumbnail'
-      sortBy: 'most-recent'
+      sortBy: 'none'
       links: true
       mock: false
       useHttp: false
@@ -116,7 +116,7 @@ class Instafeed
       @context.nextUrl = response.pagination.next_url
 
     # before images are inserted into the DOM, check for sorting
-    if @options.sortBy isnt 'most-recent'
+    if @options.sortBy isnt 'none'
       # if sort is set to random, don't check for polarity
       if @options.sortBy is 'random'
         sortSettings = ['', 'random']
