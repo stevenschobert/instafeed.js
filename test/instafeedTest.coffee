@@ -24,6 +24,18 @@ describe 'Instafeed instace', ->
     feed.options.clientId.should.equal 'mysecretid'
     feed.options.resolution.should.equal 'thumbnail'
 
+  it 'should accept context as a parameter', ->
+    context = {}
+    feed = new Instafeed({}, context)
+    feed.context.should.equal context
+
+  it 'should know if there are next results to load', ->
+    feed = new Instafeed
+    (feed.hasNext()).should.be.false
+
+    feed.nextUrl = "teststring"
+    (feed.hasNext()).should.be.true
+
   it 'should have a unique timestamp when instantiated', ->
     feed = new Instafeed
     feed.unique.should.exist
@@ -52,13 +64,13 @@ describe 'Instafeed instace', ->
   it 'should assemble a url using the client id', ->
     feed = new Instafeed
       clientId: 'test'
-    feed._buildUrl().should.equal "https://api.instagram.com/v1/media/popular?client_id=test&count=15&callback=instafeedCache#{feed.unique}.parse"
+    feed._buildUrl().should.equal "https://api.instagram.com/v1/media/popular?client_id=test&callback=instafeedCache#{feed.unique}.parse"
 
   it 'should use the access token for authentication, when available', ->
     feed = new Instafeed
       clientId: 'test'
       accessToken: 'mytoken'
-    feed._buildUrl().should.equal "https://api.instagram.com/v1/media/popular?access_token=mytoken&count=15&callback=instafeedCache#{feed.unique}.parse"
+    feed._buildUrl().should.equal "https://api.instagram.com/v1/media/popular?access_token=mytoken&callback=instafeedCache#{feed.unique}.parse"
 
   it 'should refuse to build a url with invalid "get" option', ->
     feed = new Instafeed
@@ -202,8 +214,21 @@ describe 'Instafeed instace', ->
     feed._sortBy(testdata, 'meta.likes.count', true).should.deep.equal [image2, image1, image3]
     feed._sortBy(testdata, 'meta.comments', false).should.deep.equal [image2, image1, image3]
 
+  it 'should be able to filter data with a callback', ->
+    feed = new Instafeed
 
+    filterFunc = (image) ->
+      return image.name is "image1"
 
+    image1 =
+      name: "image1"
+    image2 =
+      name: "image2"
+    image3 =
+      name: "image3"
+    testdata = [image1, image2, image3]
+
+    feed._filter(testdata, filterFunc).should.deep.equal [image1]
 
 
 

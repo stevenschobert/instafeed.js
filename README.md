@@ -8,9 +8,13 @@ __Examples:__
 
 - [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
 - [Manik Rathee is a mobile photographer](http://www.manikrathee.com/is/a/mobile-photographer/) by [Manik Rathee](http://twitter.com/manikrathee)
+- [VinThomas.com](http://vinthomas.com/) by [Vin Thomas](https://twitter.com/vinthomas)
 - [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
 
-_Used Instafeed.js on a project recently? Tweet them to [@stevenschobert](http://twitter.com/stevenschobert)._
+
+__Buy me a coffee:__
+
+If you enjoy using Instafeed.js and want to say thanks, you can leave me a small tip using [Gittip](https://www.gittip.com/stevenschobert).
 
 ## Installation
 Setting up Instafeed is pretty straight-forward. Just download the script and include it in your HTML:
@@ -66,6 +70,8 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
     - `random` - Random order.
 - `links` (bool) - Wrap the images with a link to the photo on Instagram.
 - `limit` (number) - Maximum number of Images to add. __Max of 60__.
+- `useHttp` (bool) - By default, image urls are protocol-relative. Set to `true`
+  to use the standard `http://`.
 - `resolution` (string) - Size of the images to get. Available options are:
     - `thumbnail` (default) - 150x150
     - `low_resolution` - 306x306
@@ -78,6 +84,24 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 - `success` (function) - A callback function called when Instagram returns valid data. (argument -> json object)
 - `error` (function) - A callback function called when there is an error fetching images. (argument -> string message)
 - `mock` (bool) - Set to true fetch data without inserting images into DOM. Use with __success__ callback.
+- `filter` (function) - A function used to exclude images from your results. The function will be
+  given the image data as an argument, and expects the function to return a boolean. See the example
+  below for more information.
+
+__Example Filter (get username + tagged):__
+
+```js
+var feed = new Instafeed({
+  get: 'user',
+  userId: USER_ID,
+  filter: function(image) {
+    return image.tags.indexOf('TAG_NAME') >= 0;
+  }
+});
+feed.run();
+```
+
+To see a full list of properties that `image` has, see [issue #21](https://github.com/stevenschobert/instafeed.js/issues/21).
 
 ## Templating
 
@@ -107,6 +131,37 @@ Notice the `{{link}}` and `{{image}}`? The templating option provides several ta
 - `{{comments}}` - Number of comments the image has.
 - `{{location}}` - Name of the location associated with the image. Defaults to empty string if there isn't one.
 - `{{model}}` - Full JSON object of the image. If you want to get a property of the image that isn't listed above you access it using dot-notation. (ex: `{{model.filter}}` would get the filter used.)
+
+## Pagination
+
+As of __v1.3__, Instafeed.js has a `.next()` method you can call to load more images from Instagram.
+Under the hood, this uses the _pagination_ data from the API. Additionall, there is a helper
+`.hasNext()` method that you can use to check if pagination data is available.
+
+Together these options can be used to create a "Load More" button:
+
+```js
+// grab out load more button
+var loadButton = document.getElementById('load-more'),
+
+    feed = new Instafeed({
+      // every time we load more, run this function
+      after: function() {
+        // disable button if no more results to load
+        if (!this.hasNext()) {
+          loadButton.setAttribute('disabled', 'disabled');
+        }
+      },
+    });
+
+// bind the load more button
+loadButton.addEventListener('click', function() {
+  feed.next();
+});
+
+// run our feed!
+feed.run();
+```
 
 ## Security Considerations
 
@@ -144,6 +199,14 @@ This will install all the necessary test tools for testing. There is also a Make
 - `make` will run both the previous steps and compile everything
 
 ## Change Log
+
+__1.3.0__
+
+- Image URLs are now protocol-relative by default. Use the new `useHttp` option to disable.
+- Added the ability to filter out images using the `filter` option.
+- Added pagination support using `.next()` and `.hasNext()` methods.
+- Removed the default `limit` of 15 images. The option is still supported, but by default no limit
+  is sent to the API.
 
 __1.2.1__
 

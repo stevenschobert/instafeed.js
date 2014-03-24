@@ -4,7 +4,7 @@
 
   Instafeed = (function() {
 
-    function Instafeed(params) {
+    function Instafeed(params, context) {
       var option, value;
       this.options = {
         target: 'instafeed',
@@ -12,8 +12,8 @@
         resolution: 'thumbnail',
         sortBy: 'none',
         links: true,
-        limit: 15,
-        mock: false
+        mock: false,
+        useHttp: false
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -21,10 +21,22 @@
           this.options[option] = value;
         }
       }
+      this.context = context != null ? context : this;
       this.unique = this._genKey();
     }
 
-    Instafeed.prototype.run = function() {
+    Instafeed.prototype.hasNext = function() {
+      return typeof this.context.nextUrl === 'string' && this.context.nextUrl.length > 0;
+    };
+
+    Instafeed.prototype.next = function() {
+      if (!this.hasNext()) {
+        return false;
+      }
+      return this.run(this.context.nextUrl);
+    };
+
+    Instafeed.prototype.run = function(url) {
       var header, instanceName, script;
       if (typeof this.options.clientId !== 'string') {
         if (typeof this.options.accessToken !== 'string') {
@@ -42,18 +54,18 @@
       if (typeof document !== "undefined" && document !== null) {
         script = document.createElement('script');
         script.id = 'instafeed-fetcher';
-        script.src = this._buildUrl();
+        script.src = url || this._buildUrl();
         header = document.getElementsByTagName('head');
         header[0].appendChild(script);
         instanceName = "instafeedCache" + this.unique;
-        window[instanceName] = new Instafeed(this.options);
+        window[instanceName] = new Instafeed(this.options, this);
         window[instanceName].unique = this.unique;
       }
       return true;
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, htmlString, image, imageString, images, img, instanceName, reverse, sortSettings, _i, _j, _len, _len1;
+      var anchor, fragment, header, htmlString, image, imageString, imageUrl, images, img, imgUrl, instanceName, node, reverse, sortSettings, tmpEl, _i, _j, _k, _len, _len1, _len2, _ref;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -80,6 +92,10 @@
       }
       if ((this.options.success != null) && typeof this.options.success === 'function') {
         this.options.success.call(this, response);
+      }
+      this.context.nextUrl = '';
+      if (response.pagination != null) {
+        this.context.nextUrl = response.pagination.next_url;
       }
       if (this.options.sortBy !== 'none') {
         if (this.options.sortBy === 'random') {
@@ -108,21 +124,32 @@
         }
       }
       if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
-        document.getElementById(this.options.target).innerHTML = '';
         images = response.data;
-        if (images.length > this.options.limit) {
-          images = images.slice(0, this.options.limit + 1 || 9e9);
+        if (this.options.limit != null) {
+          if (images.length > this.options.limit) {
+            images = images.slice(0, this.options.limit + 1 || 9e9);
+          }
+        }
+        fragment = document.createDocumentFragment();
+        if ((this.options.filter != null) && typeof this.options.filter === 'function') {
+          images = this._filter(images, this.options.filter);
         }
         if ((this.options.template != null) && typeof this.options.template === 'string') {
           htmlString = '';
           imageString = '';
+          imgUrl = '';
+          tmpEl = document.createElement('div');
           for (_i = 0, _len = images.length; _i < _len; _i++) {
             image = images[_i];
+            imageUrl = image.images[this.options.resolution].url;
+            if (!this.options.useHttp) {
+              imageUrl = imageUrl.replace('http://', '//');
+            }
             imageString = this._makeTemplate(this.options.template, {
               model: image,
               id: image.id,
               link: image.link,
-              image: image.images[this.options.resolution].url,
+              image: imageUrl,
               caption: this._getObjectProperty(image, 'caption.text'),
               likes: image.likes.count,
               comments: image.comments.count,
@@ -130,11 +157,15 @@
             });
             htmlString += imageString;
           }
-          document.getElementById(this.options.target).innerHTML = htmlString;
+          tmpEl.innerHTML = htmlString;
+          _ref = [].slice.call(tmpEl.childNodes);
+          for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+            node = _ref[_j];
+            fragment.appendChild(node);
+          }
         } else {
-          fragment = document.createDocumentFragment();
-          for (_j = 0, _len1 = images.length; _j < _len1; _j++) {
-            image = images[_j];
+          for (_k = 0, _len2 = images.length; _k < _len2; _k++) {
+            image = images[_k];
             img = document.createElement('img');
             img.src = image.images[this.options.resolution].url;
             if (this.options.links === true) {
@@ -146,8 +177,8 @@
               fragment.appendChild(img);
             }
           }
-          document.getElementById(this.options.target).appendChild(fragment);
         }
+        document.getElementById(this.options.target).appendChild(fragment);
         header = document.getElementsByTagName('head')[0];
         header.removeChild(document.getElementById('instafeed-fetcher'));
         instanceName = "instafeedCache" + this.unique;
@@ -201,7 +232,9 @@
       } else {
         final += "?client_id=" + this.options.clientId;
       }
-      final += "&count=" + this.options.limit;
+      if (this.options.limit != null) {
+        final += "&count=" + this.options.limit;
+      }
       final += "&callback=instafeedCache" + this.unique + ".parse";
       return final;
     };
@@ -262,6 +295,21 @@
       };
       data.sort(sorter.bind(this));
       return data;
+    };
+
+    Instafeed.prototype._filter = function(images, filter) {
+      var filteredImages, image, _fn, _i, _len;
+      filteredImages = [];
+      _fn = function(image) {
+        if (filter(image)) {
+          return filteredImages.push(image);
+        }
+      };
+      for (_i = 0, _len = images.length; _i < _len; _i++) {
+        image = images[_i];
+        _fn(image);
+      }
+      return filteredImages;
     };
 
     return Instafeed;
