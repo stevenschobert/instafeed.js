@@ -200,6 +200,12 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
+__1.3.1__
+
+- Fixed an issue where `sortBy: "most-recent"` did not always correctly sort the images. Thanks
+  [Neil Campbell](https://github.com/neilcampbell)!
+- Changed the default `sortBy` option to be `none`.
+
 __1.3.0__
 
 - Image URLs are now protocol-relative by default. Use the new `useHttp` option to disable.
