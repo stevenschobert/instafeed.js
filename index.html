@@ -155,7 +155,10 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
             <small><span class="light">(string)</span> -
               Sort the images in a set order. Available options are:
               <ul>
-                <li><code class="language-javascript">most-recent</code> <i class="light">(default)</i> -
+                <li><code class="language-javascript">none</code> <i class="light">(default)</i> -
+                  As they come from Instagram.
+                </li>
+                <li><code class="language-javascript">most-recent</code> -
                   Newest to oldest.
                 </li>
                 <li><code class="language-javascript">least-recent</code> -
@@ -400,6 +403,12 @@ feed.run();
 
       <p>
         <ul>
+          <li><small><b>(v1.3.1)</b>
+            <ul>
+              <li>Fixed an issue where <code class="language-javascript">sortBy: "most-recent"</code> did not always correctly sort the images. Thanks <a href="https://github.com/neilcampbell">Neil Campbell</a>!</li>
+              <li>Changed the default <code class="language-javascript">sortBy</code> option to be <code class="language-javascript">none</code>.</li>
+            </ul>
+          </small></li>
           <li><small><b>(v1.3.0)</b>
             <ul>
               <li>Image URLs are now protocol-relative by default. Use the new <code class="language-javascript">useHttp</code> option to disable.</li>
