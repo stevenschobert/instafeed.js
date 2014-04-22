@@ -1,6 +1,6 @@
 instafeed.js
 ============
-[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.png?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js)
+[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js)
 
 Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
@@ -199,6 +199,10 @@ This will install all the necessary test tools for testing. There is also a Make
 - `make` will run both the previous steps and compile everything
 
 ## Change Log
+
+__1.3.2__
+
+- Fixed the `useHttp` option when no template is set. Thanks @bartekn!
 
 __1.3.1__
 
