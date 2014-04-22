@@ -201,6 +201,7 @@ class Instafeed
         for image in images
           # create the image using the @options's resolution
           img = document.createElement 'img'
+
           # use protocol relative image url
           imageUrl = image.images[@options.resolution].url
           imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
