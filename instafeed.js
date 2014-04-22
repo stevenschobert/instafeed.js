@@ -167,7 +167,11 @@
           for (_k = 0, _len2 = images.length; _k < _len2; _k++) {
             image = images[_k];
             img = document.createElement('img');
-            img.src = image.images[this.options.resolution].url;
+            imageUrl = image.images[this.options.resolution].url;
+            if (!this.options.useHttp) {
+              imageUrl = imageUrl.replace('http://', '//');
+            }
+            img.src = imageUrl;
             if (this.options.links === true) {
               anchor = document.createElement('a');
               anchor.href = image.link;
