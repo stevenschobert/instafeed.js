@@ -222,9 +222,6 @@
           if (typeof this.options.userId !== 'number') {
             throw new Error("No user specified. Use the 'userId' option.");
           }
-          if (typeof this.options.accessToken !== 'string') {
-            throw new Error("No access token. Use the 'accessToken' option.");
-          }
           endpoint = "users/" + this.options.userId + "/media/recent";
           break;
         default:
