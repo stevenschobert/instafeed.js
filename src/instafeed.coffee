@@ -1,4 +1,15 @@
-`Function.prototype.bind=Function.prototype.bind||function(b){if(typeof this!=="function"){throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");}var a=Array.prototype.slice,f=a.call(arguments,1),e=this,c=function(){},d=function(){return e.apply(this instanceof c?this:b||window,f.concat(a.call(arguments)));};c.prototype=this.prototype;d.prototype=new c();return d;};`
+# Polyfill for bind (IE < 9)
+Function::bind = Function::bind or (b) ->
+  throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable")  if typeof this isnt "function"
+  a = Array::slice
+  f = a.call(arguments, 1)
+  e = this
+  c = ->
+  d = ->
+    e.apply (if this instanceof c then this else b or window), f.concat(a.call(arguments))
+  c:: = @::
+  d:: = new c()
+  d
 
 class Instafeed
   constructor: (params, context) ->
