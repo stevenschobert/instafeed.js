@@ -297,8 +297,9 @@ class Instafeed
       final += "?client_id=#{@options.clientId}"
 
     # add the count limit
+    # Minimum two in order to avoid "No images were returned from Instagram" when using 1 (for some reason the API returns 0 when doing a request for 1 sometimes)
     if @options.limit?
-      final += "&count=#{@options.limit}"
+      final += "&count=#{Math.max(@options.limit, 2)}"
 
     # add the jsonp callback
     final += "&callback=instafeedCache#{@unique}.parse"
