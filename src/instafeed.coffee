@@ -196,7 +196,9 @@ class Instafeed
 
         # loop through the contents of the temp node
         # and append them to the fragment
-        for node in [].slice.call(tmpEl.childNodes)
+
+        nodes = (s for s in tmpEl.childNodes)
+        for node in [].slice.call(nodes, 0)
           fragment.appendChild(node)
       else
         # loop through the images
