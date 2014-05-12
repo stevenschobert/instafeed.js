@@ -8,7 +8,7 @@ Function::bind = Function::bind or (b) ->
   e = @
   c = ->
   d = ->
-    e.apply (if @ instanceof c then @ else b or window), 
+    e.apply (if @ instanceof c then @ else b or window),
     f.concat(a.call(arguments))
   c:: = @::
   d:: = new c()
@@ -313,8 +313,8 @@ class Instafeed
       final += "?client_id=#{@options.clientId}"
 
     # add the count limit
-    # Minimum two in order to avoid "No images were returned from Instagram" 
-    # when using 1 (for some reason the API returns 0 when doing a request 
+    # Minimum two in order to avoid "No images were returned from Instagram"
+    # when using 1 (for some reason the API returns 0 when doing a request
     # for 1 sometimes)
     if @options.limit?
       final += "&count=#{Math.max(@options.limit, 2)}"
