@@ -1,12 +1,15 @@
 # Polyfill for bind (IE < 9)
 Function::bind = Function::bind or (b) ->
-  throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable")  if typeof this isnt "function"
+  if typeof @ isnt "function"?
+    throw new TypeError("Function.prototype.bind \
+      - what is trying to be bound is not callable")
   a = Array::slice
   f = a.call(arguments, 1)
-  e = this
+  e = @
   c = ->
   d = ->
-    e.apply (if this instanceof c then this else b or window), f.concat(a.call(arguments))
+    e.apply (if @ instanceof c then @ else b or window), 
+    f.concat(a.call(arguments))
   c:: = @::
   d:: = new c()
   d
@@ -164,7 +167,8 @@ class Instafeed
       images = response.data
 
       if @options.limit?
-        images.splice(images.length - (images.length - @options.limit), (images.length - @options.limit))
+        diff = images.length - @options.limit
+        images.splice(images.length - diff, diff)
 
       # create the document fragment
       fragment = document.createDocumentFragment()
@@ -309,7 +313,9 @@ class Instafeed
       final += "?client_id=#{@options.clientId}"
 
     # add the count limit
-    # Minimum two in order to avoid "No images were returned from Instagram" when using 1 (for some reason the API returns 0 when doing a request for 1 sometimes)
+    # Minimum two in order to avoid "No images were returned from Instagram" 
+    # when using 1 (for some reason the API returns 0 when doing a request 
+    # for 1 sometimes)
     if @options.limit?
       final += "&count=#{Math.max(@options.limit, 2)}"
 
