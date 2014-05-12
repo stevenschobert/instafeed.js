@@ -374,7 +374,7 @@ class Instafeed
       if valueA < valueB then return 1 else return -1
 
     # sort the data
-    data.sort(sorter.bind(this))
+    data.sort(sorter.bind(@))
 
     return data
 
