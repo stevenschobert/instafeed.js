@@ -1,14 +1,15 @@
 # Polyfill for bind (IE < 9)
 Function::bind = Function::bind or (b) ->
-  if typeof @ isnt "function"?
-    throw new TypeError("Function.prototype.bind \
-      - what is trying to be bound is not callable")
+  throw new TypeError("Function.prototype.bind\
+  - what is trying to be bound is not callable")\
+  if typeof this isnt "function"
+
   a = Array::slice
   f = a.call(arguments, 1)
-  e = @
+  e = this
   c = ->
   d = ->
-    e.apply (if @ instanceof c then @ else b or window),
+    e.apply (if this instanceof c then this else b or window),
     f.concat(a.call(arguments))
   c:: = @::
   d:: = new c()
