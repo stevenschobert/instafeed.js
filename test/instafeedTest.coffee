@@ -97,13 +97,6 @@ describe 'Instafeed instace', ->
       accessToken: 'mytoken'
     (-> feed._buildUrl()).should.throw "No user specified. Use the 'userId' option."
 
-  it 'should refuse to build a url if get=user and there is no accessToken', ->
-    feed = new Instafeed
-      clientId: 'test'
-      get: 'user'
-      userId: 1
-    (-> feed._buildUrl()).should.throw "No access token. Use the 'accessToken' option."
-
   it 'should run a before & after callback functions', ->
     timesRan = 0
     callback = ->
