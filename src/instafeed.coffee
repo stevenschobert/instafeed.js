@@ -256,7 +256,7 @@ class Instafeed
       when "tagged"
         # make sure a tag is defined
         if typeof @options.tagName isnt 'string'
-          throw new Error "No tag name specified. Use the 'tagName' option."
+          throw new Error "No tag name specified. Use the 'tagName' option and make sure the tagName is a string type."
 
         # set the endpoint
         endpoint = "tags/#{@options.tagName}/media/recent"
@@ -264,7 +264,7 @@ class Instafeed
       when "location"
         # make sure a location id is defined
         if typeof @options.locationId isnt 'number'
-          throw new Error "No location specified. Use the 'locationId' option."
+          throw new Error "No location specified. Use the 'locationId' option and make sure the locationId is an integer type."
 
         # set the endpoint
         endpoint = "locations/#{@options.locationId}/media/recent"
@@ -272,11 +272,11 @@ class Instafeed
       when "user"
         # make sure there is a user id set
         if typeof @options.userId isnt 'number'
-          throw new Error "No user specified. Use the 'userId' option."
+          throw new Error "No user specified. Use the 'userId' option and make sure the userID is an integer type."
 
         # make sure there is an access token
         if typeof @options.accessToken isnt 'string'
-          throw new Error "No access token. Use the 'accessToken' option."
+          throw new Error "No access token. Use the 'accessToken' option and make sure the accessToken is an string type."
 
         endpoint = "users/#{@options.userId}/media/recent"
       # throw an error if any other option is given
