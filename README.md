@@ -182,8 +182,6 @@ This setup requires an __accessToken__. Normally, using tokens like this in java
 
 Just always make sure your token is set to __basic authorization__, which only allows 'GET' requests. If you aren't sure what scope your token has, check under your [account page](https://instagram.com/accounts/manage_access).
 
-## Contributing to Development
-
 ## Feed Model object Example
 Here is an example of everything inside the model object (as of July 23, 2013):
 ```json
@@ -299,6 +297,8 @@ Here is an example of everything inside the model object (as of July 23, 2013):
   }
 }
 ```
+
+## Contributing to Development
 
 This isn't a large project by any means, but I'm definitely welcome to any pull requests and contributions. Everything is written and tested in [CoffeeScript](http://coffeescript.org).
 
