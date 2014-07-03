@@ -316,6 +316,11 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
+__1.3.3__
+
+- Feed Model object Example in README.md 
+
+
 __1.3.2__
 
 - Fixed the `useHttp` option when no template is set. Thanks @bartekn!
