@@ -227,6 +227,12 @@
           }
           endpoint = "users/" + this.options.userId + "/media/recent";
           break;
+        case "self":
+          if (typeof this.options.accessToken !== 'string') {
+            throw new Error("No access token. Use the 'accessToken' option.");
+          }
+          endpoint = "users/self/feed/";
+          break;
         default:
           throw new Error("Invalid option for get: '" + this.options.get + "'.");
       }
