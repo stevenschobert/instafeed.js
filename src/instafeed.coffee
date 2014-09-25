@@ -210,7 +210,7 @@ class Instafeed
           j++
 
         
-        
+        # Deprecated Array.slice.call not supported in IE8
         #for node in [].slice.call(tmpEl.childNodes)
         #  fragment.appendChild(node)
       else
