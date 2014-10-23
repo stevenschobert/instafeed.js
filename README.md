@@ -11,10 +11,12 @@ __Examples:__
 - [VinThomas.com](http://vinthomas.com/) by [Vin Thomas](https://twitter.com/vinthomas)
 - [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
 
-
 __Buy me a coffee:__
 
-If you enjoy using Instafeed.js and want to say thanks, you can leave me a small tip using [Gittip](https://www.gittip.com/stevenschobert).
+If you enjoy using Instafeed.js and want to say thanks, you can leave me a small tip. All payments
+are securely handled through [Stripe](http://stripe.com).
+
+**[Leave me a tip &rarr;](https://plasso.co/spschobert@gmail.com)**
 
 ## Installation
 Setting up Instafeed is pretty straight-forward. Just download the script and include it in your HTML:
