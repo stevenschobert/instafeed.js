@@ -224,22 +224,22 @@ class Instafeed
 
       # Call an onclick function if one is passed
       # accept callbacks per image
-        if (@options.onClick) and (typeof @options.onClick is "function")
-          onclick = @options.onClick
-          callback = (e) ->
-            e.preventDefault()
-            e.stopPropagation()
-            onclick.call this #'this' is the node during execution context
-            return
+      if (@options.onClick) and (typeof @options.onClick is "function")
+        onclick = @options.onClick
+        callback = (e) ->
+          e.preventDefault()
+          e.stopPropagation()
+          onclick.call this #'this' is the node during execution context
+          return
 
-          _l = fragment.children.length
-          while _l--
-    
-            #avoid wrong node references as a result of the loop
-            ((node) ->
-              node.addEventListener "click", callback
-              return
-            ) fragment.children[_l]
+        _l = fragment.children.length
+        while _l--
+        
+          #avoid wrong node references as a result of the loop
+          ((node) ->
+            node.addEventListener "click", callback
+            return
+          ) fragment.children[_l]
 
       # Add the fragment to the DOM
       document.getElementById(@options.target).appendChild fragment

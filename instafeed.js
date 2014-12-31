@@ -181,19 +181,19 @@
               fragment.appendChild(img);
             }
           }
-          if (this.options.onClick && (typeof this.options.onClick === "function")) {
-            onclick = this.options.onClick;
-            callback = function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              onclick.call(this);
-            };
-            _l = fragment.children.length;
-            while (_l--) {
-              (function(node) {
-                node.addEventListener("click", callback);
-              })(fragment.children[_l]);
-            }
+        }
+        if (this.options.onClick && (typeof this.options.onClick === "function")) {
+          onclick = this.options.onClick;
+          callback = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            onclick.call(this);
+          };
+          _l = fragment.children.length;
+          while (_l--) {
+            (function(node) {
+              node.addEventListener("click", callback);
+            })(fragment.children[_l]);
           }
         }
         document.getElementById(this.options.target).appendChild(fragment);
