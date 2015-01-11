@@ -1,0 +1,22 @@
+{
+  "name": "instafeed.js",
+  "main": "instafeed.js",
+  "version": "1.3.2",
+  "homepage": "http://instafeedjs.com/",
+  "authors": [
+    "Steven Schobert <spschobert@gmail.com>"
+  ],
+  "description": "A simple Instagram javascript plugin.",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "javascript",
+    "instagram"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+  ]
+}
