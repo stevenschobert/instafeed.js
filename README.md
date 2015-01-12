@@ -24,6 +24,15 @@ Setting up Instafeed is pretty straight-forward. Just download the script and in
 <script type="text/javascript" src="path/to/instafeed.min.js"></script>
 ```
 
+### NPM/Bower
+
+Instafeed.js is also available on NPM and Bower:
+
+```sh
+npm install instafeed.js      # npm
+bower install instafeed.js    # bower
+```
+
 ## Basic Usage
 Here's how easy it is to get all images tagged with __#awesome__:
 
