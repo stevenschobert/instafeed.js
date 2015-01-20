@@ -65,7 +65,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, htmlString, image, imageString, imageUrl, images, img, imgUrl, instanceName, node, reverse, sortSettings, tmpEl, _i, _j, _k, _len, _len1, _len2, _ref;
+      var anchor, fileProtocol, fragment, header, htmlString, image, imageString, imageUrl, images, img, imgUrl, instanceName, node, reverse, sortSettings, tmpEl, _i, _j, _k, _len, _len1, _len2, _ref;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -142,7 +142,8 @@
           for (_i = 0, _len = images.length; _i < _len; _i++) {
             image = images[_i];
             imageUrl = image.images[this.options.resolution].url;
-            if (!this.options.useHttp) {
+            fileProtocol = window.location.origin.indexOf('file') > -1;
+            if (!(this.options.useHttp || fileProtocol)) {
               imageUrl = imageUrl.replace('http://', '//');
             }
             imageString = this._makeTemplate(this.options.template, {
@@ -168,7 +169,8 @@
             image = images[_k];
             img = document.createElement('img');
             imageUrl = image.images[this.options.resolution].url;
-            if (!this.options.useHttp) {
+            fileProtocol = window.location.origin.indexOf('file') > -1;
+            if (!(this.options.useHttp || fileProtocol)) {
               imageUrl = imageUrl.replace('http://', '//');
             }
             img.src = imageUrl;
