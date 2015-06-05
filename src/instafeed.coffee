@@ -274,9 +274,10 @@ class Instafeed
         if typeof @options.userId isnt 'number'
           throw new Error "No user specified. Use the 'userId' option."
 
-        # make sure there is an access token
-        if typeof @options.accessToken isnt 'string'
-          throw new Error "No access token. Use the 'accessToken' option."
+        # make sure there is an access token or client id
+        if typeof @options.clientId isnt 'string'
+          unless typeof @options.accessToken is 'string'
+            throw new Error "Missing clientId or accessToken."
 
         endpoint = "users/#{@options.userId}/media/recent"
       # throw an error if any other option is given
