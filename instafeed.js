@@ -65,7 +65,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, fragment, header, htmlString, image, imageString, imageUrl, images, img, imgUrl, instanceName, node, reverse, sortSettings, tmpEl, _i, _j, _k, _len, _len1, _len2, _ref;
+      var anchor, callback, fragment, header, htmlString, image, imageString, imageUrl, images, img, imgUrl, instanceName, node, onclick, reverse, sortSettings, tmpEl, _i, _j, _k, _l, _len, _len1, _len2, _ref;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -180,6 +180,20 @@
             } else {
               fragment.appendChild(img);
             }
+          }
+        }
+        if (this.options.onClick && (typeof this.options.onClick === "function")) {
+          onclick = this.options.onClick;
+          callback = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            onclick.call(this);
+          };
+          _l = fragment.children.length;
+          while (_l--) {
+            (function(node) {
+              node.addEventListener("click", callback);
+            })(fragment.children[_l]);
           }
         }
         document.getElementById(this.options.target).appendChild(fragment);
