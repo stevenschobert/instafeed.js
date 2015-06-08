@@ -269,6 +269,14 @@ class Instafeed
         # set the endpoint
         endpoint = "locations/#{@options.locationId}/media/recent"
 
+      when "liked"
+
+        # make sure there is an access token
+        if typeof @options.accessToken isnt 'string'
+          throw new Error "No access token. Use the 'accessToken' option."
+
+        endpoint = "/users/self/media/liked"
+
       when "user"
         # make sure there is a user id set
         if typeof @options.userId isnt 'number'

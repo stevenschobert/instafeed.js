@@ -218,6 +218,12 @@
           }
           endpoint = "locations/" + this.options.locationId + "/media/recent";
           break;
+        case "liked":
+          if (typeof this.options.accessToken !== 'string') {
+            throw new Error("No access token. Use the 'accessToken' option.");
+          }
+          endpoint = "/users/self/media/liked";
+          break;
         case "user":
           if (typeof this.options.userId !== 'number') {
             throw new Error("No user specified. Use the 'userId' option.");
