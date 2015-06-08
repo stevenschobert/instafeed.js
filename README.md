@@ -192,6 +192,122 @@ This setup requires an __accessToken__. Normally, using tokens like this in java
 
 Just always make sure your token is set to __basic authorization__, which only allows 'GET' requests. If you aren't sure what scope your token has, check under your [account page](https://instagram.com/accounts/manage_access).
 
+## Feed Model object Example
+Here is an example of everything inside the model object (as of July 23, 2013):
+```json
+{
+  "attribution": null,
+  "tags": [
+    "vscocam"
+  ],
+  "type": "image",
+  "location": {
+    "latitude": 32.784666667,
+    "longitude": -96.8085
+  },
+  "comments": {
+    "count": 1,
+    "data": [
+      {
+        "created_time": "1372728780",
+        "text": "\ud83d\udc4d\ud83d\udc4d\ud83d\udc4d\ud83d\udc4d\ud83d\udc4d",
+        "from": {
+          "username": "hanifzman",
+          "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_307235574_75sq_1372653683.jpg",
+          "id": "307235574",
+          "full_name": "Hanif Azman"
+        },
+        "id": "490807041032566604"
+      }
+    ]
+  },
+  "filter": "Normal",
+  "created_time": "1372728575",
+  "link": "http:\/\/instagram.com\/p\/bPsNZFAbTr\/",
+  "likes": {
+    "count": 10,
+    "data": [
+      {
+        "username": "callmedalty",
+        "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_14160986_75sq_1372114022.jpg",
+        "id": "14160986",
+        "full_name": "Dalton Jones"
+      },
+      {
+        "username": "micah_medlock",
+        "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_370290197_75sq_1371610876.jpg",
+        "id": "370290197",
+        "full_name": "Micah medlock"
+      },
+      {
+        "username": "hanifzman",
+        "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_307235574_75sq_1372653683.jpg",
+        "id": "307235574",
+        "full_name": "Hanif Azman"
+      },
+      {
+        "username": "marcusquirino",
+        "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_369780805_75sq_1368499406.jpg",
+        "id": "369780805",
+        "full_name": "Marcus Quirino Fernandez"
+      }
+    ]
+  },
+  "images": {
+    "low_resolution": {
+      "url": "http:\/\/distilleryimage11.s3.amazonaws.com\/da687d12e2b611e2b20722000a1f97fa_6.jpg",
+      "width": 306,
+      "height": 306
+    },
+    "thumbnail": {
+      "url": "http:\/\/distilleryimage11.s3.amazonaws.com\/da687d12e2b611e2b20722000a1f97fa_5.jpg",
+      "width": 150,
+      "height": 150
+    },
+    "standard_resolution": {
+      "url": "http:\/\/distilleryimage11.s3.amazonaws.com\/da687d12e2b611e2b20722000a1f97fa_7.jpg",
+      "width": 612,
+      "height": 612
+    }
+  },
+  "users_in_photo": [
+    {
+      "position": {
+        "y": 0.686274529,
+        "x": 0.648692787
+      },
+      "user": {
+        "username": "langly",
+        "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_29822655_75sq_1365617490.jpg",
+        "id": "29822655",
+        "full_name": "Langly Bags"
+      }
+    }
+  ],
+  "caption": {
+    "created_time": "1372728587",
+    "text": "Vroom. #vscocam",
+    "from": {
+      "username": "stevenschobert",
+      "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_4385108_75sq_1368483762.jpg",
+      "id": "4385108",
+      "full_name": "Steven Schobert"
+    },
+    "id": "490805427114718952"
+  },
+  "user_has_liked": false,
+  "id": "490805318733903083_4385108",
+  "user": {
+    "username": "stevenschobert",
+    "website": "",
+    "profile_picture": "http:\/\/images.ak.instagram.com\/profiles\/profile_4385108_75sq_1368483762.jpg",
+    "full_name": "Steven Schobert",
+    "bio": "",
+    "id": "4385108"
+  }
+}
+```
+
 ## Contributing to Development
 
 This isn't a large project by any means, but I'm definitely welcome to any pull requests and contributions. Everything is written and tested in [CoffeeScript](http://coffeescript.org).
@@ -209,6 +325,11 @@ This will install all the necessary test tools for testing. There is also a Make
 - `make` will run both the previous steps and compile everything
 
 ## Change Log
+
+__1.3.3__
+
+- Feed Model object Example in README.md 
+
 
 __1.3.2__
 
