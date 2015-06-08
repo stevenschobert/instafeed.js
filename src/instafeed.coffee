@@ -1,3 +1,20 @@
+# Polyfill for bind (IE < 9)
+Function::bind = Function::bind or (b) ->
+  throw new TypeError("Function.prototype.bind\
+  - what is trying to be bound is not callable")\
+  if typeof this isnt "function"
+
+  a = Array::slice
+  f = a.call(arguments, 1)
+  e = this
+  c = ->
+  d = ->
+    e.apply (if this instanceof c then this else b or window),
+    f.concat(a.call(arguments))
+  c:: = @::
+  d:: = new c()
+  d
+
 class Instafeed
   constructor: (params, context) ->
     # default options
@@ -149,8 +166,10 @@ class Instafeed
     if document? and @options.mock is false
       # limit the number of images if needed
       images = response.data
+
       if @options.limit?
-        images = images[0..@options.limit] if images.length > @options.limit
+        diff = images.length - @options.limit
+        images.splice(images.length - diff, diff)
 
       # create the document fragment
       fragment = document.createDocumentFragment()
@@ -194,7 +213,9 @@ class Instafeed
 
         # loop through the contents of the temp node
         # and append them to the fragment
-        for node in [].slice.call(tmpEl.childNodes)
+
+        nodes = (s for s in tmpEl.childNodes)
+        for node in [].slice.call(nodes, 0)
           fragment.appendChild(node)
       else
         # loop through the images
@@ -293,8 +314,11 @@ class Instafeed
       final += "?client_id=#{@options.clientId}"
 
     # add the count limit
+    # Minimum two in order to avoid "No images were returned from Instagram"
+    # when using 1 (for some reason the API returns 0 when doing a request
+    # for 1 sometimes)
     if @options.limit?
-      final += "&count=#{@options.limit}"
+      final += "&count=#{Math.max(@options.limit, 2)}"
 
     # add the jsonp callback
     final += "&callback=instafeedCache#{@unique}.parse"
@@ -368,7 +392,7 @@ class Instafeed
       if valueA < valueB then return 1 else return -1
 
     # sort the data
-    data.sort(sorter.bind(this))
+    data.sort(sorter.bind(@))
 
     return data
 
