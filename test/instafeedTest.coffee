@@ -24,6 +24,17 @@ describe 'Instafeed instace', ->
     feed.options.clientId.should.equal 'mysecretid'
     feed.options.resolution.should.equal 'thumbnail'
 
+  it 'should accept target as element', ->
+    documentMock = {
+      createElement: (name) ->
+        return {
+          appendChild: (fragment) ->
+            return
+        }
+    }
+    feed = new Instafeed
+      target: documentMock.createElement('div')
+
   it 'should accept context as a parameter', ->
     context = {}
     feed = new Instafeed({}, context)

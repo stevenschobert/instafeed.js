@@ -182,7 +182,11 @@
             }
           }
         }
-        document.getElementById(this.options.target).appendChild(fragment);
+        if (typeof this.options.target === 'string') {
+          document.getElementById(this.options.target).appendChild(fragment);
+        } else {
+          this.options.target.appendChild(fragment);
+        }
         header = document.getElementsByTagName('head')[0];
         header.removeChild(document.getElementById('instafeed-fetcher'));
         instanceName = "instafeedCache" + this.unique;
