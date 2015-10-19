@@ -95,7 +95,7 @@ describe 'Instafeed instace', ->
       clientId: 'test'
       get: 'user'
       accessToken: 'mytoken'
-    (-> feed._buildUrl()).should.throw "No user specified. Use the 'userId' option."
+    (-> feed._buildUrl()).should.throw "No 'userId' specified, or a non-numeric 'userId' has been specified."
 
   it 'should refuse to build a url if get=user and there is no accessToken', ->
     feed = new Instafeed
