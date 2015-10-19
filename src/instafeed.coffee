@@ -272,7 +272,7 @@ class Instafeed
       when "user"
         # make sure there is a user id set
         if typeof @options.userId isnt 'number'
-          throw new Error "No user specified. Use the 'userId' option."
+          throw new Error "No 'userId' specified, or a non-numeric 'userId' has been specified."
 
         # make sure there is an access token
         if typeof @options.accessToken isnt 'string'
