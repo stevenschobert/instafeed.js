@@ -149,8 +149,8 @@ class Instafeed
     if document? and @options.mock is false
       # limit the number of images if needed
       images = response.data
-      if @options.limit?
-        images = images[0..@options.limit] if images.length > @options.limit
+      if @options.limit? and images.length > parseInt(@options.limit, 10)
+        images = images.slice(0, parseInt(@options.limit, 10))
 
       # create the document fragment
       fragment = document.createDocumentFragment()
