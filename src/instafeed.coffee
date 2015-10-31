@@ -172,7 +172,21 @@ class Instafeed
         # loop through the images
         for image in images
           # use protocol relative image url
-          imageUrl = image.images[@options.resolution].url
+          imageObj = image.images[@options.resolution]
+          if typeof imageObj isnt 'object'
+            eMsg = "No image found for resolution: #{@options.resolution}."
+            thow new Error eMsg
+
+          imgWidth = imageObj.width
+          imgHeight = imageObj.height
+          imgOrient = "square"
+
+          if imgWidth > imgHeight
+            imgOrient = "landscape"
+          if imgWidth < imgHeight
+            imgOrient = "portrait"
+
+          imageUrl = imageObj.url
           imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
 
           # parse the template
@@ -182,6 +196,9 @@ class Instafeed
             link: image.link
             type: image.type
             image: imageUrl
+            width: imgWidth
+            height: imgHeight
+            orientation: imgOrient
             caption: @_getObjectProperty(image, 'caption.text')
             likes: image.likes.count
             comments: image.comments.count
