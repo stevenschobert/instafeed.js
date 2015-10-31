@@ -223,7 +223,12 @@ class Instafeed
             fragment.appendChild img
 
       # Add the fragment to the DOM
-      document.getElementById(@options.target).appendChild fragment
+      targetEl = document.getElementById(@options.target)
+      unless targetEl?
+        eMsg = "No element with id=\"#{@options.target }\" on page."
+        throw new Error eMsg
+
+      targetEl.appendChild fragment
 
       # remove the injected script tag
       header = document.getElementsByTagName('head')[0]
