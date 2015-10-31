@@ -278,7 +278,7 @@ class Instafeed
       when "popular" then endpoint = "media/popular"
       when "tagged"
         # make sure a tag is defined
-        unless @options.tagName?
+        unless @options.tagName
           throw new Error "No tag name specified. Use the 'tagName' option."
 
         # set the endpoint
@@ -286,7 +286,7 @@ class Instafeed
 
       when "location"
         # make sure a location id is defined
-        unless @options.locationId?
+        unless @options.locationId
           throw new Error "No location specified. Use the 'locationId' option."
 
         # set the endpoint
@@ -294,7 +294,7 @@ class Instafeed
 
       when "user"
         # make sure there is a user id set
-        unless @options.userId?
+        unless @options.userId
           throw new Error "No user specified. Use the 'userId' option."
 
         endpoint = "users/#{@options.userId}/media/recent"
