@@ -180,6 +180,7 @@ class Instafeed
             model: image
             id: image.id
             link: image.link
+            type: image.type
             image: imageUrl
             caption: @_getObjectProperty(image, 'caption.text')
             likes: image.likes.count
