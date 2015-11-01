@@ -409,10 +409,14 @@ class Instafeed
     return filteredImages
 
 
-# set up exports
-if typeof define == 'function'
-  define [], -> return Instafeed
-else if typeof module == 'object' and module.exports
-  module.exports = Instafeed
-else
-  window.Instafeed = Instafeed
+((root, factory) ->
+  # set up exports
+  if typeof define == 'function' and define.amd
+    define [], factory
+  else if typeof module == 'object' and module.exports
+    module.exports = factory()
+  else
+    root.Instafeed = factory()
+)(this, () ->
+  return Instafeed
+)

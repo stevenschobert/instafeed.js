@@ -4,7 +4,7 @@ chai.should()
 should = chai.should()
 
 # Bring in our Instafeed class
-{Instafeed} = require '../src/instafeed'
+Instafeed = require '../src/instafeed'
 
 # Define our tests
 describe 'Instafeed instace', ->

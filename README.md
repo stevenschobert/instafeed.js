@@ -24,6 +24,18 @@ Setting up Instafeed is pretty straight-forward. Just download the script and in
 <script type="text/javascript" src="path/to/instafeed.min.js"></script>
 ```
 
+Instafeed.js also supports AMD/CommonJS
+
+```js
+// AMD
+require(["path/to/instafeed"], function(Instafeed) {
+
+});
+
+// CommonJS
+var Instafeed = require("instafeed");
+```
+
 ### NPM/Bower
 
 Instafeed.js is also available on NPM and Bower:
