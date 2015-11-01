@@ -3,18 +3,20 @@
 
 // Code Typography
 code {
-  font-size: $font-size - ($font-size * 0.425) !important;
+  font-size: $font-size - ($font-size * 0.28) !important;
 }
 
 // Code block
 pre[class*="language-"] {
-  padding: 0.75em !important;
+  padding: 0 0.75em !important;
   margin: .5em 0 !important;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
   margin-bottom: $font-size !important;
   line-height: 20px !important;
-  @include border-radius(2px);
-  @include background(linear-gradient(#272728, #333433) !important);
+//   @include border-radius(2px);
+//   @include background(linear-gradient(#272728, #333433) !important);
 }
