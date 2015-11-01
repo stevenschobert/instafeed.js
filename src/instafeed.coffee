@@ -190,7 +190,7 @@ class Instafeed
           imageUrl = imageObj.url
           httpProtocol = window.location.protocol.indexOf("http") >= 0
           if httpProtocol and !@options.useHttp
-            imageUrl = imageUrl.replace('http://', '//')
+            imageUrl = imageUrl.replace(/https?:\/\//, '//')
 
           # parse the template
           imageString = @_makeTemplate @options.template,
@@ -224,10 +224,17 @@ class Instafeed
           img = document.createElement 'img'
 
           # use protocol relative image url
-          imageUrl = image.images[@options.resolution].url
-          fileProtocol = window.location.origin.indexOf('file') > -1
-          imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp \
-          or fileProtocol
+          imageObj = image.images[@options.resolution]
+          if typeof imageObj isnt 'object'
+            eMsg = "No image found for resolution: #{@options.resolution}."
+            throw new Error eMsg
+
+          # use protocol relative image url
+          imageUrl = imageObj.url
+          httpProtocol = window.location.protocol.indexOf("http") >= 0
+          if httpProtocol and !@options.useHttp
+            imageUrl = imageUrl.replace(/https?:\/\//, '//')
+
           img.src = imageUrl
 
           # wrap the image in an anchor tag, unless turned off
