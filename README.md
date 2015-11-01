@@ -239,6 +239,7 @@ __1.4.0__
 
 - `accessToken` is no longer required to fetch images from user accounts!
 - New template helpers for working with the new portrait and landscape images.
+- `target` can now accept a DOM node directly, instead of just a string ID, thanks <a href="https://github.com/juhamust">@juhamust</a>!.
 - Improved error messaging when Instafeed.js can't find it's target element on the page.
 - Instafeed.js no longer complains when trying to use strings for the `userId`, `locationId`, and `limit` options.
 
