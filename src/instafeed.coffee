@@ -171,7 +171,6 @@ class Instafeed
 
         # loop through the images
         for image in images
-          # use protocol relative image url
           imageObj = image.images[@options.resolution]
           if typeof imageObj isnt 'object'
             eMsg = "No image found for resolution: #{@options.resolution}."
@@ -186,8 +185,11 @@ class Instafeed
           if imgWidth < imgHeight
             imgOrient = "portrait"
 
+          # use protocol relative image url
           imageUrl = imageObj.url
-          imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
+          fileProtocol = window.location.origin.indexOf('file') > -1
+          unless @options.useHttp or fileProtocol
+            imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
 
           # parse the template
           imageString = @_makeTemplate @options.template,
@@ -222,7 +224,9 @@ class Instafeed
 
           # use protocol relative image url
           imageUrl = image.images[@options.resolution].url
-          imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
+          fileProtocol = window.location.origin.indexOf('file') > -1
+          imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp \
+          or fileProtocol
           img.src = imageUrl
 
           # wrap the image in an anchor tag, unless turned off
