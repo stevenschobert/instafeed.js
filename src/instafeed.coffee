@@ -410,5 +410,9 @@ class Instafeed
 
 
 # set up exports
-root = exports ? window
-root.Instafeed = Instafeed
+if typeof define == 'function'
+  define [], -> return Instafeed
+else if typeof module == 'object' and module.exports
+  module.exports = Instafeed
+else
+  window.Instafeed = Instafeed
