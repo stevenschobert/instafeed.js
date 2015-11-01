@@ -65,6 +65,24 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
 &lt;script type=&quot;text/javascript&quot; src=&quot;path/to/instafeed.min.js&quot;&gt;&lt;/script&gt;
       </code></pre>
 
+      <p>Instafeed.js also supports AMD/CommonJS:</p>
+      <pre><code class="language-javascript">
+// AMD
+require(["path/to/instafeed"], function(Instafeed) {
+
+});
+
+// CommonJS
+var Instafeed = require("instafeed.js");
+      </code></pre>
+
+      <p><b>NPM/Bower</b><p>
+      <p>Instafeed.js is also available on NPM and Bower:</p>
+      <pre><code class="language-sh">
+npm install instafeed.js      # npm
+bower install instafeed.js    # bower
+      </code></pre>
+
       <br />
 
       <a name="usage"></a><h3>Basic Usage</h3>
@@ -475,6 +493,10 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
             <ul>
               <li><code class="language-javascript">accessToken</code> is no longer required to fetch images from user accounts!</li>
               <li>New template helpers for working with the new portrait and landscape images.</li>
+              <li><code class="language-javascript">target</code> can now accept a DOM node directly. Thanks <a href="https://github.com/juhamust">@juhamust</a>!</li>
+              <li>Squashed the last (hopefully!) of the IE8 bugs.</li>
+              <li>Fixed image loading errors when using Instafeed.js on a local file protocol (<code class="language-markup">file://</code>). Thanks <a href="https://github.com/spoonben">@spoonben</a>!</li>
+              <li>Added support from AMD and CommonJS.</li>
               <li>Improved error messaging when Instafeed.js can't find it's target element on the page.</li>
               <li>Instafeed.js no longer complains when trying to use strings for the <code class="language-javascript">userId</code>, <code class="language-javascript">locationId</code>, and <code class="language-javascript">limit</code> options.</li>
             </ul>
