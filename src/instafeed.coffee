@@ -187,9 +187,9 @@ class Instafeed
 
           # use protocol relative image url
           imageUrl = imageObj.url
-          fileProtocol = window.location.origin.indexOf('file') > -1
-          unless @options.useHttp or fileProtocol
-            imageUrl = imageUrl.replace('http://', '//') unless @options.useHttp
+          httpProtocol = window.location.protocol.indexOf("http") >= 0
+          if httpProtocol and !@options.useHttp
+            imageUrl = imageUrl.replace('http://', '//')
 
           # parse the template
           imageString = @_makeTemplate @options.template,
