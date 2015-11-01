@@ -222,8 +222,13 @@ class Instafeed
             # add the image (without link) to the fragment
             fragment.appendChild img
 
-      # Add the fragment to the DOM
-      document.getElementById(@options.target).appendChild fragment
+      # add the fragment to the dom:
+      # - if target is string, consider it as element id
+      # - otherwise consider it as element
+      if typeof @options.target == 'string'
+        document.getElementById(@options.target).appendChild fragment
+      else
+        @options.target.appendChild fragment
 
       # remove the injected script tag
       header = document.getElementsByTagName('head')[0]

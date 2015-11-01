@@ -59,7 +59,7 @@ The only thing you'll need to get going is a valid __client id__ from Instagram'
 
 - `clientId` (string) - Your API client id from Instagram. __Required__.
 - `accessToken` (string) - A valid oAuth token. Required to use __get: 'user'__.
-- `target` (string) - The ID of a DOM element you want to add the images to.
+- `target` (string|element) - Either the ID name or the DOM element itself where you want to add the images to.
 - `template` (string) - Custom HTML template to use for images. See [templating](#templating).
 - `get` (string) - Customize what Instafeed fetches. Available options are:
     - `popular` (default) - Images from the popular page
