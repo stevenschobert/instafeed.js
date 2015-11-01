@@ -174,7 +174,7 @@ class Instafeed
           imageObj = image.images[@options.resolution]
           if typeof imageObj isnt 'object'
             eMsg = "No image found for resolution: #{@options.resolution}."
-            thow new Error eMsg
+            throw new Error eMsg
 
           imgWidth = imageObj.width
           imgHeight = imageObj.height
