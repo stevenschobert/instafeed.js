@@ -240,10 +240,15 @@ class Instafeed
             # add the image (without link) to the fragment
             fragment.appendChild img
 
-      # Add the fragment to the DOM
-      targetEl = document.getElementById(@options.target)
+      # add the fragment to the dom:
+      # - if target is string, consider it as element id
+      # - otherwise consider it as element
+      targetEl = @options.target
+      if typeof targetEl == 'string'
+        targetEl = document.getElementById(targetEl)
+
       unless targetEl?
-        eMsg = "No element with id=\"#{@options.target }\" on page."
+        eMsg = "No element with id=\"#{@options.target}\" on page."
         throw new Error eMsg
 
       targetEl.appendChild fragment
