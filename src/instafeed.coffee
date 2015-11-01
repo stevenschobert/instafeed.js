@@ -382,5 +382,9 @@ class Instafeed
 
 
 # set up exports
-root = exports ? window
-root.Instafeed = Instafeed
+if typeof define != 'undefined'
+  define [], ->
+    return Instafeed
+else
+  root = exports ? window
+  root.Instafeed = Instafeed

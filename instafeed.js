@@ -320,8 +320,13 @@
 
   })();
 
-  root = typeof exports !== "undefined" && exports !== null ? exports : window;
-
-  root.Instafeed = Instafeed;
+  if (typeof define !== 'undefined') {
+    define([], function() {
+      return Instafeed;
+    });
+  } else {
+    root = typeof exports !== "undefined" && exports !== null ? exports : window;
+    root.Instafeed = Instafeed;
+  }
 
 }).call(this);
