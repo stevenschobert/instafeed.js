@@ -38,7 +38,8 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
       <a name="intro"></a><h3>What is it?</h3>
 
       <p>Instafeed.js is a dead-simple way to add Instagram photos to your website. No jQuery required, just plain 'ol javascript. <i class="light">(see &uarr; there?)</i></p>
-      <p style="text-align:center;"><a onclick="mixpanel.track('Download')" href="https://raw.github.com/stevenschobert/instafeed.js/master/instafeed.min.js" target="_blank" class="button">download</a><a style="margin-left:20px;" href="https://github.com/stevenschobert/instafeed.js" class="button">check out the code</a></p>
+      <p style="text-align:center;margin-top:35px;"><a onclick="mixpanel.track('Download')" href="https://raw.github.com/stevenschobert/instafeed.js/master/instafeed.min.js" target="_blank" class="button">download</a><a style="margin-left:20px;" href="https://github.com/stevenschobert/instafeed.js" class="button">view on github</a></p>
+      <p style="text-align:center;font-size:80%;margin-bottom:15px;" class="light"><i>current version: 1.4.0</i></p>
       <p style="margin-bottom:0;"><strong>Examples:</strong></p>
       <ul>
         <li><a href="http://hemeon.com/">Hemeon.com</a> by <a href="http://twitter.com/hemeon">Marc Hemeon</a></li>
@@ -89,126 +90,126 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
 
       <p>The only thing you'll need to get going is a valid <b>client id</b> from Instagram's API. You can easily register for one on <a href="http://instagram.com/developer/register/" target="_blank">Instagram's website</a>.</p>
 
-      <p class="light"><i>If you want to get images from a specific user, you will need a valid oAuth token. Using an oAuth token has security risks. <a href="#user">Read more here</a>.</i></p>
+      <p>If you need help with that step, try Googling <a href="https://google.com/search?q=How%20to%20get%20an%20instagram%20client%20id">"How to get an Instagram client ID"</a>.</p>
       <br />
 
       <a name="standard"></a><h3>Standard Options</h3>
       <p>
         <ul>
           <li>
-            <code class="language-javascript">clientId</code>
-            <small><span class="light">(string)</span> -
-              Your API client id from Instagram. <b>Required</b>.
+            <code class="language-markup">clientId</code>
+            <small> -
+              <b>Required</b>. Your API client id from Instagram.
             </small>
           </li>
           <li>
-            <code class="language-javascript">accessToken</code>
-            <small><span class="light">(string)</span> -
-              A valid oAuth token. Required to use <b>get: 'user'</b>.
+            <code class="language-markup">accessToken</code>
+            <small> -
+              A valid oAuth token. Can be used in place of a client ID.
             </small>
           </li>
           <li>
-            <code class="language-javascript">target</code>
-            <small><span class="light">(string)</span> - The ID of a DOM element you want to add the images to.</small>
+            <code class="language-markup">target</code>
+            <small> - The ID of a DOM element you want to add the images to.</small>
           </li>
           <li>
-            <code class="language-javascript">template</code>
-            <small><span class="light">(string)</span> - Custom HTML template to use for images. See <a href="#templating">templating</a>.</small>
+            <code class="language-markup">template</code>
+            <small> - Custom HTML template to use for images. See <a href="#templating">templating</a>.</small>
           </li>
           <li>
-            <code class="language-javascript">get</code>
-            <small><span class="light">(string)</span> -
+            <code class="language-markup">get</code>
+            <small> -
               Customize what Instafeed fetches. Available options are:
               <ul>
-                <li><code class="language-javascript">popular</code> <i class="light">(default)</i> -
+                <li><code class="language-markup">popular</code> <span class="light">(default)</span> -
                   Images from the popular page.
                 </li>
-                <li><code class="language-javascript">tagged</code> -
+                <li><code class="language-markup">tagged</code> -
                   Images with a specific tag. Use <b>tagName</b> to specify the tag.
                 </li>
-                <li><code class="language-javascript">location</code> -
+                <li><code class="language-markup">location</code> -
                   Images from a location. Use <b>locationId</b> to specify the location.
                 </li>
-                <li><code class="language-javascript">user</code> -
+                <li><code class="language-markup">user</code> -
                   Images with a user. Use <b>userId</b> to specify the user. More info <a href="#user">here</a>.
                 </li>
               </ul>
             </small>
           </li>
           <li>
-            <code class="language-javascript">tagName</code>
-            <small><span class="light">(string)</span> -
+            <code class="language-markup">tagName</code>
+            <small> -
               Name of the tag to get. Use with <b>get: 'tagged'</b>.
             </small>
           </li>
           <li>
-            <code class="language-javascript">locationId</code>
-            <small><span class="light">(number)</span> -
+            <code class="language-markup">locationId</code>
+            <small> -
               Unique id of a location to get. Use with <b>get: 'location'</b>.
             </small>
           </li>
           <li>
-            <code class="language-javascript">userId</code>
-            <small><span class="light">(number)</span> -
+            <code class="language-markup">userId</code>
+            <small> -
               Unique id of a user to get. Use with <b>get: 'user'</b>.
             </small>
           </li>
           <li>
-            <code class="language-javascript">sortBy</code>
-            <small><span class="light">(string)</span> -
+            <code class="language-markup">sortBy</code>
+            <small> -
               Sort the images in a set order. Available options are:
               <ul>
-                <li><code class="language-javascript">none</code> <i class="light">(default)</i> -
+                <li><code class="language-markup">none</code> <span class="light">(default)</span> -
                   As they come from Instagram.
                 </li>
-                <li><code class="language-javascript">most-recent</code> -
+                <li><code class="language-markup">most-recent</code> -
                   Newest to oldest.
                 </li>
-                <li><code class="language-javascript">least-recent</code> -
+                <li><code class="language-markup">least-recent</code> -
                   Oldest to newest.
                 </li>
-                <li><code class="language-javascript">most-liked</code> -
+                <li><code class="language-markup">most-liked</code> -
                   Highest # of likes to lowest.
                 </li>
-                <li><code class="language-javascript">least-liked</code> -
+                <li><code class="language-markup">least-liked</code> -
                   Lowest # likes to highest.
                 </li>
-                <li><code class="language-javascript">most-commented</code> -
+                <li><code class="language-markup">most-commented</code> -
                   Highest # of comments to lowest.
                 </li>
-                <li><code class="language-javascript">least-commented</code> -
+                <li><code class="language-markup">least-commented</code> -
                   Lowest # of comments to highest.
                 </li>
-                <li><code class="language-javascript">random</code> -
+                <li><code class="language-markup">random</code> -
                   Random order.
                 </li>
               </ul>
             </small>
           </li>
           <li>
-            <code class="language-javascript">links</code>
-            <small><span class="light">(true/false)</span> -
+            <code class="language-markup">links</code>
+            <small> -
               Wrap the images with a link to the photo on Instagram.
             </small>
           </li>
           <li>
-            <code class="language-javascript">limit</code>
-            <small><span class="light">(number)</span> -
-              Maximum number of Images to add. <b>Max of 60</b>.
+            <code class="language-markup">limit</code>
+            <small> -
+              Maximum number of Images to add.
             </small>
           </li>
           <li>
-            <code class="language-javascript">resolution</code>
-            <small><span class="light">(string)</span> -
+            <code class="language-markup">resolution</code>
+            <small> -
               Size of the images to get. Available options are:
               <ul>
-                <li><code class="language-javascript">thumbnail</code> <i class="light">(default)</i> -
+                <li><code class="language-markup">thumbnail</code> <span class="light">(default)</span> -
                   150x150
                 </li>
-                <li><code class="language-javascript">low_resolution</code> -
+                <li><code class="language-markup">low_resolution</code> -
                   306x306
                 </li>
-                <li><code class="language-javascript">standard_resolution</code> -
+                <li><code class="language-markup">standard_resolution</code> -
                   612x612
                 </li>
               </ul>
@@ -223,37 +224,37 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
         <ul>
           <li>
             <code class="language-javascript">before</code>
-            <small><span class="light">(function)</span> -
+            <small> -
               A callback function called before fetching images from Instagram.
             </small>
           </li>
           <li>
             <code class="language-javascript">after</code>
-            <small><span class="light">(function)</span> -
+            <small> -
               A callback function called when images have been added to the page.
             </small>
           </li>
           <li>
             <code class="language-javascript">success</code>
-            <small><span class="light">(function)</span> -
+            <small> -
               A callback function called when Instagram returns valid data. Takes the JSON data as an <b>object argument</b>.
             </small>
           </li>
           <li>
             <code class="language-javascript">error</code>
-            <small><span class="light">(function)</span> -
+            <small> -
               A callback function called when there is an error fetching images.Takes an error message as a <b>string argument</b>.
             </small>
           </li>
           <li>
             <code class="language-javascript">mock</code>
-            <small><span class="light">(true/false)</span> -
+            <small> -
               Fetch data without inserting images into DOM. Use with <b>success</b> callback.
             </small>
           </li>
           <li>
             <code class="language-javascript">filter</code>
-            <small><span class="light">(function)</span> -
+            <small> -
               A function used to exclude images from your results. The function will be given the image data as an argument, and expects the function to return a boolean. See the example below for more information.
             </small>
           </li>
@@ -262,14 +263,14 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
       <p><small><b>Example Filter (get username + tagged):</b></small></p>
       <pre><code class="language-markup">
 &lt;script type=&quot;text/javascript&quot;&gt;
-var feed = new Instafeed({
-  get: 'user',
-  userId: USER_ID,
-  filter: function(image) {
-    return image.tags.indexOf('TAG_NAME') &gt;= 0;
-  }
-});
-feed.run();
+    var feed = new Instafeed({
+        get: 'user',
+        userId: 'USER_ID',
+        filter: function(image) {
+            return image.tags.indexOf('TAG_NAME') &gt;= 0;
+        }
+    });
+    feed.run();
 &lt;/script&gt;
       </code></pre>
       <p><small>To see a full list of properties that <code class="language-javascript">image</code> has, see <a href="https://github.com/stevenschobert/instafeed.js/issues/21">this thread</a> on GitHub.</small></p>
@@ -295,6 +296,30 @@ feed.run();
       </p>
       <p>
         <ul>
+          <li>
+            <code class="language-javascript">{{type}}</code>
+            <small> -
+              the image's type, can be <code class="language-javascript">image</code> or <code class="language-javascript">video</code>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">{{width}}</code>
+            <small> -
+              the image's width, in pixels.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">{{height}}</code>
+            <small> -
+              the image's height, in pixels.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">{{orientation}}</code>
+            <small> -
+              the image's orientation, can be <code class="language-javascript">square</code>, <code class="language-javascript">portrait</code>, or <code class="language-javascript">landscape</code>.
+            </small>
+          </li>
           <li>
             <code class="language-javascript">{{link}}</code>
             <small> -
@@ -347,6 +372,49 @@ feed.run();
       </p>
       <br />
 
+      <a name="portrait-and-landscape-photos"></a><h3>Portrait and Landscape Photos</h3>
+      <p>
+        Until <b>June 1, 2016</b>, Instagram's API will return square images (with white borders), regardless of how they were originally uploaded.
+      </p>
+      <p>
+        If you'd like to get images in their original landscape and portrait forms, you can opt-in to the API change by editing your Instagram API client, and clicking on the "Migrations" tab:
+      </p>
+      <img style="max-width: 100%" src="https://cloud.githubusercontent.com/assets/896486/10865600/560ad6a6-7fde-11e5-8e14-2013e51eda7c.png">
+      <p>Note: If you have the resolution option set to thumbnail (default), all images will be square regardless of your API settings.</p>
+      <p><small><b>Image Size Template Helpers</b></small></p>
+      <p>
+        As of <b>v1.4</b>, Instafeed.js includes several helpers you can use in your template option to work with the new image sizes. These helpers are meant primarily to help control styling of the images through CSS.
+      </p>
+      <p>
+        <ul>
+          <li>
+            <code class="language-javascript">{{type}}</code>
+            <small> -
+              the image's type, can be <code class="language-javascript">image</code> or <code class="language-javascript">video</code>.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">{{width}}</code>
+            <small> -
+              the image's width, in pixels.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">{{height}}</code>
+            <small> -
+              the image's height, in pixels.
+            </small>
+          </li>
+          <li>
+            <code class="language-javascript">{{orientation}}</code>
+            <small> -
+              the image's orientation, can be <code class="language-javascript">square</code>, <code class="language-javascript">portrait</code>, or <code class="language-javascript">landscape</code>.
+            </small>
+          </li>
+        </ul>
+      </p>
+      <br />
+
       <a name="pagination"></a><h3>Pagination</h3>
       <p>
         As of <b>v1.3</b>, Instafeed.js has a <code class="language-javascript">.next()</code> method you can call to load more images from Instagram.
@@ -358,54 +426,59 @@ feed.run();
       </p>
       <pre><code class="language-markup">
 &lt;script type=&quot;text/javascript&quot;&gt;
-var loadButton = document.getElementById('load-more');
-var feed = new Instafeed({
-  // every time we load more, run this function
-  after: function() {
-    // disable button if no more results to load
-    if (!this.hasNext()) {
-      loadButton.setAttribute('disabled', 'disabled');
-    }
-  },
-});
+    var loadButton = document.getElementById('load-more');
+    var feed = new Instafeed({
+        // every time we load more, run this function
+        after: function() {
+            // disable button if no more results to load
+            if (!this.hasNext()) {
+                loadButton.setAttribute('disabled', 'disabled');
+            }
+        },
+    });
 
-// bind the load more button
-loadButton.addEventListener('click', function() {
-  feed.next();
-});
+    // bind the load more button
+    loadButton.addEventListener('click', function() {
+        feed.next();
+    });
 
-// run our feed!
-feed.run();
+    // run our feed!
+    feed.run();
 &lt;/script&gt;
       </code></pre>
       <br />
 
-      <a name="user"></a><h3>Getting images from your User Account</h3>
+      <a name="user"></a><h3>Getting images from your user account</h3>
 
-      <p>With Instafeed, it is possible to get images from a specific user id:</p>
+      <p>To fetch images specifically from your account, set the <code class="language-markup">get</code> and <code class="language-markup">userId</code> options:</p>
 
       <pre><code class="language-markup">
 &lt;script type=&quot;text/javascript&quot;&gt;
     var userFeed = new Instafeed({
         get: 'user',
-        userId: YOUR_USER_ID,
+        userId: 'YOUR_USER_ID',
         accessToken: 'YOUR_ACCESS_TOKEN'
     });
     userFeed.run();
 &lt;/script&gt;
       </code></pre>
 
-      <p>This setup requires an <b>accessToken</b>. Normally, using tokens like this in javascript would be <i>very bad</i>. However, since Instagram provides <a href="http://instagram.com/developer/authentication/">scoping</a> in their API, you can limit the risk of user impersonation.</p>
-
-      <p>Just always make sure your token is set to <b>basic authorization</b>, which only allows GET requests. If you aren't sure what scope your token has, check under your <a href="https://instagram.com/accounts/manage_access">account page</a>.</p>
-
-      <p><small><b>Don't know your user id or token?</b> <a href="https://instagram.com/oauth/authorize/?client_id=467ede5a6b9b48ae8e03f4e2582aeeb3&redirect_uri=http://instafeedjs.com&response_type=token">Click here</a> to get one.</small></p>
+      <p>Note that <code class="language-markup">YOUR_USER_ID</code> corresponds to your Instagram <b>account ID (eg: 4385108)</b>, not your username.</p>
+      <p>If you do not know your account ID, Google <a href="https://google.com/search?q=What%20is%20my%20Instagram%20account%20ID%3F">"What is my Instagram account ID?"</a>. There are several free tools available online that will look it up for you.</p>
       <br />
 
       <a name="log"></a><h3>Change Log</h3>
 
       <p>
         <ul>
+          <li><small><b>(v1.4.0)</b>
+            <ul>
+              <li><code class="language-javascript">accessToken</code> is no longer required to fetch images from user accounts!</li>
+              <li>New template helpers for working with the new portrait and landscape images.</li>
+              <li>Improved error messaging when Instafeed.js can't find it's target element on the page.</li>
+              <li>Instafeed.js no longer complains when trying to use strings for the <code class="language-javascript">userId</code>, <code class="language-javascript">locationId</code>, and <code class="language-javascript">limit</code> options.</li>
+            </ul>
+          </small></li>
           <li><small><b>(v1.3.2)</b>
             <ul>
               <li>Fixed the <code class="language-javascript">useHttp</code> option when no template is set. Thanks <a href="https://github.com/bartekn">Bartek Nowotarski</a>!</li>
