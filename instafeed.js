@@ -292,7 +292,9 @@
       while (pattern.test(output)) {
         varName = output.match(pattern)[1];
         varValue = (ref = this._getObjectProperty(data, varName)) != null ? ref : '';
-        output = output.replace(pattern, "" + varValue);
+        output = output.replace(pattern, function() {
+          return "" + varValue;
+        });
       }
       return output;
     };

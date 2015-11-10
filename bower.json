@@ -2,7 +2,7 @@
   "name": "instafeed.js",
   "main": "instafeed.js",
   "description": "A simple Instagram javascript plugin.",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:stevenschobert/instafeed.js.git"
