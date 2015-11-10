@@ -247,6 +247,10 @@ This will install all the necessary test tools for testing. There is also a Make
 
 ## Change Log
 
+__1.4.1__
+
+- Fixes an issue where some data used in templates would get incorrectly escaped.
+
 __1.4.0__
 
 - `accessToken` is no longer required to fetch images from user accounts!
