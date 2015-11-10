@@ -39,7 +39,7 @@ mixpanel.init("7656fd575d0c2636513b7bf5cddbbc90");</script>
 
       <p>Instafeed.js is a dead-simple way to add Instagram photos to your website. No jQuery required, just plain 'ol javascript. <i class="light">(see &uarr; there?)</i></p>
       <p style="text-align:center;margin-top:25px;"><a onclick="mixpanel.track('Download')" href="https://raw.github.com/stevenschobert/instafeed.js/master/instafeed.min.js" target="_blank" class="button">download</a><a style="margin-left:20px;" href="https://github.com/stevenschobert/instafeed.js" class="button">view on github</a></p>
-      <p style="text-align:center;font-size:80%;margin-bottom:15px;" class="light"><i>current version: 1.4.0</i></p>
+      <p style="text-align:center;font-size:80%;margin-bottom:15px;" class="light"><i>current version: 1.4.1</i></p>
       <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=instafeedjscom" id="_carbonads_js"></script>
       <br />
 
@@ -486,6 +486,11 @@ bower install instafeed.js    # bower
 
       <p>
         <ul>
+          <li><small><b>(v1.4.1)</b>
+            <ul>
+              <li>Fixes an issue where some data used in templates would get incorrectly escaped.</li>
+            </ul>
+          </small></li>
           <li><small><b>(v1.4.0)</b>
             <ul>
               <li><code class="language-javascript">accessToken</code> is no longer required to fetch images from user accounts!</li>
