@@ -165,6 +165,15 @@ describe 'Instafeed instace', ->
       data: [2]
     message.should.equal 'bad data'
 
+  it 'should ignore special characters in the template data', ->
+    feed = new Instafeed
+    template = '<div>{{custom.text}}</div>'
+    data =
+      custom:
+        text: 'some /test/ $1900'
+
+    feed._makeTemplate(template, data).should.equal '<div>some /test/ $1900</div>'
+
   it 'should parse an html template (including nested properties)', ->
     feed = new Instafeed
     template = '<div>{{custom}} - {{nested[0].target}} {hard code}</div>'

@@ -366,7 +366,7 @@ class Instafeed
     while (pattern.test(output))
       varName = output.match(pattern)[1]
       varValue = @_getObjectProperty(data, varName) ? ''
-      output = output.replace(pattern, "#{varValue}")
+      output = output.replace(pattern, () -> return "#{varValue}")
 
     # send back the new string
     return output
