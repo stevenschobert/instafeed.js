@@ -1,8 +1,10 @@
 // carbon ads
 #carbonads {
   border: 1px solid #E5E5E5;
+  display: block;
   margin: auto;
-  max-width: 350px;
+  max-width: 330px;
+  overflow: hidden;
   padding: .7em;
   @include border-radius(3px);
 }
@@ -10,6 +12,9 @@
 #carbonads .carbon-img {
   border: 0;
   display: inline-block;
+  float: left;
+  line-height: 0;
+  padding-right: 1em;
 }
 
 #carbonads .carbon-text {
