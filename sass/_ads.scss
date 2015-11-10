@@ -1,0 +1,36 @@
+// carbon ads
+#carbonads {
+  border: 1px solid #E5E5E5;
+  margin: auto;
+  max-width: 350px;
+  padding: .7em;
+  @include border-radius(3px);
+}
+
+#carbonads .carbon-img {
+  border: 0;
+  display: block;
+}
+
+#carbonads .carbon-text {
+  border: 0;
+  color: darken($font-color, 5%);
+  display: block;
+  font-family: $font-stack;
+  font-size: .9em;
+  line-height: 1.3em;
+  margin-top: .3em;
+  text-decoration: none;
+}
+
+#carbonads .carbon-poweredby {
+  border: 0;
+  color: $font-color;
+  display: block;
+  font-family: $font-stack;
+  font-size: .7em;
+  font-style: italic;
+  line-height: normal;
+  margin-top: .6em;
+  text-decoration: none;
+}
