@@ -241,7 +241,7 @@
       base = "https://api.instagram.com/v1";
       switch (this.options.get) {
         case "popular":
-          endpoint = "media/popular";
+          endpoint = "users/self/media/recent/";
           break;
         case "tagged":
           if (!this.options.tagName) {
