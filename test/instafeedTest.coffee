@@ -141,15 +141,17 @@ describe 'Instafeed instace', ->
 
     numImages.should.equal 3
 
-  it 'should run the each callback for every index of json data', () ->
+  it 'should run the each callback for every index of json data', (done) ->
     timesRan = 1
+    
+    # mocking an actual response data that parse function uses
     testdata = [
       {
         id: "123"
         images: {
           thumbnail: {
             height: 150
-            url: "http://an-image.com/something.jpg"
+            url: "https://www.instagram.com/p/XXXXXXXXX/"
             width: 150
           }
         }
@@ -188,21 +190,27 @@ describe 'Instafeed instace', ->
       }
     ]
 
-    eachCallback = (json) ->
+    callback = (json) ->
       timesRan++
+    
+    doneCB = ->
+      feed.parse
+        meta:
+          code: 200
+        data: testdata
+
+      done()
 
     feed = new Instafeed
       clientId: 'test'
-      each: eachCallback
+      each: callback
       resolution: 'thumbnail'
+      after: doneCB
       template: "<div>{{custom.text}}</div>"
     
-    feed.parse
-      meta:
-        code: 200
-      data: testdata
+    feed.run()
 
-    timesRan.should.equal testdata.length
+    timesRan.should.equal 3
 
   it 'should run the error callback if problem with json data', ->
     message = ''
