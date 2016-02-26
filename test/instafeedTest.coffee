@@ -141,6 +141,69 @@ describe 'Instafeed instace', ->
 
     numImages.should.equal 3
 
+  it 'should run the each callback for every index of json data', () ->
+    timesRan = 1
+    testdata = [
+      {
+        id: "123"
+        images: {
+          thumbnail: {
+            height: 150
+            url: "http://an-image.com/something.jpg"
+            width: 150
+          }
+        }
+        likes: {count: 10}
+        link: "https://www.instagram.com/p/XXXXXXXXX/"
+        location: null
+        type: "image"
+      },
+      {
+        id: "124"
+        images: {
+          thumbnail: {
+            height: 150
+            url: "https://www.instagram.com/p/XXXXXXXXX/"
+            width: 150
+          }
+        }
+        likes: {count: 10}
+        link: "https://www.instagram.com/p/XXXXXXXXX/"
+        location: null
+        type: "image"
+      },
+      {
+        id: "125"
+        images: {
+          thumbnail: {
+            height: 150
+            url: "https://www.instagram.com/p/XXXXXXXXX/"
+            width: 150
+          }
+        }
+        likes: {count: 10}
+        link: "https://www.instagram.com/p/XXXXXXXXX/"
+        location: null
+        type: "image"
+      }
+    ]
+
+    eachCallback = (json) ->
+      timesRan++
+
+    feed = new Instafeed
+      clientId: 'test'
+      each: eachCallback
+      resolution: 'thumbnail'
+      template: "<div>{{custom.text}}</div>"
+    
+    feed.parse
+      meta:
+        code: 200
+      data: testdata
+
+    timesRan.should.equal testdata.length
+
   it 'should run the error callback if problem with json data', ->
     message = ''
     callback = (problem) ->

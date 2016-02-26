@@ -192,6 +192,10 @@ class Instafeed
           if httpProtocol and !@options.useHttp
             imageUrl = imageUrl.replace(/https?:\/\//, '//')
 
+          # run the "each" function option if it exists
+          if @options.each? and typeof @options.each is 'function'
+            @options.each.call(this)
+
           # parse the template
           imageString = @_makeTemplate @options.template,
             model: image

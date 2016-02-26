@@ -158,6 +158,9 @@
             if (httpProtocol && !this.options.useHttp) {
               imageUrl = imageUrl.replace(/https?:\/\//, '//');
             }
+            if ((this.options.each != null) && typeof this.options.each === 'function') {
+              this.options.each.call(this);
+            }
             imageString = this._makeTemplate(this.options.template, {
               model: image,
               id: image.id,
