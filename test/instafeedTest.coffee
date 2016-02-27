@@ -2,6 +2,7 @@
 chai = require 'chai'
 chai.should()
 should = chai.should()
+expect = chai.expect
 
 # Bring in our Instafeed class
 Instafeed = require '../src/instafeed'
@@ -142,8 +143,22 @@ describe 'Instafeed instace', ->
     numImages.should.equal 3
 
   it 'should run the each callback for every index of json data', (done) ->
-    timesRan = 1
-    
+    jsdom = require('jsdom-global')()
+
+    after(()->
+      jsdom()
+    )
+
+    timesRan = 0
+    image2Id = null
+    image3Id = null
+    imageArray = null
+    imageObj = null
+
+    targ = global.document.createElement('div')
+    targ.id = 'instafeed'
+    global.document.body.appendChild(targ)
+
     # mocking an actual response data that parse function uses
     testdata = [
       {
@@ -156,6 +171,7 @@ describe 'Instafeed instace', ->
           }
         }
         likes: {count: 10}
+        comments: {count: 10}
         link: "https://www.instagram.com/p/XXXXXXXXX/"
         location: null
         type: "image"
@@ -170,6 +186,7 @@ describe 'Instafeed instace', ->
           }
         }
         likes: {count: 10}
+        comments: {count: 10}
         link: "https://www.instagram.com/p/XXXXXXXXX/"
         location: null
         type: "image"
@@ -184,33 +201,46 @@ describe 'Instafeed instace', ->
           }
         }
         likes: {count: 10}
+        comments: {count: 10}
         link: "https://www.instagram.com/p/XXXXXXXXX/"
         location: null
         type: "image"
       }
     ]
 
+    eachCallback = (image, index, array) ->
+      timesRan = index
+      imageArray = array
+      imageObj = image
+      if index is 1
+        image2Id = image.id
+      if index is 2
+        image3Id = image.id
+
     callback = (json) ->
-      timesRan++
-    
-    doneCB = ->
-      feed.parse
-        meta:
-          code: 200
-        data: testdata
-
       done()
-
+    
     feed = new Instafeed
       clientId: 'test'
-      each: callback
+      each: eachCallback
       resolution: 'thumbnail'
-      after: doneCB
+      mock: false
       template: "<div>{{custom.text}}</div>"
-    
+      after: callback
+
     feed.run()
 
-    timesRan.should.equal 3
+    feed.parse
+      meta:
+        code: 200
+      data: testdata
+
+    timesRan.should.equal 2
+    image2Id.should.equal "124"
+    image3Id.should.equal "125"
+    expect(imageObj).to.be.an('object')
+    expect(imageArray).to.be.an('array');
+
 
   it 'should run the error callback if problem with json data', ->
     message = ''
