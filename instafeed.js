@@ -64,7 +64,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedFilteredLimit, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -131,6 +131,10 @@
         fragment = document.createDocumentFragment();
         if ((this.options.filter != null) && typeof this.options.filter === 'function') {
           images = this._filter(images, this.options.filter);
+        }
+        parsedFilteredLimit = parseInt(this.options.filteredLimit, 10);
+        if ((this.options.filteredLimit != null) && images.length > parsedFilteredLimit) {
+          images = images.slice(0, parsedFilteredLimit);
         }
         if ((this.options.template != null) && typeof this.options.template === 'string') {
           htmlString = '';

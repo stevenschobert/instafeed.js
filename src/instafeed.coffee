@@ -160,6 +160,11 @@ class Instafeed
       if @options.filter? and typeof @options.filter is 'function'
         images = @_filter(images, @options.filter)
 
+      # filteredLimit the number of images if needed
+      parsedFilteredLimit = parseInt(@options.filteredLimit, 10)
+      if @options.filteredLimit? and images.length > parsedFilteredLimit
+        images = images.slice(0, parsedFilteredLimit)
+
       # determine whether to parse a template, or use html fragments
       if @options.template? and typeof @options.template is 'string'
         # create an html string
