@@ -190,7 +190,7 @@ To fetch images specifically from your account, set the `get` and `userId` optio
 ```js
 var userFeed = new Instafeed({
   get: 'user',
-  userId: 'YOUR_USER_ID',
+  userId: YOUR_USER_ID,
   accessToken: 'YOUR_ACCESS_TOKEN'
 });
 userFeed.run();
@@ -199,6 +199,9 @@ userFeed.run();
 > Note: `YOUR_USER_ID` option corresponds to your Instagram **account ID (eg: 4385108)**, not your username. If you do not know your
 account ID, do a quick google search for ["What is my Instagram account ID?"](https://google.com/search?q=What%20is%20my%20Instagram%20account%20ID%3F).
 There a several free tools available online that will look it up for you.
+
+> Troubleshooting: If you are seeing the error `No user specified. Use the 'userId' option` in your browser console, make sure there are no quotation marks around the value for `userId`. Instafeed.js is expecting the `userId` as a number, not as a string.   
+
 
 ## Pagination
 
