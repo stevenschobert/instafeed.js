@@ -8,7 +8,6 @@ __Examples:__
 
 - [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
 - [VinThomas.com](http://vinthomas.com/) by [Vin Thomas](https://twitter.com/vinthomas)
-- [The Kozik Cocoon](http://www.kozikcocoon.com/) by [Danny Palmer](http://twitter.com/dannyprose)
 
 __Buy me a coffee:__
 
