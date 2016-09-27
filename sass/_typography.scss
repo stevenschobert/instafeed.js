@@ -28,13 +28,14 @@
     color: $link-color;
     text-decoration:none;
     border-bottom: 1px solid $link-color;
+
+    &.dead{
+      color: $dead-link-color;
+      border-bottom: 1px solid $dead-link-color;
+    }
   }
-  
-  .dead{
-    color: $dead-link-color;
-    text-decoration:none;
-    border-bottom: 1px solid $dead-link-color;
-  }
+
+
 
   // Type styles
   b {
