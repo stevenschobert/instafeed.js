@@ -12,7 +12,8 @@
         sortBy: 'none',
         links: true,
         mock: false,
-        useHttp: false
+        useHttp: false,
+        orientation: false
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -64,7 +65,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+      var anchor, calcResolution, calcX, calcY, childNodeCount, childNodeIndex, childNodesArr, cropImageUrlAdditional, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, lastPoint, len, len1, len2, newImageUrl, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -147,13 +148,27 @@
             imgWidth = imageObj.width;
             imgHeight = imageObj.height;
             imgOrient = "square";
+            calcResolution = imgHeight;
+            lastPoint = 1080 * (imgHeight / imgWidth * 100) / 100;
             if (imgWidth > imgHeight) {
               imgOrient = "landscape";
             }
             if (imgWidth < imgHeight) {
               imgOrient = "portrait";
+              calcResolution = imgWidth;
+              lastPoint = 1080 * (imgWidth / imgHeight * 100) / 100;
             }
-            imageUrl = imageObj.url;
+            calcX = (imgWidth - calcResolution) / 2;
+            calcY = (imgHeight - calcResolution) / 2;
+            cropImageUrlAdditional = 'c' + Math.round(calcX) + '.' + Math.round(calcY) + '.' + Math.round(lastPoint) + '.' + Math.round(lastPoint);
+            newImageUrl = imageObj.url.split('/');
+            newImageUrl.splice(3, 0, cropImageUrlAdditional);
+            newImageUrl = newImageUrl.join('/');
+            if ('square' === this.options.orientation) {
+              imageUrl = newImageUrl;
+            } else {
+              imageUrl = imageObj.url;
+            }
             httpProtocol = window.location.protocol.indexOf("http") >= 0;
             if (httpProtocol && !this.options.useHttp) {
               imageUrl = imageUrl.replace(/https?:\/\//, '//');

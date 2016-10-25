@@ -9,6 +9,7 @@ class Instafeed
       links: true
       mock: false
       useHttp: false
+      orientation: false
 
     # if an object is passed in, override the default options
     if typeof params is 'object'
@@ -180,14 +181,32 @@ class Instafeed
           imgWidth = imageObj.width
           imgHeight = imageObj.height
           imgOrient = "square"
+          calcResolution = imgHeight
+          lastPoint = 1080 * (imgHeight / imgWidth * 100) / 100
 
           if imgWidth > imgHeight
             imgOrient = "landscape"
           if imgWidth < imgHeight
             imgOrient = "portrait"
+            calcResolution = imgWidth
+            lastPoint = 1080 * (imgWidth / imgHeight * 100) / 100
+
+          calcX = (imgWidth - calcResolution)/2
+          calcY = (imgHeight - calcResolution)/2
+          cropImageUrlAdditional = 'c' + Math.round(calcX) +
+                                   '.' + Math.round(calcY) +
+                                   '.' + Math.round(lastPoint) +
+                                   '.' + Math.round(lastPoint)
+
+          newImageUrl = imageObj.url.split('/')
+          newImageUrl.splice(3, 0, cropImageUrlAdditional)
+          newImageUrl = newImageUrl.join('/')
 
           # use protocol relative image url
-          imageUrl = imageObj.url
+          if 'square' == this.options.orientation
+            imageUrl = newImageUrl
+          else
+            imageUrl = imageObj.url
           httpProtocol = window.location.protocol.indexOf("http") >= 0
           if httpProtocol and !@options.useHttp
             imageUrl = imageUrl.replace(/https?:\/\//, '//')

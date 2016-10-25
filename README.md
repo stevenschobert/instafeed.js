@@ -98,6 +98,9 @@ If you need help with that step, just try Googling ["How to get an Instagram cli
     - `thumbnail` (default) - 150x150
     - `low_resolution` - 306x306
     - `standard_resolution` - 612x612
+- `orientation` - Isset the image will be crop to square
+	- `false` (default)
+	- `square` - Crop to square
 
 ## Advanced Options
 
