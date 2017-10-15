@@ -1,6 +1,6 @@
 instafeed.js
 ============
-[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js)
+[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/instafeed.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/instafeed.js)
 
 Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
