@@ -202,7 +202,7 @@ There a several free tools available online that will look it up for you.
 ## Pagination
 
 As of __v1.3__, Instafeed.js has a `.next()` method you can call to load more images from Instagram.
-Under the hood, this uses the _pagination_ data from the API. Additionall, there is a helper
+Under the hood, this uses the _pagination_ data from the API. Additionally, there is a helper
 `.hasNext()` method that you can use to check if pagination data is available.
 
 Together these options can be used to create a "Load More" button:
