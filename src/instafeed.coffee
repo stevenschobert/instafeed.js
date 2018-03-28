@@ -6,6 +6,7 @@ class Instafeed
       get: 'popular'
       resolution: 'thumbnail'
       sortBy: 'none'
+      square: false
       links: true
       mock: false
       useHttp: false
@@ -207,6 +208,24 @@ class Instafeed
             comments: image.comments.count
             location: @_getObjectProperty(image, 'location.name')
 
+          ###
+           If 'square' is specified, and the template contains an <img>,
+           run it through the square enforcer and swap it back in
+          ###
+          if @options.square is true
+            tmpTemplateEl = document.createElement('div')
+            tmpTemplateEl.innerHTML = imageString
+
+            if (templateImg =
+              tmpTemplateEl.querySelector("img[src='#{imageUrl}']"))
+
+              templateImg.parentNode.replaceChild(
+                this._enforceSquare(templateImg),
+                templateImg
+              )
+
+              imageString = tmpTemplateEl.innerHTML
+
           # add the image partial to the html string
           htmlString += imageString
 
@@ -242,6 +261,10 @@ class Instafeed
             imageUrl = imageUrl.replace(/https?:\/\//, '//')
 
           img.src = imageUrl
+
+          # Force the image into a square is specified
+          if @options.square is true
+            img = this._enforceSquare img
 
           # wrap the image in an anchor tag, unless turned off
           if @options.links is true
@@ -370,6 +393,41 @@ class Instafeed
 
     # send back the new string
     return output
+
+  # helper function to enforce square-cropping of landscape/portrait images,
+  # This adds a wrapper element with a 1:1 aspect ratio
+  _enforceSquare: (image) ->
+
+    squareTemplate = document.createElement 'div'
+    squareTemplate.setAttribute('class', 'instafeed-image-square')
+    wrapperBaseStyle = "
+      height:0;
+      overflow:hidden;
+      position: relative;
+      padding-top:100%;
+    "
+
+    # Where object fit is supported, use that.
+    if 'objectFit' of document.documentElement.style is true
+      squareTemplate.style.cssText = wrapperBaseStyle
+      image.style.cssText = '
+        height: 100%;
+        left: 0;
+        object-fit:cover;
+        position:absolute;
+        top: 0;
+        width: 100%;'
+      squareTemplate.appendChild image.cloneNode()
+    else
+      # otherwise, add a wrapper with a background image
+      squareTemplate.style.cssText = "
+        #{wrapperBaseStyle}
+        background-size:cover;
+        background-repeat:no-repeat;
+        background-position:center;
+        background-image:url(#{image.src});"
+
+    return squareTemplate
 
   # helper function to access an object property by string
   _getObjectProperty: (object, property) ->
