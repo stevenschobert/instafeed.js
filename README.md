@@ -98,6 +98,7 @@ If you need help with that step, just try Googling ["How to get an Instagram cli
     - `thumbnail` (default) - 150x150
     - `low_resolution` - 306x306
     - `standard_resolution` - 612x612
+- `square` - By default, images will use their original orientation (landscape, portrait or square). When set to `true`, Instafeed will add additional markup and styles to crop images to a square. See [Portrait and Landscape Photos](#portrait-and-landscape-photos).
 
 ## Advanced Options
 
@@ -161,16 +162,15 @@ Notice the `{{link}}` and `{{image}}`? The templating option provides several ta
 
 ## Portrait and Landscape Photos
 
-Until **June 1, 2016**, Instagram's API will return square images (with white borders),
-regardless of how they were originally uploaded.
+Since **June 1, 2016**, Instagram's API returns images in resolutions other than `thumbnail` in their original portrait or landscape orientation.
 
-If you'd like to get images in their original landscape and portrait forms, you can opt-in
-to the API change by editing your Instagram API client, and clicking on the "Migrations" tab:
+#### Forcing square images
 
-<img width="757" alt="screen shot 2015-10-31 at 2 02 56 pm" src="https://cloud.githubusercontent.com/assets/896486/10865600/560ad6a6-7fde-11e5-8e14-2013e51eda7c.png">
+If you set the `square` option to `true`, Instafeed will wrap images in a container with a class of `instafeed-image-square` which will crop them to a square. Depending on the user's browser, this will use `object-fit: cover` where supported, or fallback to `background-size: cover`.
 
-> Note: If you have the `resolution` option set to `thumbnail` (default), all images will
-be square regardless of your API settings.
+The styling applied by the `square` option can't be guaranteed to work with every possible layout - you may need to customise your template and styles instead. Some techniques are [demonstrated in this gist](https://gist.github.com/benjamin-hull/476f531dc5ee9f17745ecfdf35b425e1).
+
+> Note: When using a custom [template][#templating], the `square` option will only affect `<img>` tags where the `src` attribute is the Instagram image URL. If you're using more complex techniques such as background images, srcsets or data attributes, you'll need to apply your own elements/styling to achieve the square crop.
 
 #### Image Size Template Helpers
 
@@ -245,6 +245,10 @@ This will install all the necessary test tools for testing. There is also a Make
 - `make` will run both the previous steps and compile everything
 
 ## Change Log
+
+__1.4.2__
+
+- Added `square` option for cropping landscape and portrait images to square.
 
 __1.4.1__
 
