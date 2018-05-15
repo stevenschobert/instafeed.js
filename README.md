@@ -143,7 +143,7 @@ Here's a quick example:
 </script>
 ```
 
-Notice the `{{link}}` and `{{image}}`? The templating option provides several tags for you to use to control where variables are inserted into your HTML markup. Available keywors are:
+Notice the `{{link}}` and `{{image}}`? The templating option provides several tags for you to use to control where variables are inserted into your HTML markup. Available keywords are:
 
 
 - `{{type}}` - the image's type. Can be `image` or `video`.
@@ -169,13 +169,11 @@ to the API change by editing your Instagram API client, and clicking on the "Mig
 
 <img width="757" alt="screen shot 2015-10-31 at 2 02 56 pm" src="https://cloud.githubusercontent.com/assets/896486/10865600/560ad6a6-7fde-11e5-8e14-2013e51eda7c.png">
 
-> Note: If you have the `resolution` option set to `thumbnail` (default), all images will
-be square regardless of your API settings.
+> Note: If you have the `resolution` option set to `thumbnail` (default), all images will be square regardless of your API settings.
 
 #### Image Size Template Helpers
 
-As of __v1.4.0__, Instafeed.js includes several helpers you can use in your `template` option
-to work with the new image sizes. These helpers are meant primarily to help control styling
+As of __v1.4.0__, Instafeed.js includes several helpers you can use in your `template` option to work with the new image sizes. These helpers are meant primarily to help control styling
 of the images through CSS.
 
 - `{{width}}` - contains the image's width, in pixels
@@ -195,9 +193,7 @@ var userFeed = new Instafeed({
 userFeed.run();
 ```
 
-> Note: `YOUR_USER_ID` option corresponds to your Instagram **account ID (eg: 4385108)**, not your username. If you do not know your
-account ID, do a quick google search for ["What is my Instagram account ID?"](https://google.com/search?q=What%20is%20my%20Instagram%20account%20ID%3F).
-There a several free tools available online that will look it up for you.
+> Note: `YOUR_USER_ID` option corresponds to your Instagram **account ID (eg: 4385108)**, not your username. If you do not know your account ID, do a quick google search for ["What is my Instagram account ID?"](https://google.com/search?q=What%20is%20my%20Instagram%20account%20ID%3F). There a several free tools available online that will look it up for you.
 
 > Troubleshooting: If you are seeing the error `No user specified. Use the 'userId' option` in your browser console, make sure there are no quotation marks around the value for `userId`. Instafeed.js is expecting the `userId` as a number, not as a string.   
 
