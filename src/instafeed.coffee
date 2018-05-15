@@ -171,7 +171,7 @@ class Instafeed
         tmpEl = document.createElement('div')
 
         # loop through the images
-        for image in images
+        for image, index in images
           imageObj = image.images[@options.resolution]
           if typeof imageObj isnt 'object'
             eMsg = "No image found for resolution: #{@options.resolution}."
@@ -191,6 +191,10 @@ class Instafeed
           httpProtocol = window.location.protocol.indexOf("http") >= 0
           if httpProtocol and !@options.useHttp
             imageUrl = imageUrl.replace(/https?:\/\//, '//')
+
+          # run the "each" function option if it exists
+          if @options.each? and typeof @options.each is 'function'
+            @options.each.call(@,image, index,images)
 
           # parse the template
           imageString = @_makeTemplate @options.template,

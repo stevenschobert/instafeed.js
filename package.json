@@ -8,11 +8,13 @@
     "url": "https://github.com/stevenschobert/instafeed.js.git"
   },
   "devDependencies": {
-    "uglify-js": "1.3.x",
+    "chai": "3.0.x",
     "coffee-script": "1.9.x",
     "coffeelint": "1.10.x",
+    "jsdom": "^8.0.4",
+    "jsdom-global": "^1.6.2",
     "mocha": "2.2.x",
-    "chai": "3.0.x"
+    "uglify-js": "1.3.x"
   },
   "main": "./instafeed.js",
   "scripts": {

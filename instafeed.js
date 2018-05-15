@@ -64,7 +64,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, index, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -137,8 +137,8 @@
           imageString = '';
           imgUrl = '';
           tmpEl = document.createElement('div');
-          for (i = 0, len = images.length; i < len; i++) {
-            image = images[i];
+          for (index = i = 0, len = images.length; i < len; index = ++i) {
+            image = images[index];
             imageObj = image.images[this.options.resolution];
             if (typeof imageObj !== 'object') {
               eMsg = "No image found for resolution: " + this.options.resolution + ".";
@@ -157,6 +157,9 @@
             httpProtocol = window.location.protocol.indexOf("http") >= 0;
             if (httpProtocol && !this.options.useHttp) {
               imageUrl = imageUrl.replace(/https?:\/\//, '//');
+            }
+            if ((this.options.each != null) && typeof this.options.each === 'function') {
+              this.options.each.call(this, image, index, images);
             }
             imageString = this._makeTemplate(this.options.template, {
               model: image,

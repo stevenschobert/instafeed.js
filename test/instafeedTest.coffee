@@ -2,6 +2,7 @@
 chai = require 'chai'
 chai.should()
 should = chai.should()
+expect = chai.expect
 
 # Bring in our Instafeed class
 Instafeed = require '../src/instafeed'
@@ -140,6 +141,106 @@ describe 'Instafeed instace', ->
       data: [1,2,3]
 
     numImages.should.equal 3
+
+  it 'should run the each callback for every index of json data', (done) ->
+    jsdom = require('jsdom-global')()
+
+    after(()->
+      jsdom()
+    )
+
+    timesRan = 0
+    image2Id = null
+    image3Id = null
+    imageArray = null
+    imageObj = null
+
+    targ = global.document.createElement('div')
+    targ.id = 'instafeed'
+    global.document.body.appendChild(targ)
+
+    # mocking an actual response data that parse function uses
+    testdata = [
+      {
+        id: "123"
+        images: {
+          thumbnail: {
+            height: 150
+            url: "https://www.instagram.com/p/XXXXXXXXX/"
+            width: 150
+          }
+        }
+        likes: {count: 10}
+        comments: {count: 10}
+        link: "https://www.instagram.com/p/XXXXXXXXX/"
+        location: null
+        type: "image"
+      },
+      {
+        id: "124"
+        images: {
+          thumbnail: {
+            height: 150
+            url: "https://www.instagram.com/p/XXXXXXXXX/"
+            width: 150
+          }
+        }
+        likes: {count: 10}
+        comments: {count: 10}
+        link: "https://www.instagram.com/p/XXXXXXXXX/"
+        location: null
+        type: "image"
+      },
+      {
+        id: "125"
+        images: {
+          thumbnail: {
+            height: 150
+            url: "https://www.instagram.com/p/XXXXXXXXX/"
+            width: 150
+          }
+        }
+        likes: {count: 10}
+        comments: {count: 10}
+        link: "https://www.instagram.com/p/XXXXXXXXX/"
+        location: null
+        type: "image"
+      }
+    ]
+
+    eachCallback = (image, index, array) ->
+      timesRan = index
+      imageArray = array
+      imageObj = image
+      if index is 1
+        image2Id = image.id
+      if index is 2
+        image3Id = image.id
+
+    callback = (json) ->
+      done()
+    
+    feed = new Instafeed
+      clientId: 'test'
+      each: eachCallback
+      resolution: 'thumbnail'
+      mock: false
+      template: "<div>{{custom.text}}</div>"
+      after: callback
+
+    feed.run()
+
+    feed.parse
+      meta:
+        code: 200
+      data: testdata
+
+    timesRan.should.equal 2
+    image2Id.should.equal "124"
+    image3Id.should.equal "125"
+    expect(imageObj).to.be.an('object')
+    expect(imageArray).to.be.an('array');
+
 
   it 'should run the error callback if problem with json data', ->
     message = ''
