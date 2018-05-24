@@ -1,15 +1,38 @@
-# Node JS Files
-node_modules/
-
-# Test HTML Files
-examples/
-
-# Mac OS Files
+.sass-cache
+.sass-cache/*
+*/.sass-cache/*
 .DS_Store
 
-# Sublime Text 2 Files
-*.sublime-project
-*.sublime-workspace
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
-# Sass Files
-.sass-cache/
+*.iml
+
+## Directory-based project format:
+.idea/
+build/node_modules
+# if you remove the above rule, at least ignore the following:
+
+# User-specific stuff:
+#.idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries
+
+# Sensitive or high-churn files:
+# .idea/dataSources.ids
+# .idea/dataSources.xml
+# .idea/sqlDataSources.xml
+# .idea/dynamic.xml
+# .idea/uiDesigner.xml
+
+# Gradle:
+# .idea/gradle.xml
+# .idea/libraries
+
+# Mongo Explorer plugin:
+# .idea/mongoSettings.xml
+
+## File-based project format:
+*.ipr
+*.iws
+*.zip
