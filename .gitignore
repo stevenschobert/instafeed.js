@@ -10,7 +10,7 @@
 
 ## Directory-based project format:
 .idea/
-build/node_modules
+node_modules
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
