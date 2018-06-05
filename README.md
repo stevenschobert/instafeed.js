@@ -8,6 +8,7 @@ __Examples:__
 
 - [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
 - [VinThomas.com](http://vinthomas.com/) by [Vin Thomas](https://twitter.com/vinthomas)
+- [JackPuttock.com](http://jackputtock.com/) by [Jack Puttock](https://twitter.com/jackputtock0)
 
 __Buy me a coffee:__
 
