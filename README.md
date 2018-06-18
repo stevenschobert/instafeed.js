@@ -4,6 +4,22 @@ instafeed.js
 
 Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
+Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
+
+## :warning: IMPORTANT! Instagram is changing the API that Instafeed.js depends on.
+
+Before you decide to use instafeed.js, be aware that [Instagram is shutting down the API platform](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/) that enables instafeed to work. As of now, instafeed.js works for some common uses (eg. embedding a single user's feed on a web page), but can't work for more complex uses (eg. retrieving all public images with a particular hashtag, finding posts based on a location, etc).
+
+The platform API will be turned off completely in 2020, which means that instafeed.js in its current form will stop working then.
+
+For more information on the current limitations of the API, please see the following:
+
+  - [Official API status](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/)
+  - [Issue #345](https://github.com/stevenschobert/instafeed.js/issues/345)
+  - [Issue #571](https://github.com/stevenschobert/instafeed.js/issues/571)
+
+## Using instafeed.js
+
 __Examples:__
 
 - [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
