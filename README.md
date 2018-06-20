@@ -4,6 +4,20 @@ instafeed.js
 
 Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
+## :warning: IMPORTANT! Instagram is changing the API that Instafeed.js depends on.
+
+Before you decide to use instafeed.js, be aware that [Instagram is shutting down the API platform](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/) that enables instafeed to work. As of now, instafeed.js works for some common uses (eg. embedding a single user's feed on a web page), but can't work for more complex uses (eg. retrieving all public images with a particular hashtag, finding posts based on a location, etc).
+
+The platform API will be turned off completely in 2020, which means that instafeed.js in its current form will stop working then.
+
+For more information on the current limitations of the API, please see the following:
+
+  - [Official API status](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/)
+  - [Issue #345](https://github.com/stevenschobert/instafeed.js/issues/345)
+  - [Issue #571](https://github.com/stevenschobert/instafeed.js/issues/571)
+
+## Using instafeed.js
+
 __Examples:__
 
 - [Hemeon.com](http://hemeon.com/) by [Marc Hemeon](https://twitter.com/hemeon)
@@ -144,7 +158,7 @@ Here's a quick example:
 </script>
 ```
 
-Notice the `{{link}}` and `{{image}}`? The templating option provides several tags for you to use to control where variables are inserted into your HTML markup. Available keywors are:
+Notice the `{{link}}` and `{{image}}`? The templating option provides several tags for you to use to control where variables are inserted into your HTML markup. Available keywords are:
 
 
 - `{{type}}` - the image's type. Can be `image` or `video`.
@@ -174,8 +188,7 @@ The styling applied by the `square` option can't be guaranteed to work with ever
 
 #### Image Size Template Helpers
 
-As of __v1.4.0__, Instafeed.js includes several helpers you can use in your `template` option
-to work with the new image sizes. These helpers are meant primarily to help control styling
+As of __v1.4.0__, Instafeed.js includes several helpers you can use in your `template` option to work with the new image sizes. These helpers are meant primarily to help control styling
 of the images through CSS.
 
 - `{{width}}` - contains the image's width, in pixels
@@ -189,15 +202,16 @@ To fetch images specifically from your account, set the `get` and `userId` optio
 ```js
 var userFeed = new Instafeed({
   get: 'user',
-  userId: 'YOUR_USER_ID',
+  userId: YOUR_USER_ID,
   accessToken: 'YOUR_ACCESS_TOKEN'
 });
 userFeed.run();
 ```
 
-> Note: `YOUR_USER_ID` option corresponds to your Instagram **account ID (eg: 4385108)**, not your username. If you do not know your
-account ID, do a quick google search for ["What is my Instagram account ID?"](https://google.com/search?q=What%20is%20my%20Instagram%20account%20ID%3F).
-There a several free tools available online that will look it up for you.
+> Note: `YOUR_USER_ID` option corresponds to your Instagram **account ID (eg: 4385108)**, not your username. If you do not know your account ID, do a quick google search for ["What is my Instagram account ID?"](https://google.com/search?q=What%20is%20my%20Instagram%20account%20ID%3F). There a several free tools available online that will look it up for you.
+
+> Troubleshooting: If you are seeing the error `No user specified. Use the 'userId' option` in your browser console, make sure there are no quotation marks around the value for `userId`. Instafeed.js is expecting the `userId` as a number, not as a string.   
+
 
 ## Pagination
 
