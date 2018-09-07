@@ -13,3 +13,6 @@ examples/
 
 # Sass Files
 .sass-cache/
+
+# IDE folder
+.idea/
