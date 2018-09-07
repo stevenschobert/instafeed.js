@@ -10,6 +10,7 @@
         get: 'popular',
         resolution: 'thumbnail',
         sortBy: 'none',
+        square: false,
         links: true,
         mock: false,
         useHttp: false
@@ -64,7 +65,7 @@
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, templateImg, tmpEl, tmpTemplateEl;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
@@ -172,6 +173,19 @@
               comments: image.comments.count,
               location: this._getObjectProperty(image, 'location.name')
             });
+
+            /*
+             If 'square' is specified, and the template contains an <img>,
+             run it through the square enforcer and swap it back in
+             */
+            if (this.options.square === true) {
+              tmpTemplateEl = document.createElement('div');
+              tmpTemplateEl.innerHTML = imageString;
+              if ((templateImg = tmpTemplateEl.querySelector("img[src='" + imageUrl + "']"))) {
+                templateImg.parentNode.replaceChild(this._enforceSquare(templateImg), templateImg);
+                imageString = tmpTemplateEl.innerHTML;
+              }
+            }
             htmlString += imageString;
           }
           tmpEl.innerHTML = htmlString;
@@ -201,6 +215,9 @@
               imageUrl = imageUrl.replace(/https?:\/\//, '//');
             }
             img.src = imageUrl;
+            if (this.options.square === true) {
+              img = this._enforceSquare(img);
+            }
             if (this.options.links === true) {
               anchor = document.createElement('a');
               anchor.href = image.link;
@@ -297,6 +314,21 @@
         });
       }
       return output;
+    };
+
+    Instafeed.prototype._enforceSquare = function(image) {
+      var squareTemplate, wrapperBaseStyle;
+      squareTemplate = document.createElement('div');
+      squareTemplate.setAttribute('class', 'instafeed-image-square');
+      wrapperBaseStyle = "height:0; overflow:hidden; position: relative; padding-top:100%;";
+      if ('objectFit' in document.documentElement.style === true) {
+        squareTemplate.style.cssText = wrapperBaseStyle;
+        image.style.cssText = 'height: 100%; left: 0; object-fit:cover; position:absolute; top: 0; width: 100%;';
+        squareTemplate.appendChild(image.cloneNode());
+      } else {
+        squareTemplate.style.cssText = wrapperBaseStyle + " background-size:cover; background-repeat:no-repeat; background-position:center; background-image:url(" + image.src + ");";
+      }
+      return squareTemplate;
     };
 
     Instafeed.prototype._getObjectProperty = function(object, property) {
