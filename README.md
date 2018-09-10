@@ -120,6 +120,7 @@ If you need help with that step, just try Googling ["How to get an Instagram cli
 - `success` (function) - A callback function called when Instagram returns valid data. (argument -> json object)
 - `error` (function) - A callback function called when there is an error fetching images. (argument -> string message)
 - `mock` (bool) - Set to true fetch data without inserting images into DOM. Use with __success__ callback.
+- `escapeCaption` (bool) - By default, captions are escaped. Set to `false` to disable.
 - `filter` (function) - A function used to exclude images from your results. The function will be
   given the image data as an argument, and expects the function to return a boolean. See the example
   below for more information.

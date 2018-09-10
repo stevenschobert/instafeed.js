@@ -9,6 +9,7 @@ class Instafeed
       links: true
       mock: false
       useHttp: false
+      escapeCaption: true
 
     # if an object is passed in, override the default options
     if typeof params is 'object'
@@ -192,6 +193,12 @@ class Instafeed
           if httpProtocol and !@options.useHttp
             imageUrl = imageUrl.replace(/https?:\/\//, '//')
 
+          # escape caption to avoid XSS
+          caption = @_getObjectProperty(image, 'caption.text')
+          if @options.escapeCaption
+            caption = caption.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            caption = caption.replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
           # parse the template
           imageString = @_makeTemplate @options.template,
             model: image
@@ -202,7 +209,7 @@ class Instafeed
             width: imgWidth
             height: imgHeight
             orientation: imgOrient
-            caption: @_getObjectProperty(image, 'caption.text')
+            caption: caption
             likes: image.likes.count
             comments: image.comments.count
             location: @_getObjectProperty(image, 'location.name')
