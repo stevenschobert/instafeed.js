@@ -1,20 +1,23 @@
-instafeed.js
-============
-[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/instafeed.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/instafeed.js)
+## :warning: IMPORTANT! Instagram will not allow new integrations with instafeed.js. Instafeed.js will stop working completely in 'early 2020'.
 
-Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
-
-## :warning: IMPORTANT! Instagram is changing the API that Instafeed.js depends on.
-
-Before you decide to use instafeed.js, be aware that [Instagram is shutting down the API platform](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/) that enables instafeed to work. As of now, instafeed.js works for some common uses (eg. embedding a single user's feed on a web page), but can't work for more complex uses (eg. retrieving all public images with a particular hashtag, finding posts based on a location, etc).
+Before you decide to use instafeed.js, be aware that [Instagram is shutting down the API platform](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/) that enables instafeed to work, and **is not issuing new user access tokens for this API**. As of now, instafeed.js works for some common uses (eg. embedding a single user's feed on a web page) _as long as you already have a legacy Access Token_, but will not work for new integrations or more complex uses (eg. retrieving all public images with a particular hashtag, finding posts based on a location, etc).
 
 The platform API will be turned off completely in 2020, which means that instafeed.js in its current form will stop working then.
+
+We're currently looking at ways to continue the instafeed.js experience with the new APIs, but no solution or road-map has been agreed upon yet.
 
 For more information on the current limitations of the API, please see the following:
 
   - [Official API status](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/)
   - [Issue #345](https://github.com/stevenschobert/instafeed.js/issues/345)
   - [Issue #571](https://github.com/stevenschobert/instafeed.js/issues/571)
+
+
+instafeed.js
+============
+[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/instafeed.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/instafeed.js)
+
+Instafeed is a dead-simple way to add Instagram photos to your website. No jQuery required, just good 'ol plain javascript.
 
 ## Using instafeed.js
 
