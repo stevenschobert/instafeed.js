@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="instafeed">
+
+    </div>
+
+
+    <script type="text/javascript">
+        fetch('https://graph.instagram.com/me/media?fields=media_url&access_token=NEW_YOUR_FACE_BOOK_ACCESS_KEY').then(function(response) {
+          return response.json();
+        })
+        .then(function(myJson) {
+          const json = JSON.stringify(myJson);
+          const obj = JSON.parse(json);
+          const json2 = JSON.stringify(obj.data);
+          const obj2 = JSON.parse(json2);
+          for (var i in obj2) {
+            console.log(obj2[i]);
+            var instaFeed = document.getElementById("instafeed");
+            var image4 = document.createElement('a');
+            instaFeed.appendChild(image4);
+            image4.setAttribute('href', "https://www.instagram.com/modu_0bang/" );
+            var image4_1 = document.createElement('img');
+            image4.appendChild(image4_1);
+            image4_1.setAttribute('width', '150px');
+            image4_1.setAttribute('height', '150px');
+            image4_1.setAttribute('src', obj2[i].media_url);
+          }
+        });
+      </script>
+  </body>
+</html>
