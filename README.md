@@ -1,5 +1,16 @@
 ## :warning: IMPORTANT! Instafeed.js will stop working completely on [March 2, 2020](https://developers.facebook.com/blog/post/2020/01/14/instagram-basic-display-api-long-lived-access-tokens-available/).
 
+# Poll: How much is instafeed.js worth to you?
+
+_We're trying to find a solution to keep instafeed.js alive! Please see #641 for more details. Answers are one-click and anonymous._
+
+[![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/I'd%20only%20use%20a%20free%20service)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/I'd%20only%20use%20a%20free%20service/vote)
+[![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/Up%20to%20USD%202.00%20per%20month)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/Up%20to%20USD%202.00%20per%20month/vote)
+[![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/USD%202-5%20per%20month)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/USD%202-5%20per%20month/vote)
+[![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/USD%206-10%20per%20month)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/USD%206-10%20per%20month/vote)
+[![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/More%20than%20USD%2010%20per%20month)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/More%20than%20USD%2010%20per%20month/vote)
+
+
 ## Instagram will not allow new integrations with instafeed.js.
 
 Before you decide to use instafeed.js, be aware that [Instagram is shutting down the API platform](https://developers.facebook.com/blog/post/2018/01/30/instagram-graph-api-updates/) that enables instafeed to work, and **is not issuing new user access tokens for this API**. As of now, instafeed.js works for some common uses (eg. embedding a single user's feed on a web page) _as long as you already have a legacy Access Token_. It will not work for new integrations or more complex uses (eg. retrieving all public images with a particular hashtag, finding posts based on a location, etc).
