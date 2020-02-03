@@ -2,7 +2,7 @@
 
 # Poll: How much is instafeed.js worth to you?
 
-_We're trying to find a solution to keep instafeed.js alive! Please see #641 for more details. Answers are one-click and anonymous._
+_We're trying to find a solution to keep instafeed.js alive! Please see [Issue #641](https://github.com/stevenschobert/instafeed.js/issues/641) for more details. Answers are one-click and anonymous._
 
 [![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/I'd%20only%20use%20a%20free%20service)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/I'd%20only%20use%20a%20free%20service/vote)
 [![](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/Up%20to%20USD%202.00%20per%20month)](https://api.gh-polls.com/poll/01E04944A3JVRW1KQKXEKM2Q5T/Up%20to%20USD%202.00%20per%20month/vote)
