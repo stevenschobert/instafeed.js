@@ -1,4 +1,4 @@
-## :warning: IMPORTANT! Instafeed.js will stop working completely on [March 2, 2020](https://developers.facebook.com/blog/post/2020/01/14/instagram-basic-display-api-long-lived-access-tokens-available/).
+## :warning: IMPORTANT! Instafeed.js will stop working completely on [March 31, 2020](https://developers.facebook.com/blog/post/2020/01/14/instagram-basic-display-api-long-lived-access-tokens-available/).
 
 # Poll: How much is instafeed.js worth to you?
 
