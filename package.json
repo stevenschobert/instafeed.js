@@ -1,21 +1,21 @@
 {
-  "name": "instafeed.js",
-  "description": "A simple Instagram javascript plugin for your website.",
-  "version": "1.4.1",
-  "author": "Steven Schobert <spschobert@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/stevenschobert/instafeed.js.git"
-  },
-  "devDependencies": {
-    "uglify-js": "1.3.x",
-    "coffee-script": "1.9.x",
-    "coffeelint": "1.10.x",
-    "mocha": "2.2.x",
-    "chai": "3.0.x"
-  },
-  "main": "./instafeed.js",
-  "scripts": {
-    "test": "make test"
-  }
+	"name": "instafeed.js",
+	"description": "A simple Instagram javascript plugin for your website.",
+	"version": "1.4.1",
+	"author": "Steven Schobert <spschobert@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/stevenschobert/instafeed.js.git"
+	},
+	"devDependencies": {
+		"uglify-js": "1.3.x",
+		"coffee-script": "1.9.x",
+		"coffeelint": "1.10.x",
+		"mocha": "2.2.x",
+		"chai": "3.0.x"
+	},
+	"main": "./instafeed.js",
+		"scripts": {
+		"test": "make test"
+	}
 }
