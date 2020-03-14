@@ -7,12 +7,10 @@
       var option, value;
       this.options = {
         target: 'instafeed',
-        get: 'popular',
-        resolution: 'thumbnail',
         sortBy: 'none',
+        userId: 'me',
         links: true,
-        mock: false,
-        useHttp: false
+        mock: false
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -21,7 +19,6 @@
         }
       }
       this.context = context != null ? context : this;
-      this.unique = this._genKey();
     }
 
     Instafeed.prototype.hasNext = function() {
@@ -36,49 +33,37 @@
     };
 
     Instafeed.prototype.run = function(url) {
-      var header, instanceName, script;
-      if (typeof this.options.clientId !== 'string') {
-        if (typeof this.options.accessToken !== 'string') {
-          throw new Error("Missing clientId or accessToken.");
-        }
-      }
+      var self;
       if (typeof this.options.accessToken !== 'string') {
-        if (typeof this.options.clientId !== 'string') {
-          throw new Error("Missing clientId or accessToken.");
-        }
+        throw new Error("Missing accessToken.");
       }
       if ((this.options.before != null) && typeof this.options.before === 'function') {
         this.options.before.call(this);
       }
-      if (typeof document !== "undefined" && document !== null) {
-        script = document.createElement('script');
-        script.id = 'instafeed-fetcher';
-        script.src = url || this._buildUrl();
-        header = document.getElementsByTagName('head');
-        header[0].appendChild(script);
-        instanceName = "instafeedCache" + this.unique;
-        window[instanceName] = new Instafeed(this.options, this);
-        window[instanceName].unique = this.unique;
+      if (typeof url !== 'string') {
+        url = "https://graph.instagram.com/" + this.options.userId + "/media?fields=caption,media_type,media_url,thumbnail_url,permalink,timestamp&access_token=" + this.options.accessToken;
       }
-      return true;
+      self = this;
+      return ((fetch(url, {
+        mode: "cors",
+        referrer: "no-referrer",
+        referrerPolicy: "no-referrer"
+      })).then(function(headers) {
+        return headers.json();
+      })).then(function(response) {
+        self.parse(response);
+        return true;
+      });
     };
 
     Instafeed.prototype.parse = function(response) {
-      var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+      var anchor, childNodeCount, childNodeIndex, childNodesArr, eMsg, fragment, i, imageString, imageURL, imgUrl, j, k, l, len, len1, len2, len3, media, mediaString, medias, node, options, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
       if (typeof response !== 'object') {
         if ((this.options.error != null) && typeof this.options.error === 'function') {
           this.options.error.call(this, 'Invalid JSON data');
           return false;
         } else {
           throw new Error('Invalid JSON response');
-        }
-      }
-      if (response.meta.code !== 200) {
-        if ((this.options.error != null) && typeof this.options.error === 'function') {
-          this.options.error.call(this, response.meta.error_message);
-          return false;
-        } else {
-          throw new Error("Error from Instagram: " + response.meta.error_message);
         }
       }
       if (response.data.length === 0) {
@@ -93,8 +78,8 @@
         this.options.success.call(this, response);
       }
       this.context.nextUrl = '';
-      if (response.pagination != null) {
-        this.context.nextUrl = response.pagination.next_url;
+      if (response.next != null) {
+        this.context.nextUrl = response.next;
       }
       if (this.options.sortBy !== 'none') {
         if (this.options.sortBy === 'random') {
@@ -110,71 +95,58 @@
             });
             break;
           case 'recent':
-            response.data = this._sortBy(response.data, 'created_time', reverse);
-            break;
-          case 'liked':
-            response.data = this._sortBy(response.data, 'likes.count', reverse);
-            break;
-          case 'commented':
-            response.data = this._sortBy(response.data, 'comments.count', reverse);
+            response.data = this._sortBy(response.data, 'timestamp', reverse);
             break;
           default:
             throw new Error("Invalid option for sortBy: '" + this.options.sortBy + "'.");
         }
       }
       if ((typeof document !== "undefined" && document !== null) && this.options.mock === false) {
-        images = response.data;
+        medias = response.data;
         parsedLimit = parseInt(this.options.limit, 10);
-        if ((this.options.limit != null) && images.length > parsedLimit) {
-          images = images.slice(0, parsedLimit);
+        if ((this.options.limit != null) && medias.length > parsedLimit) {
+          medias = medias.slice(0, parsedLimit);
         }
         fragment = document.createDocumentFragment();
         if ((this.options.filter != null) && typeof this.options.filter === 'function') {
-          images = this._filter(images, this.options.filter);
+          medias = this._filter(medias, this.options.filter);
         }
-        if ((this.options.template != null) && typeof this.options.template === 'string') {
-          htmlString = '';
+        if ((this.options.template != null) && (typeof this.options.template === 'string' || typeof this.options.template === 'function')) {
           imageString = '';
           imgUrl = '';
           tmpEl = document.createElement('div');
-          for (i = 0, len = images.length; i < len; i++) {
-            image = images[i];
-            imageObj = image.images[this.options.resolution];
-            if (typeof imageObj !== 'object') {
-              eMsg = "No image found for resolution: " + this.options.resolution + ".";
-              throw new Error(eMsg);
+          for (i = 0, len = medias.length; i < len; i++) {
+            media = medias[i];
+            if (media.media_type === 'VIDEO') {
+              imageURL = media.thumbnail_url;
+            } else {
+              imageURL = media.media_url;
             }
-            imgWidth = imageObj.width;
-            imgHeight = imageObj.height;
-            imgOrient = "square";
-            if (imgWidth > imgHeight) {
-              imgOrient = "landscape";
+            options = {
+              model: media,
+              id: media.id,
+              link: media.permalink,
+              type: media.media_type,
+              image_url: imageURL,
+              media_url: media.media_url,
+              caption: media.caption
+            };
+            if (typeof this.options.template === 'function') {
+              mediaString = this.options.template(options);
+            } else {
+              mediaString = this._makeTemplate(this.options.template, options);
             }
-            if (imgWidth < imgHeight) {
-              imgOrient = "portrait";
+            if (typeof mediaString === 'string') {
+              tmpEl.innerHTML += mediaString;
+            } else if (mediaString instanceof Array) {
+              for (j = 0, len1 = mediaString.length; j < len1; j++) {
+                node = mediaString[j];
+                tmpEl.appendChild(node);
+              }
+            } else {
+              tmpEl.appendChild(mediaString);
             }
-            imageUrl = imageObj.url;
-            httpProtocol = window.location.protocol.indexOf("http") >= 0;
-            if (httpProtocol && !this.options.useHttp) {
-              imageUrl = imageUrl.replace(/https?:\/\//, '//');
-            }
-            imageString = this._makeTemplate(this.options.template, {
-              model: image,
-              id: image.id,
-              link: image.link,
-              type: image.type,
-              image: imageUrl,
-              width: imgWidth,
-              height: imgHeight,
-              orientation: imgOrient,
-              caption: this._getObjectProperty(image, 'caption.text'),
-              likes: image.likes.count,
-              comments: image.comments.count,
-              location: this._getObjectProperty(image, 'location.name')
-            });
-            htmlString += imageString;
           }
-          tmpEl.innerHTML = htmlString;
           childNodesArr = [];
           childNodeIndex = 0;
           childNodeCount = tmpEl.childNodes.length;
@@ -182,32 +154,30 @@
             childNodesArr.push(tmpEl.childNodes[childNodeIndex]);
             childNodeIndex += 1;
           }
-          for (j = 0, len1 = childNodesArr.length; j < len1; j++) {
-            node = childNodesArr[j];
+          for (k = 0, len2 = childNodesArr.length; k < len2; k++) {
+            node = childNodesArr[k];
             fragment.appendChild(node);
           }
         } else {
-          for (k = 0, len2 = images.length; k < len2; k++) {
-            image = images[k];
-            img = document.createElement('img');
-            imageObj = image.images[this.options.resolution];
-            if (typeof imageObj !== 'object') {
-              eMsg = "No image found for resolution: " + this.options.resolution + ".";
-              throw new Error(eMsg);
+          for (l = 0, len3 = medias.length; l < len3; l++) {
+            media = medias[l];
+            if (media.media_type === 'VIDEO') {
+              node = document.createElement('video');
+              node.controls = true;
+              node.preload = "metadata";
+              node.poster = media.thumbnail_url;
+              node.src = media.media_url;
+            } else {
+              node = document.createElement('img');
+              node.src = media.media_url;
             }
-            imageUrl = imageObj.url;
-            httpProtocol = window.location.protocol.indexOf("http") >= 0;
-            if (httpProtocol && !this.options.useHttp) {
-              imageUrl = imageUrl.replace(/https?:\/\//, '//');
-            }
-            img.src = imageUrl;
             if (this.options.links === true) {
               anchor = document.createElement('a');
-              anchor.href = image.link;
-              anchor.appendChild(img);
+              anchor.href = media.permalink;
+              anchor.appendChild(node);
               fragment.appendChild(anchor);
             } else {
-              fragment.appendChild(img);
+              fragment.appendChild(node);
             }
           }
         }
@@ -220,69 +190,11 @@
           throw new Error(eMsg);
         }
         targetEl.appendChild(fragment);
-        header = document.getElementsByTagName('head')[0];
-        header.removeChild(document.getElementById('instafeed-fetcher'));
-        instanceName = "instafeedCache" + this.unique;
-        window[instanceName] = void 0;
-        try {
-          delete window[instanceName];
-        } catch (_error) {
-          e = _error;
-        }
       }
       if ((this.options.after != null) && typeof this.options.after === 'function') {
         this.options.after.call(this);
       }
       return true;
-    };
-
-    Instafeed.prototype._buildUrl = function() {
-      var base, endpoint, final;
-      base = "https://api.instagram.com/v1";
-      switch (this.options.get) {
-        case "popular":
-          endpoint = "media/popular";
-          break;
-        case "tagged":
-          if (!this.options.tagName) {
-            throw new Error("No tag name specified. Use the 'tagName' option.");
-          }
-          endpoint = "tags/" + this.options.tagName + "/media/recent";
-          break;
-        case "location":
-          if (!this.options.locationId) {
-            throw new Error("No location specified. Use the 'locationId' option.");
-          }
-          endpoint = "locations/" + this.options.locationId + "/media/recent";
-          break;
-        case "user":
-          if (!this.options.userId) {
-            throw new Error("No user specified. Use the 'userId' option.");
-          }
-          endpoint = "users/" + this.options.userId + "/media/recent";
-          break;
-        default:
-          throw new Error("Invalid option for get: '" + this.options.get + "'.");
-      }
-      final = base + "/" + endpoint;
-      if (this.options.accessToken != null) {
-        final += "?access_token=" + this.options.accessToken;
-      } else {
-        final += "?client_id=" + this.options.clientId;
-      }
-      if (this.options.limit != null) {
-        final += "&count=" + this.options.limit;
-      }
-      final += "&callback=instafeedCache" + this.unique + ".parse";
-      return final;
-    };
-
-    Instafeed.prototype._genKey = function() {
-      var S4;
-      S4 = function() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-      };
-      return "" + (S4()) + (S4()) + (S4()) + (S4());
     };
 
     Instafeed.prototype._makeTemplate = function(template, data) {
