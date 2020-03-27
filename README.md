@@ -1,6 +1,6 @@
 ## :warning: IMPORTANT! ~Instafeed.js will stop working completely on [March 31, 2020](https://developers.facebook.com/blog/post/2020/01/14/instagram-basic-display-api-long-lived-access-tokens-available/)~.
 
-## Update: A new, compatible version of instafeed.js is in production. Please watch this repository for updates. 
+## Update: A new, compatible version of instafeed.js is in development. Please watch this repository for updates. 
 
 The current release of Instafeed **will still stop working unless you update** to the new version when it's available.
 
