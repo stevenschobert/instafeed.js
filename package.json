@@ -1,6 +1,16 @@
 {
   "name": "instafeed.js",
-  "private": true,
+  "description": "A simple Instagram javascript plugin for your website.",
+  "version": "2.0.0-rc1",
+  "author": "Steven Schobert <spschobert@gmail.com> (https://stevenschobert.com)",
+  "contributors": [
+    "Ben Hull <ben@companionstudio.com.au>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevenschobert/instafeed.js.git"
+  },
+  "main": "./src/instafeed.js",
   "scripts": {
     "lint-src": "jshint --reporter ./node_modules/jshint-stylish src/**.js",
     "lint-test": "jshint --reporter ./node_modules/jshint-stylish test/**.js",
