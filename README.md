@@ -62,7 +62,7 @@ See [Options](https://github.com/stevenschobert/instafeed.js/wiki/Options-Refere
 
 The easiest way to control the way Instafeed.js looks on your website is to use the __template__ option. You can write your own HTML markup and it will be used for every image that Instafeed.js fetches. See [Templating](https://github.com/stevenschobert/instafeed.js/wiki/Templating).
 
-__Buy me a coffee:__
+## Would you like to say thanks? Buy me a coffee! ## 
 
 If you enjoy using Instafeed.js and want to say thanks, you can leave me a small tip. All payments
 are securely handled through [Stripe](http://stripe.com).
