@@ -1,6 +1,6 @@
 # Instafeed.js
 
-[![Build Status](https://travis-ci.org/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.org/stevenschobert/instafeed.js)
+[![Build Status](https://travis-ci.com/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.com/stevenschobert/instafeed.js)
 
 Instafeed is a simple way to display your Instagram photos on your website.
 
