@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test page</title>
+  <meta charset="utf-8" />
+  <style>
+    #instafeed a {
+      display: inline-block;
+      max-width: 150px;
+      max-height: 150px;
+      vertical-align: middle;
+    }
+
+    #instafeed a img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="exports"></div>
+  <div id="instafeed"></div>
+<!--   <script data-main="main" src="require.js"></script> -->
+  <script src="src/instafeed.js"></script>
+<!--   <script src="min.js"></script> -->
+  <script>
+    var feed = new Instafeed({
+      //success: function(data) {
+      //  console.log('success', data);
+      //},
+      //after: function() {
+      //  console.log('finished!');
+      //},
+      //error: function(error) {
+      //  console.error('instafeed error', error);
+      //},
+      accessToken: 'IGQVJXV3puaGdTZAWxjSzFoQkZAycjJhRXhCaXVPR3FObjdzOGtwTXQ2TFFjUEhtRE1SSFpJVVl6VmlWMlBsa3c2YU5TY1ZAkQ3RJUm1jbjc0eVZAtV3k5V0J1MExEOUItdzFDSk8waUlQNlI3by1yTFZAJLQZDZD',
+      //debug: true,
+//       filter: function(image) {
+//         return true;
+//       },
+//       template: 'value: {{test}}',
+//       transform: function(image) {
+//         return {
+//           test: true
+//         };
+//       }
+    });
+
+    feed.run();
+    //setTimeout(function() {
+    //  feed.run();
+    //}, 3000);
+  </script>
+</body>
+</html>
