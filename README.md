@@ -6,7 +6,7 @@ We're in the process of launching instafeed.js v2, powered by the new Instagram 
 
 See the [v2 migration guide](https://github.com/stevenschobert/instafeed.js/wiki/Version-2-migration-guide) for help on updating from v1, or a [basic demonstration with code examples](https://codepen.io/companionstudio/pen/rNVPGOz).
 
-For the legacy version's readme, please [see the Legacy API branch](https://github.com/stevenschobert/instafeed.js/tree/legacy-api).
+For the now-non-functional v1.x library, please [see the Legacy API branch](https://github.com/stevenschobert/instafeed.js/tree/legacy-api).
 
 ## Installation
 
