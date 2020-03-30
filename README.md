@@ -23,14 +23,14 @@ Setting up Instafeed is pretty straight-forward - there are 3 main steps.
 ## Basic Usage
 
 ```html
+<div id="instafeed"></div>
+
 <script type="text/javascript">
     var feed = new Instafeed({
       accessToken: 'your-token'
     });
     feed.run();
 </script>
-
-<div id="instafeed"></div>
 ```
 
 Instafeed will automatically look for a `<div id="instafeed"></div>` and fill it with linked thumbnails. Of course, you can easily change this behavior using [standard options](#standard-options). Also check out the [advanced options](#advanced-options) for some advanced ways of customizing __Instafeed.js__.
