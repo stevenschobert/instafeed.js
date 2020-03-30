@@ -71,9 +71,9 @@ are securely handled through [Stripe](http://stripe.com).
 
 ## Change Log
 
-__2.?.?__ 
+__2.0.0rc1__ 
 
-First release based on the Basic Display API.
+First release candidate based on the Basic Display API.
 
 __1.4.1__
 
