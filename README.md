@@ -43,7 +43,20 @@ Instafeed will automatically look for a `<div id="instafeed"></div>` and fill it
 
 ## Options
 
-See [Options](https://github.com/stevenschobert/instafeed.js/wiki/Options-Reference).
+Here are some of the most commonly used options:
+
+| Key  | Default Value  | Valid types | Description  |
+|---|---|---|---|
+| `accessToken` | `null` | String, Function | **Required.** The Instagram access token, either as a string, or a function which returns a string |
+| `debug` | `false` | Boolean | Set to `true` to display debugging information |
+| `filter` | `null` | Function | A function used to exclude images from your results. The function will be given the image data as an argument, and expects the function to return a boolean. |
+| `limit` | `null` | Number | Display a maximum of this many posts | 
+| `sort` | `null` | Function | A custom function to sort the media, rather than the default 'most recent' sorting|
+| `target` | `'instafeed'` | String, DOM Element | Either the ID or the DOM element itself where you want to add the images. |
+| `template` | `'<a href="{{link}}"><img title="{{caption}}" src="{{image}}" /></a>'` | String | A mustache template used to produce HTML for the document. |
+| `transform` | `null` | Function | A function used to transform the image data before it is rendered. |
+
+See [Options](https://github.com/stevenschobert/instafeed.js/wiki/Options-Reference) in the wiki for the complete reference.
 
 ## Templating
 
