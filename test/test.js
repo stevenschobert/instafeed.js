@@ -57,7 +57,6 @@ describe('Instafeed', function() {
       const options = optionsFixture({ accessTokenTimeout: '10' });
       assert.throws(() => {
         new Instafeed(options);
-        console.log('here');
       }, /accessTokenTimeout/);
     });
 
@@ -73,6 +72,13 @@ describe('Instafeed', function() {
       assert.throws(() => {
         new Instafeed(options);
       }, /target/);
+    });
+
+    it('should throw if "tagPattern" is not a valid RegExp', function() {
+      const options = optionsFixture({ tagPattern: false }); //Might be better to test for an actual valid regex? 'test/\'
+      assert.throws(() => {
+        new Instafeed(options);
+      }, /tagPattern/);
     });
   });
 

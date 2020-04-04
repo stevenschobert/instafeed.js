@@ -30,6 +30,7 @@
       render: null,
       sort: null,
       success: null,
+      tagPattern: /#([A-zÀ-ÖØ-öø-ÿ0-9](\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])+)/gi,
       target: 'instafeed',
       template: '<a href="{{link}}"><img title="{{caption}}" src="{{image}}" /></a>',
       templateBoundaries: ['{{','}}'],
@@ -67,6 +68,7 @@
     assert(!opts.sort || typeof opts.sort === 'function', 'sort must be null or function, got ' + opts.sort + ' ('+ typeof opts.sort +')');
     assert(!opts.render || typeof opts.render === 'function', 'render must be null or function, got ' + opts.render + ' ('+ typeof opts.render +')');
     assert(!opts.limit || typeof opts.limit === 'number', 'limit must be null or number, got ' + opts.limit + ' ('+ typeof opts.limit +')');
+    assert(!opts.tagPattern || typeof opts.tagPattern === 'string' || opts.tagPattern.constructor === RegExp, 'tagPattern must be null, a string or a RegExp, got ' + opts.tagPattern + ' ('+ typeof opts.tagPattern +')');
 
     // set instance info
     this._state = state;
@@ -230,7 +232,7 @@
   Instafeed.prototype._getTags = function getTags(data) {
     // This expression is any combination of letters and numbers, no punctuation.
     // Strictly speaking, a hashtag can't consist only of numbers, but we don't enforce that here.
-    var exp = /#([A-zÀ-ÖØ-öø-ÿ0-9]+)/gi;
+    var exp = this._options.tagPattern;
     var tags = [];
     var tagData = data.caption.match(exp) || [];
 
