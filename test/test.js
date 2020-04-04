@@ -6,12 +6,14 @@ function optionsFixture(overrides) {
     accessToken: 'test_token',
     accessTokenTimeout: 5000,
     debug: false,
-    target: 'instafeed'
+    target: 'instafeed',
+    tagPattern: /#([\wÀ-úÀ-ÿ\u00a9|\u00ae|\u2000-\u3300|\ud83c\ud000-\udfff|\ud83d\ud000-\udfff|\ud83e\ud000-\udfff]+)/gi
   };
 
   if (overrides) {
     for (const key in values) {
       if (typeof overrides[key] !== 'undefined') {
+        console.log(key, overrides[key]);
         values[key] = overrides[key];
       }
     }
@@ -74,8 +76,8 @@ describe('Instafeed', function() {
       }, /target/);
     });
 
-    it('should throw if "tagPattern" is not a valid RegExp', function() {
-      const options = optionsFixture({ tagPattern: false }); //Might be better to test for an actual valid regex? 'test/\'
+    it('should throw if "tagPattern" is non-object and non-string', function() {
+      const options = optionsFixture({ tagPattern: 0 });
       assert.throws(() => {
         new Instafeed(options);
       }, /tagPattern/);
