@@ -30,7 +30,6 @@
       render: null,
       sort: null,
       success: null,
-      tagPattern: /#([\wÀ-úÀ-ÿ\u00a9|\u00ae|\u2000-\u3300|\ud83c\ud000-\udfff|\ud83d\ud000-\udfff|\ud83e\ud000-\udfff]+)/gi,
       target: 'instafeed',
       template: '<a href="{{link}}"><img title="{{caption}}" src="{{image}}" /></a>',
       templateBoundaries: ['{{','}}'],
@@ -59,7 +58,6 @@
     assert(typeof opts.debug === 'boolean', 'debug must be true or false, got ' + opts.debug + ' ('+ typeof opts.debug +')');
     assert(typeof opts.mock === 'boolean', 'mock must be true or false, got ' + opts.mock + ' ('+ typeof opts.mock +')');
     assert(typeof opts.templateBoundaries === 'object' && opts.templateBoundaries.length === 2 && typeof opts.templateBoundaries[0] === 'string' && typeof opts.templateBoundaries[1] === 'string', 'templateBoundaries must be an array of 2 strings, got ' + opts.templateBoundaries + ' ('+ typeof opts.templateBoundaries +')');
-    assert(typeof opts.tagPattern === 'string' || typeof opts.tagPattern === 'object', 'tagPattern must be null, a string or a RegExp pattern, got ' + opts.tagPattern + ' ('+ typeof opts.tagPattern +')');
     assert(!opts.template || typeof opts.template === 'string', 'template must null or string, got ' + opts.template + ' ('+ typeof opts.template +')');
     assert(!opts.error || typeof opts.error === 'function', 'error must be null or function, got ' + opts.error + ' ('+ typeof opts.error +')');
     assert(!opts.after || typeof opts.after === 'function', 'after must be null or function, got ' + opts.after + ' ('+ typeof opts.after +')');
@@ -230,9 +228,9 @@
   };
 
   Instafeed.prototype._getTags = function getTags(data) {
-    // This expression is any combination of letters and numbers, no punctuation.
-    // Strictly speaking, a hashtag can't consist only of numbers, but we don't enforce that here.
-    var exp = this._options.tagPattern;
+    // This expression comes from https://github.com/johnlinp/instagram-validator
+    // A non-official instagram validator
+    var exp = /^#[^~`!@#$%^&*\(\)\-\+={}\[\]:;"'<>\?,\./|\\\s]+$/gi;
     var tags = [];
     var tagData = data.caption.match(exp) || [];
 
