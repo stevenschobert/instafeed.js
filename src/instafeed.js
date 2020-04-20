@@ -372,7 +372,6 @@
     };
 
     apiRequest = new XMLHttpRequest();
-    apiRequest.timeout = this._options.apiTimeout;
 
     apiRequest.ontimeout = function apiRequestTimedOut(event) {
       callbackOnce(new Error('api request timed out'));
@@ -413,6 +412,7 @@
     };
 
     apiRequest.open('GET', url, true);
+    apiRequest.timeout = this._options.apiTimeout;
     apiRequest.send();
   };
 
