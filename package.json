@@ -16,6 +16,7 @@
     "lint-test": "jshint --reporter ./node_modules/jshint-stylish test/**.js",
     "unit-test": "mocha -R spec test/",
     "build-browser-test": "cp node_modules/mocha/mocha.{css,js} browser-test/ && browserify test/test.js > browser-test/test-bundle.js",
+    "build-dist": "uglifyjs --ie8 --verbose src/instafeed.js -o dist/instafeed.min.js && node scripts/print-file-size.js dist/instafeed.min.js",
     "test": "npm run lint-src && npm run lint-test && npm run unit-test"
   },
   "devDependencies": {
