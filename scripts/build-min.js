@@ -16,10 +16,10 @@ const minPath = path.join(destFolder, minName);
 
 const preamble = `/* ${pkg.name} | v${pkg.version} | ${pkg.homepage} | License: ${pkg.license} */`;
 
-const src = fs.readFileSync(srcPath, { encoding: 'utf-8' });
+const srcContent = fs.readFileSync(srcPath, { encoding: 'utf-8' });
 
-const unMinResult = uglify.minify({
-  [srcName]: src
+const unMinResult = minify({
+  [srcName]: srcContent
 }, {
   warnings: 'verbose',
   ie8: true,
@@ -27,24 +27,14 @@ const unMinResult = uglify.minify({
   output: {
     preamble: preamble,
     beautify: true,
-    comments: false
+    comments: false,
+    indent_level: 2
   },
   mangle: false,
   sourceMap: false
 });
 
-if (unMinResult.error) {
-  console.error(`${unMinResult.error.filename}:${unMinResult.error.line},${unMinResult.error.col}: ${unMinResult.error.message}`);
-  process.exit(1);
-}
-
-if (Array.isArray(unMinResult.warnings)) {
-  for (const warn of unMinResult.warnings) {
-    console.warn(warn);
-  }
-}
-
-const minResult = uglify.minify({
+const minResult = minify({
   [srcName]: unMinResult.code
 }, {
   warnings: 'verbose',
@@ -61,19 +51,24 @@ const minResult = uglify.minify({
   }
 });
 
-if (minResult.error) {
-  console.error(`${minResult.error.filename}:${minResult.error.line},${minResult.error.col}: ${minResult.error.message}`);
-  process.exit(1);
-}
-
-if (Array.isArray(minResult.warnings)) {
-  for (const warn of minResult.warnings) {
-    console.warn(warn);
-  }
-}
-
 fs.writeFileSync(unMinPath, unMinResult.code, { encoding: 'utf-8' });
 fs.writeFileSync(minPath, minResult.code, { encoding: 'utf-8' });
 fs.writeFileSync(mapPath, minResult.map, { encoding: 'utf-8' });
 
 process.exit(0);
+
+function minify(srcMap, opts) {
+  const result = uglify.minify(srcMap, opts);
+
+  if (result.error) {
+    console.error(`${result.error.filename}:${result.error.line},${result.error.col}: ${result.error.message}`);
+    process.exit(1);
+  }
+
+  if (Array.isArray(result.warnings)) {
+    for (const warn of result.warnings) {
+      console.warn(warn);
+    }
+  }
+  return result;
+}
