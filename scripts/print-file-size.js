@@ -6,17 +6,18 @@ if (args.length < 1) {
   process.exit(1);
 }
 
-const [ filePath ] = args;
-let resolvedPath;
-try {
-  resolvedPath = fs.realpathSync(filePath);
-} catch (err) {
-  console.error(`cant resolve file path "${filePath}":`, err.message);
-  process.exit(1);
+for (const arg of args) {
+  let resolvedPath;
+  try {
+    resolvedPath = fs.realpathSync(arg);
+  } catch (err) {
+    console.error(`cant resolve file path "${arg}":`, err.message);
+    process.exit(1);
+  }
+
+  const fileStat = fs.statSync(resolvedPath);
+
+  const sizeInKb = fileStat.size / 1000;
+
+  console.log(`${arg}: ${sizeInKb}KB`);
 }
-
-const fileStat = fs.statSync(resolvedPath);
-
-const sizeInKb = fileStat.size / 1000;
-
-console.log(`${filePath}: ${sizeInKb}KB`);
