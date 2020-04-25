@@ -39,12 +39,11 @@ const minResult = minify({
 }, {
   warnings: 'verbose',
   ie8: true,
+  compress: true,
   output: {
     preamble: preamble
   },
-  mangle: {
-    reserved: ['Instafeed']
-  },
+  mangle: true,
   sourceMap: {
     filename: minName,
     url: mapName
