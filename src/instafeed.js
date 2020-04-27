@@ -22,6 +22,7 @@
       accessTokenTimeout: 5000,
       after: null,
       apiTimeout: 5000,
+      before: null,
       debug: false,
       error: null,
       filter: null,
@@ -60,6 +61,7 @@
     assert(typeof opts.templateBoundaries === 'object' && opts.templateBoundaries.length === 2 && typeof opts.templateBoundaries[0] === 'string' && typeof opts.templateBoundaries[1] === 'string', 'templateBoundaries must be an array of 2 strings, got ' + opts.templateBoundaries + ' ('+ typeof opts.templateBoundaries +')');
     assert(!opts.template || typeof opts.template === 'string', 'template must null or string, got ' + opts.template + ' ('+ typeof opts.template +')');
     assert(!opts.error || typeof opts.error === 'function', 'error must be null or function, got ' + opts.error + ' ('+ typeof opts.error +')');
+    assert(!opts.before || typeof opts.before === 'function', 'before must be null or function, got ' + opts.before + ' ('+ typeof opts.before +')');
     assert(!opts.after || typeof opts.after === 'function', 'after must be null or function, got ' + opts.after + ' ('+ typeof opts.after +')');
     assert(!opts.success || typeof opts.success === 'function', 'success must be null or function, got ' + opts.success + ' ('+ typeof opts.success +')');
     assert(!opts.filter || typeof opts.filter === 'function', 'filter must be null or function, got ' + opts.filter + ' ('+ typeof opts.filter +')');
@@ -116,6 +118,9 @@
 
       url = 'https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token='+ token;
       scope._debug('onTokenReceived', 'request url', url);
+
+      //Call the before hook
+      scope._runHook('before');
 
       // make network request
       scope._makeApiRequest(url, function onResponseReceived(err, data) {
