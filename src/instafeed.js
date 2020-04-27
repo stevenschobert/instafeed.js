@@ -23,6 +23,8 @@
       after: null,
       apiTimeout: 5000,
       before: null,
+      cacheExpiry: 60,        // Number of seconds to cache the response from Instagram
+      cacheKey: 'instafeed',  // The key to use in the browser store
       debug: false,
       error: null,
       filter: null,
@@ -59,6 +61,8 @@
     assert(typeof opts.debug === 'boolean', 'debug must be true or false, got ' + opts.debug + ' ('+ typeof opts.debug +')');
     assert(typeof opts.mock === 'boolean', 'mock must be true or false, got ' + opts.mock + ' ('+ typeof opts.mock +')');
     assert(typeof opts.templateBoundaries === 'object' && opts.templateBoundaries.length === 2 && typeof opts.templateBoundaries[0] === 'string' && typeof opts.templateBoundaries[1] === 'string', 'templateBoundaries must be an array of 2 strings, got ' + opts.templateBoundaries + ' ('+ typeof opts.templateBoundaries +')');
+    assert(!opts.cacheExpiry || typeof opts.cacheExpiry === 'number', 'cacheExpiry must be null or number, got ' + opts.limit + ' ('+ typeof opts.limit +')');
+    assert(!opts.cacheKey || typeof opts.cacheKey === 'string', 'cacheKey must be null or string, got ' + opts.cacheKey + ' ('+ typeof opts.cacheKey +')');
     assert(!opts.template || typeof opts.template === 'string', 'template must null or string, got ' + opts.template + ' ('+ typeof opts.template +')');
     assert(!opts.error || typeof opts.error === 'function', 'error must be null or function, got ' + opts.error + ' ('+ typeof opts.error +')');
     assert(!opts.before || typeof opts.before === 'function', 'before must be null or function, got ' + opts.before + ' ('+ typeof opts.before +')');
@@ -73,6 +77,9 @@
     // set instance info
     this._state = state;
     this._options = opts;
+
+    //Pick a cache store if an expiry is set
+    this._cache = opts.cacheExpiry ? this._selectCacheStore() : null;
   }
 
   Instafeed.prototype.run = function run() {
@@ -376,6 +383,13 @@
       }
     };
 
+    //Check the cache before we go any further
+    var cacheData = this._cacheGet();
+    if (cacheData) {
+      callbackOnce(null, cacheData);
+      return;
+    }
+
     apiRequest = new XMLHttpRequest();
 
     apiRequest.ontimeout = function apiRequestTimedOut(event) {
@@ -413,7 +427,9 @@
         return;
       }
 
-      callbackOnce(null, responseJson);
+      // Passed all the checks, fire the callback via the cache
+      // The cache write occurs here to ensure we don't cache errors
+      callbackOnce(null, scope._cacheSet(responseJson));
     };
 
     apiRequest.open('GET', url, true);
@@ -478,6 +494,69 @@
       }
     }
     return success;
+  };
+
+  // Save the entry to the cache along with its expiry time
+  // Returns data to facilitate chaining
+  Instafeed.prototype._cacheSet = function(data){
+    if (this._cache) {
+      this._cache.setItem(this._options.cacheKey, JSON.stringify({
+        expires: new Date().getTime() + (this._options.cacheExpiry * 1000),
+        data: data
+      }));
+      this._debug('cacheData', 'Saved data to cache');
+    }
+    return data;
+  };
+
+  //Retrieve the entry from the cache, checking that it's not expired
+  Instafeed.prototype._cacheGet = function(){
+    if (!this._cache) { return; }
+
+    var hit = null;
+
+    try {
+      hit = JSON.parse(this._cache.getItem(this._options.cacheKey));
+    } catch(e) {
+      this._debug('cacheData', 'Cache data was malformed');
+      return;
+    }
+
+    if (hit && hit.expires > new Date().getTime()) {
+      this._debug('cacheData', 'Retrieved data from cache', hit.data);
+      return hit.data;
+    } else {
+      this._debug('cacheData', 'Cached data expired');
+    }
+  };
+
+  // Pick an available cacheStore
+  // Prefers localStorage over sessionStorage
+  // Returns null if no valid store is found
+  Instafeed.prototype._selectCacheStore = function(){
+    var storeTypes = ['localStorage', 'sessionStorage'];
+
+    for (var i = 0; i < storeTypes.length; i++) {
+      if (this._checkStore(storeTypes[i])) {
+        this._debug('cacheStore', 'Selected cache store', storeTypes[i]);
+        return window[storeTypes[i]];
+      }
+    }
+  };
+
+  // Check if the specified store is available
+  // Based on https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#Feature-detecting_localStorage
+  Instafeed.prototype._checkStore = function(type){
+    try {
+      var storage = window[type],
+          test = '_instafeed-store-test_';
+
+      storage.setItem(test, test);
+      storage.removeItem(test);
+      return true;
+    } catch(e) {
+      return false;
+    }
   };
 
   return Instafeed;

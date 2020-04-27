@@ -21,6 +21,8 @@
       after: null,
       apiTimeout: 5e3,
       before: null,
+      cacheExpiry: 60,
+      cacheKey: "instafeed",
       debug: false,
       error: null,
       filter: null,
@@ -51,6 +53,8 @@
     assert(typeof opts.debug === "boolean", "debug must be true or false, got " + opts.debug + " (" + typeof opts.debug + ")");
     assert(typeof opts.mock === "boolean", "mock must be true or false, got " + opts.mock + " (" + typeof opts.mock + ")");
     assert(typeof opts.templateBoundaries === "object" && opts.templateBoundaries.length === 2 && typeof opts.templateBoundaries[0] === "string" && typeof opts.templateBoundaries[1] === "string", "templateBoundaries must be an array of 2 strings, got " + opts.templateBoundaries + " (" + typeof opts.templateBoundaries + ")");
+    assert(!opts.cacheExpiry || typeof opts.cacheExpiry === "number", "cacheExpiry must be null or number, got " + opts.limit + " (" + typeof opts.limit + ")");
+    assert(!opts.cacheKey || typeof opts.cacheKey === "string", "cacheKey must be null or string, got " + opts.cacheKey + " (" + typeof opts.cacheKey + ")");
     assert(!opts.template || typeof opts.template === "string", "template must null or string, got " + opts.template + " (" + typeof opts.template + ")");
     assert(!opts.error || typeof opts.error === "function", "error must be null or function, got " + opts.error + " (" + typeof opts.error + ")");
     assert(!opts.before || typeof opts.before === "function", "before must be null or function, got " + opts.before + " (" + typeof opts.before + ")");
@@ -63,6 +67,7 @@
     assert(!opts.limit || typeof opts.limit === "number", "limit must be null or number, got " + opts.limit + " (" + typeof opts.limit + ")");
     this._state = state;
     this._options = opts;
+    this._cache = opts.cacheExpiry ? this._selectCacheStore() : null;
   }
   Instafeed.prototype.run = function run() {
     var scope = this;
@@ -314,6 +319,11 @@
         callback(err, value);
       }
     };
+    var cacheData = this._cacheGet();
+    if (cacheData) {
+      callbackOnce(null, cacheData);
+      return;
+    }
     apiRequest = new XMLHttpRequest();
     apiRequest.ontimeout = function apiRequestTimedOut(event) {
       callbackOnce(new Error("api request timed out"));
@@ -344,7 +354,7 @@
         }
         return;
       }
-      callbackOnce(null, responseJson);
+      callbackOnce(null, scope._cacheSet(responseJson));
     };
     apiRequest.open("GET", url, true);
     apiRequest.timeout = this._options.apiTimeout;
@@ -400,6 +410,53 @@
       }
     }
     return success;
+  };
+  Instafeed.prototype._cacheSet = function(data) {
+    if (this._cache) {
+      this._cache.setItem(this._options.cacheKey, JSON.stringify({
+        expires: new Date().getTime() + this._options.cacheExpiry * 1e3,
+        data: data
+      }));
+      this._debug("cacheData", "Saved data to cache");
+    }
+    return data;
+  };
+  Instafeed.prototype._cacheGet = function() {
+    if (!this._cache) {
+      return;
+    }
+    var hit = null;
+    try {
+      hit = JSON.parse(this._cache.getItem(this._options.cacheKey));
+    } catch (e) {
+      this._debug("cacheData", "Cache data was malformed");
+      return;
+    }
+    if (hit && hit.expires > new Date().getTime()) {
+      this._debug("cacheData", "Retrieved data from cache", hit.data);
+      return hit.data;
+    } else {
+      this._debug("cacheData", "Cached data expired");
+    }
+  };
+  Instafeed.prototype._selectCacheStore = function() {
+    var storeTypes = [ "localStorage", "sessionStorage" ];
+    for (var i = 0; i < storeTypes.length; i++) {
+      if (this._checkStore(storeTypes[i])) {
+        this._debug("cacheStore", "Selected cache store", storeTypes[i]);
+        return window[storeTypes[i]];
+      }
+    }
+  };
+  Instafeed.prototype._checkStore = function(type) {
+    try {
+      var storage = window[type], test = "_instafeed-store-test_";
+      storage.setItem(test, test);
+      storage.removeItem(test);
+      return true;
+    } catch (e) {
+      return false;
+    }
   };
   return Instafeed;
 });
