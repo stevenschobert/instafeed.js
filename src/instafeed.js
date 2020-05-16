@@ -229,6 +229,22 @@
     return transformedFiltered;
   };
 
+  Instafeed.prototype._getTags = function getTags(data) {
+    // This expression comes from https://github.com/johnlinp/instagram-validator
+    // A non-official instagram validator
+    var exp = /^#[^~`!@#$%^&*\(\)\-\+={}\[\]:;"'<>\?,\./|\\\s]+$/gi;
+    var tags = [];
+    var tagData = data.caption.match(exp) || [];
+
+    //Pull the hash character off the front of each tag.
+    //Can this be done in one hit with the regex?
+    for (var i = 0; i < tagData.length; i++) {
+      tags.push(tagData[i].substring(1));
+    }
+
+    return tags;
+  };
+
   Instafeed.prototype._getItemData = function getItemData(data) {
     var type = null;
     var image = null;
@@ -250,6 +266,7 @@
 
     return {
       caption: data.caption,
+      tags: this._getTags(data),
       id: data.id,
       image: image,
       link: data.permalink,

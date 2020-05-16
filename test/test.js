@@ -12,6 +12,7 @@ function optionsFixture(overrides) {
   if (overrides) {
     for (const key in values) {
       if (typeof overrides[key] !== 'undefined') {
+        console.log(key, overrides[key]);
         values[key] = overrides[key];
       }
     }
@@ -57,7 +58,6 @@ describe('Instafeed', function() {
       const options = optionsFixture({ accessTokenTimeout: '10' });
       assert.throws(() => {
         new Instafeed(options);
-        console.log('here');
       }, /accessTokenTimeout/);
     });
 
