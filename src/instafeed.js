@@ -19,9 +19,9 @@
     // default options
     var opts = {
       accessToken: null,
-      accessTokenTimeout: 5000,
+      accessTokenTimeout: 10000,
       after: null,
-      apiTimeout: 5000,
+      apiTimeout: 10000,
       before: null,
       debug: false,
       error: null,
