@@ -1,5 +1,12 @@
 # Changelog
 
+__2.0.1-rc2__
+
+- Adds `before` callback option that was missing from `2.0.0-rc1`.
+- Fixes `Invalid State Error` bug in Internet Explorer. Thanks [@awoodford](https://github.com/awoodford).
+- Hashtags are now parsed from the image caption, and made available as a `tags` array on the image data.
+- Changed default timeout options `apiTimeout` and `accessTokenTimeout` from `5000` (5 seconds) to `10000` (10 seconds)
+
 __2.0.0-rc1__
 
 First release candidate based on the Basic Display API.

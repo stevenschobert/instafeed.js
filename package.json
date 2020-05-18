@@ -1,10 +1,12 @@
 {
   "name": "instafeed.js",
   "description": "A simple Instagram javascript plugin for your website.",
-  "version": "2.0.0-rc1",
+  "version": "2.0.0-rc2",
   "license": "MIT",
   "homepage": "https://github.com/stevenschobert/instafeed.js",
-  "keywords": ["instagram"],
+  "keywords": [
+    "instagram"
+  ],
   "author": "Steven Schobert <spschobert@gmail.com> (https://stevenschobert.com)",
   "contributors": [
     "Ben Hull <ben@companionstudio.com.au>"
