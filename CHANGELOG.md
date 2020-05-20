@@ -1,6 +1,6 @@
 # Changelog
 
-__2.0.1-rc2__
+__2.0.0-rc2__
 
 - Adds `before` callback option that was missing from `2.0.0-rc1`.
 - Fixes `Invalid State Error` bug in Internet Explorer. Thanks [@awoodford](https://github.com/awoodford).
