@@ -54,7 +54,7 @@ async function build() {
   });
 
   const esUnminResult = minify({
-    [srcName]: esModule.code
+    [esUnminName]: esModule.code
   }, {
     warnings: 'verbose',
     ecma: 5,
@@ -71,7 +71,7 @@ async function build() {
   });
 
   const esMinResult = minify({
-    [srcName]: esUnminResult.code
+    [esUnminName]: esUnminResult.code
   }, {
     warnings: 'verbose',
     ecma: 5,
@@ -96,7 +96,7 @@ async function build() {
   });
 
   const umdUnminResult = minify({
-    [srcName]: umdModule.code
+    [umdUnminName]: umdModule.code
   }, {
     warnings: 'verbose',
     ecma: 5,
@@ -113,7 +113,7 @@ async function build() {
   });
 
   const umdMinResult = minify({
-    [srcName]: umdUnminResult.code
+    [umdUnminName]: umdUnminResult.code
   }, {
     warnings: 'verbose',
     ecma: 5,
