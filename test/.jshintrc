@@ -1,3 +1,10 @@
 {
-  "esversion": 6
+  "esversion": 6,
+  "strict": "global",
+  "node": true,
+  "browser": true,
+  "mocha": true,
+  "undef": true,
+  "unused": true,
+  "eqeqeq": true
 }
