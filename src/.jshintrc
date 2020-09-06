@@ -1,2 +1,14 @@
 {
+  "esversion": 5,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "eqeqeq": true,
+  "browser": true,
+  "devel": true,
+  "globals": {
+    "define": true,
+    "exports": true,
+    "module": true
+  }
 }

@@ -1,4 +1,6 @@
 (function exportInstafeed(root, factory) {
+  "use strict";
+
   if (typeof define === 'function' && define.amd) {
     define([], factory);
   } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
@@ -7,6 +9,8 @@
     root.Instafeed = factory();
   }
 }(this, function defineInstafeed() {
+  "use strict";
+
   function assert(val, msg) {
     if (!val) {
       throw new Error(msg);
@@ -398,11 +402,11 @@
 
     apiRequest = new XMLHttpRequest();
 
-    apiRequest.ontimeout = function apiRequestTimedOut(event) {
+    apiRequest.ontimeout = function apiRequestTimedOut() {
       callbackOnce(new Error('api request timed out'));
     };
 
-    apiRequest.onerror = function apiRequestOnError(event) {
+    apiRequest.onerror = function apiRequestOnError() {
       callbackOnce(new Error('api connection error'));
     };
 
