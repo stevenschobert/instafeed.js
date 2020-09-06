@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require('assert');
-const Instafeed = require('../src/instafeed');
+const Instafeed = require('../');
 
 function optionsFixture(overrides) {
   const values = {

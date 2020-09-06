@@ -15,13 +15,18 @@
     "type": "git",
     "url": "https://github.com/stevenschobert/instafeed.js.git"
   },
-  "main": "./src/instafeed.js",
+  "main": "./dist/instafeed.js",
+  "module": "./dist/instafeed.es.js",
+  "exports": {
+    "import": "./dist/instafeed.es.js",
+    "require": "./dist/instafeed.js"
+  },
   "scripts": {
     "lint-src": "jshint --reporter ./node_modules/jshint-stylish src/**.js",
     "lint-test": "jshint --reporter ./node_modules/jshint-stylish test/**.js",
     "unit-test": "mocha -R spec test/",
     "build-browser-test": "cp node_modules/mocha/mocha.{css,js} browser-test/ && browserify test/test.js > browser-test/test-bundle.js",
-    "build-dist": "node scripts/build-min.js src/instafeed.js dist/ && node scripts/print-file-size.js src/instafeed.js dist/instafeed.js dist/instafeed.min.js dist/instafeed.min.map",
+    "build-dist": "node scripts/build-min.js src/instafeed.js dist/ && node scripts/print-file-size.js src/instafeed.js dist/instafeed.es.js dist/instafeed.es.min.js dist/instafeed.es.min.map dist/instafeed.js dist/instafeed.min.js dist/instafeed.min.map",
     "test": "npm run lint-src && npm run lint-test && npm run unit-test"
   },
   "devDependencies": {
@@ -29,6 +34,7 @@
     "jshint": "^2.12.0",
     "jshint-stylish": "^2.2.1",
     "mocha": "^8.1.3",
-    "uglify-js": "^3.10.3"
+    "rollup": "^2.26.10",
+    "uglify-es": "^3.3.9"
   }
 }

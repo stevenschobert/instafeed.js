@@ -1,6 +1,6 @@
 {
-  "esversion": 5,
-  "strict": true,
+  "esversion": 6,
+  "strict": "global",
   "undef": true,
   "unused": true,
   "eqeqeq": true,
