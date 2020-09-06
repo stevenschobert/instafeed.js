@@ -233,6 +233,7 @@
     var exp = /#([^\s]+)/gi;
     var badChars = /[~`!@#$%^&*\(\)\-\+={}\[\]:;"'<>\?,\./|\\\s]+/i; // non-allowed characters
     var tags = [];
+    var match = null;
 
     if (typeof str === 'string') {
       while ((match = exp.exec(str)) !== null) {
