@@ -1,5 +1,13 @@
 # Changelog
 
+__2.0.0-rc3__
+
+- Fixes `assignment to undeclared variable match` bug.
+- Adds ES module support by building a separate distributable `instafeed.es.min.js`.
+- Re-adds pagination support via `hasNext` and `next` methods.
+- Adds `apiLimit` option to override how many images are requested from the Instagram API. This option supersedes the `limit` option.
+- Adds pooling support when `apiLimit` is higher than `limit`.
+
 __2.0.0-rc2__
 
 - Adds `before` callback option that was missing from `2.0.0-rc1`.
