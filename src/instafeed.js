@@ -202,12 +202,12 @@ Instafeed.prototype._showNext = function showNext(callback) {
       url = scope._state.paging.next;
     } else {
       url = 'https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token='+ scope._state.token;
-      if (!scope._options.apiLimit && typeof scope._options.limit === 'number') {
-        scope._debug('showNext', 'no apiLimit set, falling back to limit', scope._options.apiLimit, scope._options.limit);
-        url = url + '&limit=' + scope._options.limit;
-      } else if (typeof scope._options.apiLimit === 'number') {
+      if (typeof scope._options.apiLimit === 'number') {
         scope._debug('showNext', 'apiLimit set, overriding limit', scope._options.apiLimit, scope._options.limit);
         url = url + '&limit=' + scope._options.apiLimit;
+      } else if (typeof scope._options.limit === 'number') {
+        scope._debug('showNext', 'using limit as apiLimit', scope._options.apiLimit, scope._options.limit);
+        url = url + '&limit=' + scope._options.limit;
       }
     }
 
