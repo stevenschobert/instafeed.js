@@ -14,7 +14,7 @@ v2 provides a much simpler service, but should still cater to the most common us
 
 ## Additional requirements:
 
- - An access token refresh service is required. See [Managing Access Tokens](Managing-Access-Tokens) for more info.
+ - An access token refresh service is required. See [Managing Access Tokens](#managing-access-tokens) for more info.
 
 ## Migrating, Step by Step
 

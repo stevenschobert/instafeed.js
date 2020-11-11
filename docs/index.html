@@ -12,11 +12,17 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
+      themeColor: '#9370DB',
       name: 'Instafeed.js',
       repo: 'stevenschobert/instafeed.js',
       coverpage: true,
       loadSidebar: true,
-      subMaxLevel: 2
+      subMaxLevel: 2,
+      homepage: 'home.md',
+      auto2top: true,
+      alias: {
+        '/changelog': 'https://raw.githubusercontent.com/stevenschobert/instafeed.js/develop/CHANGELOG.md',
+      }
     };
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
