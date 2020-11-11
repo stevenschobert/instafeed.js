@@ -15,7 +15,7 @@ function Instafeed(options) {
     accessTokenTimeout: 10000,
     after: null,
     apiTimeout: 10000,
-    apiLimit: 25,
+    apiLimit: null,
     before: null,
     debug: false,
     error: null,
@@ -54,7 +54,6 @@ function Instafeed(options) {
   assert(typeof opts.accessToken === 'string' || typeof opts.accessToken === 'function', 'accessToken must be a string or function, got ' + opts.accessToken + ' ('+ typeof opts.accessToken +')');
   assert(typeof opts.accessTokenTimeout === 'number', 'accessTokenTimeout must be a number, got '+ opts.accessTokenTimeout + ' ('+ typeof opts.accessTokenTimeout +')');
   assert(typeof opts.apiTimeout === 'number', 'apiTimeout must be a number, got '+ opts.apiTimeout + ' ('+ typeof opts.apiTimeout +')');
-  assert(typeof opts.apiLimit === 'number', 'apiLimit must be a number, got ' + opts.apiLimit + ' ('+ typeof opts.apiLimit +')');
   assert(typeof opts.debug === 'boolean', 'debug must be true or false, got ' + opts.debug + ' ('+ typeof opts.debug +')');
   assert(typeof opts.mock === 'boolean', 'mock must be true or false, got ' + opts.mock + ' ('+ typeof opts.mock +')');
   assert(typeof opts.templateBoundaries === 'object' && opts.templateBoundaries.length === 2 && typeof opts.templateBoundaries[0] === 'string' && typeof opts.templateBoundaries[1] === 'string', 'templateBoundaries must be an array of 2 strings, got ' + opts.templateBoundaries + ' ('+ typeof opts.templateBoundaries +')');
@@ -68,6 +67,7 @@ function Instafeed(options) {
   assert(!opts.sort || typeof opts.sort === 'function', 'sort must be null or function, got ' + opts.sort + ' ('+ typeof opts.sort +')');
   assert(!opts.render || typeof opts.render === 'function', 'render must be null or function, got ' + opts.render + ' ('+ typeof opts.render +')');
   assert(!opts.limit || typeof opts.limit === 'number', 'limit must be null or number, got ' + opts.limit + ' ('+ typeof opts.limit +')');
+  assert(!opts.apiLimit || typeof opts.apiLimit === 'number', 'apiLimit must null or number, got ' + opts.apiLimit + ' ('+ typeof opts.apiLimit +')');
 
   // set instance info
   this._state = state;
@@ -201,7 +201,14 @@ Instafeed.prototype._showNext = function showNext(callback) {
     if (scope._state.paging && typeof scope._state.paging.next === 'string') {
       url = scope._state.paging.next;
     } else {
-      url = 'https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&limit='+ scope._options.apiLimit +'&access_token='+ scope._state.token;
+      url = 'https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token='+ scope._state.token;
+      if (!scope._options.apiLimit && typeof scope._options.limit === 'number') {
+        scope._debug('showNext', 'no apiLimit set, falling back to limit', scope._options.apiLimit, scope._options.limit);
+        url = url + '&limit=' + scope._options.limit;
+      } else if (typeof scope._options.apiLimit === 'number') {
+        scope._debug('showNext', 'apiLimit set, overriding limit', scope._options.apiLimit, scope._options.limit);
+        url = url + '&limit=' + scope._options.apiLimit;
+      }
     }
 
     scope._debug('showNext', 'making request', url);
