@@ -1,13 +1,9 @@
-/* instafeed.js | v2.0.0-rc2 | https://github.com/stevenschobert/instafeed.js | License: MIT */
-(function exportInstafeed(root, factory) {
-  if (typeof define === "function" && define.amd) {
-    define([], factory);
-  } else if (typeof exports === "object" && typeof exports.nodeName !== "string") {
-    module.exports = factory();
-  } else {
-    root.Instafeed = factory();
-  }
-})(this, function defineInstafeed() {
+/* instafeed.js | v2.0.0-rc3 | https://github.com/stevenschobert/instafeed.js | License: MIT */
+(function(global, factory) {
+  typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, 
+  global.Instafeed = factory());
+})(this, function() {
+  "use strict";
   function assert(val, msg) {
     if (!val) {
       throw new Error(msg);
@@ -20,6 +16,7 @@
       accessTokenTimeout: 1e4,
       after: null,
       apiTimeout: 1e4,
+      apiLimit: null,
       before: null,
       debug: false,
       error: null,
@@ -35,7 +32,11 @@
       transform: null
     };
     var state = {
-      running: false
+      running: false,
+      node: null,
+      token: null,
+      paging: null,
+      pool: []
     };
     if (options) {
       for (var optKey in opts) {
@@ -61,15 +62,12 @@
     assert(!opts.sort || typeof opts.sort === "function", "sort must be null or function, got " + opts.sort + " (" + typeof opts.sort + ")");
     assert(!opts.render || typeof opts.render === "function", "render must be null or function, got " + opts.render + " (" + typeof opts.render + ")");
     assert(!opts.limit || typeof opts.limit === "number", "limit must be null or number, got " + opts.limit + " (" + typeof opts.limit + ")");
+    assert(!opts.apiLimit || typeof opts.apiLimit === "number", "apiLimit must null or number, got " + opts.apiLimit + " (" + typeof opts.apiLimit + ")");
     this._state = state;
     this._options = opts;
   }
   Instafeed.prototype.run = function run() {
     var scope = this;
-    var node = null;
-    var url = null;
-    var items = null;
-    var html = null;
     this._debug("run", "options", this._options);
     this._debug("run", "state", this._state);
     if (this._state.running) {
@@ -79,15 +77,15 @@
     this._start();
     this._debug("run", "getting dom node");
     if (typeof this._options.target === "string") {
-      node = document.getElementById(this._options.target);
+      this._state.node = document.getElementById(this._options.target);
     } else {
-      node = this._options.target;
+      this._state.node = this._options.target;
     }
-    if (!node) {
+    if (!this._state.node) {
       this._fail(new Error("no element found with ID " + this._options.target));
       return false;
     }
-    this._debug("run", "got dom node", node);
+    this._debug("run", "got dom node", this._state.node);
     this._debug("run", "getting access token");
     this._getAccessToken(function onTokenReceived(err, token) {
       if (err) {
@@ -95,39 +93,122 @@
         scope._fail(new Error("error getting access token: " + err.message));
         return;
       }
-      url = "https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=" + token;
-      scope._debug("onTokenReceived", "request url", url);
-      scope._makeApiRequest(url, function onResponseReceived(err, data) {
+      scope._debug("onTokenReceived", "got token", token);
+      scope._state.token = token;
+      scope._showNext(function onNextShown(err) {
         if (err) {
-          scope._debug("onResponseReceived", "error", err);
-          scope._fail(new Error("api request error: " + err.message));
+          scope._debug("onNextShown", "error", err);
+          scope._fail(err);
           return;
-        }
-        scope._debug("onResponseReceived", "data", data);
-        scope._success(data);
-        try {
-          items = scope._processData(data);
-          scope._debug("onResponseReceived", "processed data", items);
-        } catch (processErr) {
-          scope._fail(processErr);
-          return;
-        }
-        if (scope._options.mock) {
-          scope._debug("onResponseReceived", "mock enabled, skipping render");
-        } else {
-          try {
-            html = scope._renderData(items);
-            scope._debug("onResponseReceived", "html content", html);
-          } catch (renderErr) {
-            scope._fail(renderErr);
-            return;
-          }
-          node.innerHTML = html;
         }
         scope._finish();
       });
     });
     return true;
+  };
+  Instafeed.prototype.hasNext = function hasNext() {
+    var paging = this._state.paging;
+    var pool = this._state.pool;
+    this._debug("hasNext", "paging", paging);
+    this._debug("hasNext", "pool", pool.length, pool);
+    return pool.length > 0 || paging && typeof paging.next === "string";
+  };
+  Instafeed.prototype.next = function next() {
+    var scope = this;
+    if (!scope.hasNext()) {
+      scope._debug("next", "hasNext is false, skipping");
+      return false;
+    }
+    if (scope._state.running) {
+      scope._debug("next", "already running, skipping");
+      return false;
+    }
+    scope._start();
+    scope._showNext(function onNextShown(err) {
+      if (err) {
+        scope._debug("onNextShown", "error", err);
+        scope._fail(err);
+        return;
+      }
+      scope._finish();
+    });
+  };
+  Instafeed.prototype._showNext = function showNext(callback) {
+    var scope = this;
+    var url = null;
+    var poolItems = null;
+    var hasLimit = typeof this._options.limit === "number";
+    scope._debug("showNext", "pool", scope._state.pool.length, scope._state.pool);
+    if (scope._state.pool.length > 0) {
+      if (hasLimit) {
+        poolItems = scope._state.pool.splice(0, scope._options.limit);
+      } else {
+        poolItems = scope._state.pool.splice(0);
+      }
+      scope._debug("showNext", "items from pool", poolItems.length, poolItems);
+      scope._debug("showNext", "updated pool", scope._state.pool.length, scope._state.pool);
+      if (scope._options.mock) {
+        scope._debug("showNext", "mock enabled, skipping render");
+      } else {
+        try {
+          scope._renderData(poolItems);
+        } catch (renderErr) {
+          callback(renderErr);
+          return;
+        }
+      }
+      callback(null);
+    } else {
+      if (scope._state.paging && typeof scope._state.paging.next === "string") {
+        url = scope._state.paging.next;
+      } else {
+        url = "https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=" + scope._state.token;
+        if (!scope._options.apiLimit && typeof scope._options.limit === "number") {
+          scope._debug("showNext", "no apiLimit set, falling back to limit", scope._options.apiLimit, scope._options.limit);
+          url = url + "&limit=" + scope._options.limit;
+        } else if (typeof scope._options.apiLimit === "number") {
+          scope._debug("showNext", "apiLimit set, overriding limit", scope._options.apiLimit, scope._options.limit);
+          url = url + "&limit=" + scope._options.apiLimit;
+        }
+      }
+      scope._debug("showNext", "making request", url);
+      scope._makeApiRequest(url, function onResponseReceived(err, data) {
+        var processed = null;
+        if (err) {
+          scope._debug("onResponseReceived", "error", err);
+          callback(new Error("api request error: " + err.message));
+          return;
+        }
+        scope._debug("onResponseReceived", "data", data);
+        scope._success(data);
+        scope._debug("onResponseReceived", "setting paging", data.paging);
+        scope._state.paging = data.paging;
+        try {
+          processed = scope._processData(data);
+          scope._debug("onResponseReceived", "processed data", processed);
+          if (processed.unused && processed.unused.length > 0) {
+            scope._debug("onResponseReceived", "saving unused to pool", processed.unused.length, processed.unused);
+            for (var i = 0; i < processed.unused.length; i++) {
+              scope._state.pool.push(processed.unused[i]);
+            }
+          }
+        } catch (processErr) {
+          callback(processErr);
+          return;
+        }
+        if (scope._options.mock) {
+          scope._debug("onResponseReceived", "mock enabled, skipping append");
+        } else {
+          try {
+            scope._renderData(processed.items);
+          } catch (renderErr) {
+            callback(renderErr);
+            return;
+          }
+        }
+        callback(null);
+      });
+    }
   };
   Instafeed.prototype._processData = function processData(data) {
     var hasTransform = typeof this._options.transform === "function";
@@ -139,6 +220,7 @@
     var dataItem = null;
     var transformedItem = null;
     var filterResult = null;
+    var unusedItems = null;
     this._debug("processData", "hasFilter", hasFilter, "hasTransform", hasTransform, "hasSort", hasSort, "hasLimit", hasLimit);
     if (typeof data !== "object" || typeof data.data !== "object" || data.data.length <= 0) {
       return null;
@@ -183,15 +265,21 @@
       limitDelta = transformedFiltered.length - this._options.limit;
       this._debug("processData", "checking limit", transformedFiltered.length, this._options.limit, limitDelta);
       if (limitDelta > 0) {
+        unusedItems = transformedFiltered.slice(transformedFiltered.length - limitDelta);
+        this._debug("processData", "unusedItems", unusedItems.length, unusedItems);
         transformedFiltered.splice(transformedFiltered.length - limitDelta, limitDelta);
       }
     }
-    return transformedFiltered;
+    return {
+      items: transformedFiltered,
+      unused: unusedItems
+    };
   };
   Instafeed.prototype._extractTags = function extractTags(str) {
     var exp = /#([^\s]+)/gi;
     var badChars = /[~`!@#$%^&*\(\)\-\+={}\[\]:;"'<>\?,\./|\\\s]+/i;
     var tags = [];
+    var match = null;
     if (typeof str === "string") {
       while ((match = exp.exec(str)) !== null) {
         if (badChars.test(match[1]) === false) {
@@ -237,10 +325,11 @@
     var hasRender = typeof this._options.render === "function";
     var item = null;
     var itemHtml = null;
+    var container = null;
     var html = "";
     this._debug("renderData", "hasTemplate", hasTemplate, "hasRender", hasRender);
     if (typeof items !== "object" || items.length <= 0) {
-      return null;
+      return;
     }
     for (var i = 0; i < items.length; i++) {
       item = items[i];
@@ -261,7 +350,14 @@
         this._debug("renderData", "render item did not return any content", item);
       }
     }
-    return html;
+    this._debug("renderData", "html content", html);
+    container = document.createElement("div");
+    container.innerHTML = html;
+    this._debug("renderData", "container", container, container.childNodes.length, container.childNodes);
+    while (container.childNodes.length > 0) {
+      this._debug("renderData", "appending child", container.childNodes[0]);
+      this._state.node.appendChild(container.childNodes[0]);
+    }
   };
   Instafeed.prototype._basicRender = function basicRender(data) {
     var exp = new RegExp(this._options.templateBoundaries[0] + "([\\s\\w.]+)" + this._options.templateBoundaries[1], "gm");
@@ -332,10 +428,10 @@
       }
     };
     apiRequest = new XMLHttpRequest();
-    apiRequest.ontimeout = function apiRequestTimedOut(event) {
+    apiRequest.ontimeout = function apiRequestTimedOut() {
       callbackOnce(new Error("api request timed out"));
     };
-    apiRequest.onerror = function apiRequestOnError(event) {
+    apiRequest.onerror = function apiRequestOnError() {
       callbackOnce(new Error("api connection error"));
     };
     apiRequest.onload = function apiRequestOnLoad(event) {
