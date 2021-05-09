@@ -15,7 +15,7 @@ For the now-non-functional v1.x library, please [see the Legacy API branch](http
 Setting up Instafeed is pretty straight-forward - there are 3 main steps.
 
  1. Create a Facebook app linked to Instagram, and add yourself as a test user. See [Managing User Tokens](https://github.com/stevenschobert/instafeed.js/wiki/Managing-Access-Tokens).
- 2. Create an access token and provide it to an [Instagram Token service](https://github.com/companionstudio/instagram-token-agent)
+ 2. Create an access token and provide it to an [Instagram Token service](https://www.instant-tokens.com/home)
  3. Add the instafeed.js script to your web page and provide some simple options. See [Basic Usage](https://github.com/stevenschobert/instafeed.js/wiki/Basic-Usage)
 
 ```html
