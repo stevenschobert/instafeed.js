@@ -1,14 +1,12 @@
 # Instafeed.js
 
-[![Build Status](https://travis-ci.com/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.com/stevenschobert/instafeed.js)
+[![Build Status](https://travis-ci.com/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.com/stevenschobert/instafeed.js) [![npm version](https://badge.fury.io/js/instafeed.js.svg)](https://badge.fury.io/js/instafeed.js)
 
 Instafeed.js is a simple way to display your Instagram photos on your website.
 
-We're in the process of launching Instafeed.js v2, powered by the new [Instagram Basic Display API](https://developers.facebook.com/docs/instagram-basic-display-api/). Guides and documentation are being created and will be added to the [project's wiki](https://github.com/stevenschobert/instafeed.js/wiki).
+Version 2 of Instafeed.js is now available, powered by the new [Instagram Basic Display API](https://developers.facebook.com/docs/instagram-basic-display-api/).
 
-See the [v2 migration guide](v2-migration-guide.md) for help on updating from v1, or a [basic demonstration with code examples](https://codepen.io/companionstudio/pen/rNVPGOz).
-
-For the now-non-functional v1.x library, please [see the Legacy API branch](https://github.com/stevenschobert/instafeed.js/tree/legacy-api).
+For help upgrading from v1, see the [v2 migration guide](https://github.com/stevenschobert/instafeed.js/wiki/Version-2-migration-guide).
 
 ## Installation
 
