@@ -1,5 +1,11 @@
 # Changelog
 
+__2.0.0__
+
+Official v2 release 🎉
+
+If you are migrating from v1, see the [v2 migration guide](https://github.com/stevenschobert/instafeed.js/wiki/Version-2-migration-guide#comparison-of-options-between-v1-and-v2).
+
 __2.0.0-rc3__
 
 - Fixes `assignment to undeclared variable match` bug.
