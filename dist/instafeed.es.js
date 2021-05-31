@@ -1,4 +1,4 @@
-/* instafeed.js | v2.0.0-rc3 | https://github.com/stevenschobert/instafeed.js | License: MIT */
+/* instafeed.js | v2.0.0 | https://github.com/stevenschobert/instafeed.js | License: MIT */
 function assert(val, msg) {
   if (!val) {
     throw new Error(msg);

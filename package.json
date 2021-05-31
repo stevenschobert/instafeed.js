@@ -1,7 +1,7 @@
 {
   "name": "instafeed.js",
   "description": "A simple Instagram javascript plugin for your website.",
-  "version": "2.0.0-rc3",
+  "version": "2.0.0",
   "license": "MIT",
   "homepage": "https://github.com/stevenschobert/instafeed.js",
   "keywords": [
