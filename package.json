@@ -4,6 +4,9 @@
   "version": "2.0.0",
   "license": "MIT",
   "homepage": "https://instafeedjs.com",
+  "files": [
+    "dist/*"
+  ],
   "keywords": [
     "instagram"
   ],
