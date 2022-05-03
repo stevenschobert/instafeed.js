@@ -8,6 +8,16 @@ Version 2 of Instafeed.js is now available, powered by the new [Instagram Basic 
 
 For help upgrading from v1, see the [v2 migration guide](https://github.com/stevenschobert/instafeed.js/wiki/Version-2-migration-guide).
 
+## Hosted Alternative
+
+When I originally wrote Instafeed.js in 2012, I wanted to create an easy way to quickly add your Instagram photos to your website. I like to think I was able to do that, in large part thanks to the public API Instagram had at the time.
+
+Unfortunately, Facebook has made this process a lot more complex than it used to be. The largest problem is that managing API tokens now requires a server-side component, which I can’t provide through Instafeed.js alone.
+
+If you're looking for a turnkey solution that manages tokens for you, or you need more advanced features like hashtag feeds, I recommend looking at [Behold](https://behold.so). It's a paid service, but it has a free tier that will work for smaller projects.
+
+#### &rarr; [Check out Behold](https://behold.so)
+
 ## Installation
 
 Setting up Instafeed is pretty straight-forward - there are 3 main steps.
