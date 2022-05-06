@@ -17,6 +17,7 @@ function Instafeed(options) {
     apiTimeout: 10000,
     apiLimit: null,
     before: null,
+    cacheTimeout: 0,
     debug: false,
     error: null,
     filter: null,
@@ -510,12 +511,26 @@ Instafeed.prototype._makeApiRequest = function makeApiRequest(url, callback) {
   var called = false;
   var scope = this;
   var apiRequest = null;
+  var cachedRequest = this._cache[url];
   var callbackOnce = function callbackOnce(err, value) {
     if (!called) {
       called = true;
+      if (scope._options.cacheTimeout) {
+        scope._cache[url] = {
+          date: new Date().getTime(),
+          err: err,
+          value: value
+        };
+      }
       callback(err, value);
     }
   };
+
+  if (cachedRequest && this._options.cacheTimeout) {
+    if ((cachedRequest.date - this._options.cacheTimeout) < new Date().getTime()) {
+      return callback(cachedRequest.err, cachedRequest.value);
+    }
+  }
 
   apiRequest = new XMLHttpRequest();
 
@@ -620,5 +635,7 @@ Instafeed.prototype._runHook = function runHook(hookName, data) {
   }
   return success;
 };
+
+Instafeed.prototype._cache = {};
 
 export default Instafeed;
