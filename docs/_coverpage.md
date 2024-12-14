@@ -2,7 +2,7 @@
 
 > A simple Instagram JS plugin for your website.
 
-- Powered by the [Instagram Basic Display API](https://developers.facebook.com/docs/instagram-basic-display-api/)
+- Powered by the [Instagram API](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login)
 - Lightweight (12KB minified), with 0 dependencies
 - Easily customizable with templating support
 - Maintained and supported since 2012
