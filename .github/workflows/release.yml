@@ -1,0 +1,48 @@
+name: Release Build
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  releases-matrix:
+    name: Release Binary
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Build for major platforms: Windows, macOS, and Linux
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+        exclude:
+          # Exclude unsupported combinations
+          - goos: windows
+            goarch: arm64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21"
+          cache: true
+
+      - name: Build Binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          binary_name=""
+          if [ "${{ matrix.goos }}" = "windows" ]; then
+            binary_name="instatokend-${{ matrix.goos }}-${{ matrix.goarch }}.exe"
+          else
+            binary_name="instatokend-${{ matrix.goos }}-${{ matrix.goarch }}"
+          fi
+          go build -v -o "$binary_name" ./instatokend.go
+
+      - name: Upload Release Binary
+        uses: softprops/action-gh-release@v1
+        with:
+          files: instatokend-*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
