@@ -1,3 +1,6 @@
+// Made by Jasper Clarke <me@jasperclarke.com>
+// https://github.com/jasper-clarke
+
 package main
 
 import (

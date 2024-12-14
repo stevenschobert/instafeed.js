@@ -5,7 +5,6 @@ Instafeed.js requires an access token to be able to fetch images from Instagram 
 There are currently 3 available options for keeping access tokens valid:
 
 - [instatokend](#instatokend)
-- [Instagram Token Agent](#instagram-token-agent)
 - [Instant-tokens.com](#instant-tokenscom)
 
 ## History
@@ -98,17 +97,3 @@ Cons:
 
 - Closed-source
 - Owned & operated by 3rd party (Coding Badger)
-
-## Instagram Token Agent
-
-[Instagram Token Agent](https://github.com/companionstudio/instagram-token-agent) is an open-source Ruby-on-Rails application written by Ben Hull, and [available on GitHub](https://github.com/companionstudio/instagram-token-agent). It can be quickly deployed to Heroku, or any other Rails-compatible hosting mechanism.
-
-Pros:
-
-- Open-source
-- Fully controllable by you
-
-Cons:
-
-- Requires some setup (e.g. creating Facebook API keys, deploying application)
-- Relies on a Sandbox developer account (unless you can get approval from Facebook), which has some limitations.
