@@ -30,7 +30,7 @@ These long-lived access tokens did come with a caveat, which is that it would re
 
 Pros:
 
-- Open Source (part of instafeed.js)
+- Open Source
 - Entirely cross-platform binary
 - Can be deployed to any hosting platform
 
