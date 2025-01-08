@@ -1,10 +1,5 @@
 # Changelog
 
-__2.1.0__
-
-- Move documentation to [instafeedjs.com](https://instafeedjs.com)
-- Add instatokend.go daemon for managing access tokens with CI/CD
-
 __2.0.0__
 
 Official v2 release 🎉

@@ -2,9 +2,9 @@
 
 Instafeed.js requires an access token to be able to fetch images from Instagram and this token must be kept fresh because it expires after 60 days.
 
-There are currently 3 available options for keeping access tokens valid:
+You can use one of the following methods to manage your access tokens:
 
-- [instatokend](#instatokend)
+- [instatoken-refreshers](#instatoken-refreshers)
 - [Instant-tokens.com](#instant-tokenscom)
 
 ## History
@@ -17,9 +17,16 @@ In 2020 however, Instagram [added support for long-lived access tokens](https://
 
 These long-lived access tokens did come with a caveat, which is that it would require _some_ amount of server-side code to keep the tokens refreshed past their 60-day lifetime.
 
-## instatokend
+## instatoken-refreshers
 
-Instagram Token Daemon is a Golang powered daemon that can manage multiple Instagram accounts and keep their tokens up-to-date with custom refresh times and the option to manually refresh tokens.
+[Instatoken Refreshers](https://github.com/jasper-clarke/instatoken-refreshers) is a collection of tools that can be used to manage your Instagram access tokens.
+
+1. [instatokend](#instatokend)
+2. instatoken-ga
+
+### instatokend
+
+[Instagram Token Daemon](https://github.com/jasper-clarke/instatoken-refreshers/tree/instatokend) is a Golang powered daemon that can manage multiple Instagram accounts and keep their tokens up-to-date with custom refresh times and the option to manually refresh tokens.
 
 Pros:
 
@@ -83,6 +90,15 @@ As you can see you can perform a GET request to the `/token/{account}` endpoint 
     });
 </script>
 ```
+
+### instatoken-ga
+
+[Instatoken GA](https://github.com/jasper-clarke/instatoken-refreshers/tree/instatoken-ga) is a GitHub Action that can be used to automatically refresh your Instagram access tokens.
+
+Pros:
+
+- Open Source
+- Deployed and Managed on GitHub
 
 ## Instant-tokens.com
 
