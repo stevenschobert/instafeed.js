@@ -1,10 +1,14 @@
 # Instafeed.js
 
-[![Build Status](https://travis-ci.com/stevenschobert/instafeed.js.svg?branch=master)](https://travis-ci.com/stevenschobert/instafeed.js) [![npm version](https://badge.fury.io/js/instafeed.js.svg)](https://badge.fury.io/js/instafeed.js)
-
 Instafeed.js is a simple way to display your Instagram photos on your website.
 
-See our documentation at [instafeedjs.com](https://instafeedjs.com) or the [docs folder](./docs) for more information.
+## Download
+
+Distribution versions of Instafeed.js can be found in the [`./dist` folder](./dist).
+
+## Documentation
+
+Docs can be viewed over at [instafeedjs.com](https://instafeedjs.com) or the [`./docs` folder](./docs).
 
 ## Hosted Alternative
 
