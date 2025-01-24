@@ -1,10 +1,10 @@
 ## Installation
 
-Setting up Instafeed is pretty straight-forward - there are 3 main steps.
+Setting up Instafeed.js is pretty straight-forward - there are 3 main steps.
 
 1.  Create a Facebook app linked to a Professional Instagram Account, and add yourself as a test user. See [steps 1-6 of the official documentation](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/create-a-meta-app-with-instagram)
 2.  Create an access token and provide it to an Instagram Token service. See [Managing User Tokens](tokens).
-3.  Add the instafeed.js script to your web page and provide some simple options. See [Usage](usage)
+3.  Add the instafeed.js script to your web page and provide some simple options. See [Usage](usage).
 
 Instafeed.js is compatible with all of the following loading mechanisms:
 

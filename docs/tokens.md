@@ -22,7 +22,7 @@ These long-lived access tokens did come with a caveat, which is that it would re
 [Instatoken Refreshers](https://github.com/jasper-clarke/instatoken-refreshers) is a collection of tools that can be used to manage your Instagram access tokens.
 
 1. [instatokend](#instatokend)
-2. instatoken-ga
+2. [instatoken-ga](#instatoken-ga)
 
 ### instatokend
 
