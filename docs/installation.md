@@ -6,6 +6,8 @@ Setting up Instafeed.js is pretty straight-forward - there are 3 main steps.
 2.  Create an access token and provide it to an Instagram Token service. See [Managing User Tokens](tokens).
 3.  Add the instafeed.js script to your web page and provide some simple options. See [Usage](usage).
 
+If you prefer to watch a video tutorial, check out [this video](https://www.youtube.com/watch?v=Mo9VeW849KE) which covers all the above steps.
+
 Instafeed.js is compatible with all of the following loading mechanisms:
 
 - [Browser globals](#browser-globals)
