@@ -58,7 +58,7 @@ You can use the following templating tags:
 
 ## Accessing the Instagram API response
 
-The [raw data object](https://developers.facebook.com/docs/instagram-basic-display-api/reference/media/) returned by Instagram, plus any attributes you add using the `transform` function are accessible via the `model` tag. eg: `{{model.id}}` returns the post's ID.
+The [raw data object](https://developers.facebook.com/docs/instagram-platform/reference/instagram-media#fields) returned by Instagram, plus any attributes you add using the `transform` function are accessible via the `model` tag. eg: `{{model.id}}` returns the post's ID.
 
 The fields currently available are:
 

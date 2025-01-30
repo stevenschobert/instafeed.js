@@ -106,10 +106,10 @@ Pros:
 
 Pros:
 
-- Free to use
 - No setup required, just sign in with your Instagram account.
 
 Cons:
 
+- Paid (Monthly or Annually Subscription)
 - Closed-source
 - Owned & operated by 3rd party (Coding Badger)
