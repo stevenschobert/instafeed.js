@@ -36,7 +36,7 @@
     "browserify": "^17.0.0",
     "jshint": "^2.13.0",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^8.4.0",
+    "mocha": "^10.2.0",
     "rollup": "^2.50.5",
     "uglify-es": "^3.3.9"
   }
