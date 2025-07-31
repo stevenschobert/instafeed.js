@@ -404,6 +404,7 @@ Instafeed.prototype._renderData = function renderData(items) {
 
   for (var i = 0; i < items.length; i++) {
     item = items[i];
+    item.position = i;
 
     if (hasRender) {
       try {
