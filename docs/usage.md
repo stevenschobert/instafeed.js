@@ -36,7 +36,7 @@ Here are all of the options available:
 | `target`             | `'instafeed'`                                                          | String, DOM Element | Either the ID or the DOM element itself where you want to add the images.                                                                                    |
 | `template`           | `'<a href="{{link}}"><img title="{{caption}}" src="{{image}}" /></a>'` | String              | A mustache template used to produce HTML for the document. See [Templating](Templating).                                                                     |
 | `templateBoundaries` | `['{{','}}']`                                                          | Array               | The starting and ending delimiters for your templating format                                                                                                |
-| `transform`          | `null`                                                                 | Function            | A function used to transform the image data before it is rendered. See [Data Transformations](Data-Transformations).                                         |
+| `transform`          | `null`                                                                 | Function            | A function used to transform the image data before it is rendered. See [Data Transformations](https://github.com/stevenschobert/instafeed.js/wiki/Data-Transformations).                                         |
 
 ## Templating
 
@@ -55,10 +55,13 @@ You can use the following templating tags:
 - `{{image}}` The URL to the image (The first image of an album post, or the preview frame of a video)
 - `{{type}}` One of either `image`, `video`, and `album`
 - `{{link}}` The URL of the post on Instagram
+- `{{position}}` The position of the post in the sorting order, if the sorting order is most recent (default) the first post will have a `position` of `0`
 
 ## Accessing the Instagram API response
 
-The [raw data object](https://developers.facebook.com/docs/instagram-platform/reference/instagram-media#fields) returned by Instagram, plus any attributes you add using the `transform` function are accessible via the `model` tag. eg: `{{model.id}}` returns the post's ID.
+The [raw data object](https://developers.facebook.com/docs/instagram-platform/reference/instagram-media#fields) returned by Instagram are accessible via the `model` tag. eg: `{{model.id}}` returns the post's ID.
+
+Items added by the transform function are accesible as their assigned variable, so if the transform function takes in `item` and you set `item.rating` you can access it from the template as `{{rating}}`.
 
 The fields currently available are:
 
