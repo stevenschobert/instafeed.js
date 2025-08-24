@@ -1,4 +1,4 @@
-/* instafeed.js | v2.0.0 | https://github.com/stevenschobert/instafeed.js | License: MIT */
+/* instafeed.js | v2.1.0 | https://instafeedjs.com | License: MIT */
 function assert(val, msg) {
   if (!val) {
     throw new Error(msg);
@@ -337,6 +337,7 @@ Instafeed.prototype._renderData = function renderData(items) {
   }
   for (var i = 0; i < items.length; i++) {
     item = items[i];
+    item.position = i;
     if (hasRender) {
       try {
         itemHtml = this._options.render(item, this._options);

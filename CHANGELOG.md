@@ -1,5 +1,9 @@
 # Changelog
 
+__2.1.0__
+
+- Adds `{{position}}` template helper.
+
 __2.0.0__
 
 Official v2 release 🎉

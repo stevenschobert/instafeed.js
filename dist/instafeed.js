@@ -1,4 +1,4 @@
-/* instafeed.js | v2.0.0 | https://github.com/stevenschobert/instafeed.js | License: MIT */
+/* instafeed.js | v2.1.0 | https://instafeedjs.com | License: MIT */
 (function(global, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, 
   global.Instafeed = factory());
@@ -333,6 +333,7 @@
     }
     for (var i = 0; i < items.length; i++) {
       item = items[i];
+      item.position = i;
       if (hasRender) {
         try {
           itemHtml = this._options.render(item, this._options);
